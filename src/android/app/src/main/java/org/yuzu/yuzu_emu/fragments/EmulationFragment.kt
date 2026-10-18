@@ -1569,6 +1569,13 @@ class EmulationFragment : Fragment(), SurfaceHolder.Callback {
                         val appRamUsage =
                             File("/proc/self/statm").readLines()[0].split(' ')[1].toLong() * 4096 / 1000000
                         sb.append(getString(R.string.process_ram, appRamUsage))
+                        try {
+                            val memOverlay = NativeLibrary.getMemoryBudgetOverlay()
+                            if (memOverlay.isNotEmpty()) {
+                                sb.append(" | ").append(memOverlay)
+                            }
+                        } catch (_: Exception) {
+                        }
                     }
 
                     if (BooleanSetting.SHOW_SYSTEM_RAM_USAGE.getBoolean(needsGlobal)) {

@@ -41,6 +41,14 @@ public:
         node = &chunks.front();
     }
 
+    [[nodiscard]] size_t TotalBytes() const noexcept {
+        size_t total = 0;
+        for (const auto& chunk_item : chunks) {
+            total += chunk_item.num_objects * sizeof(Storage);
+        }
+        return total;
+    }
+
 private:
     struct NonTrivialDummy {
         NonTrivialDummy() noexcept {}

@@ -217,6 +217,21 @@ object NativeLibrary {
      */
     external fun getGpuDriver(): String
 
+    /**
+     * Returns the full MemoryBudget diagnostics report
+     */
+    external fun getMemoryBudgetReport(): String
+
+    /**
+     * Returns the 1-line MemoryBudget overlay summary
+     */
+    external fun getMemoryBudgetOverlay(): String
+
+    /**
+     * Returns the minute-by-minute memory diagnostics table in Markdown
+     */
+    external fun getMemoryBudgetTable(): String
+
     external fun applySettings()
 
     external fun logSettings()

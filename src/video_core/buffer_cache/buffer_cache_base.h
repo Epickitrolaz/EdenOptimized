@@ -225,6 +225,14 @@ public:
 
     void TickFrame();
 
+    [[nodiscard]] u64 GetTotalUsedMemory() const noexcept {
+        return total_used_memory;
+    }
+
+    [[nodiscard]] u64 GetEvictionsCount() const noexcept {
+        return evictions_count;
+    }
+
     bool BindMultiRangeStorage(const Binding& binding, bool is_written,
                                std::span<const MultiRangeSegment> pool);
 
@@ -537,6 +545,7 @@ private:
     std::vector<MultiRangeSegment> compute_segments;
     u64 frame_tick = 0;
     u64 total_used_memory = 0;
+    u64 evictions_count = 0;
     u64 minimum_memory = 0;
     u64 critical_memory = 0;
     BufferId inline_buffer_id;

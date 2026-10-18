@@ -58,6 +58,8 @@ public:
 
     void Bind3DEngine(Tegra::Engines::Maxwell3D* maxwell3d);
 
+    [[nodiscard]] u64 GetTotalMemory() const noexcept;
+
     template <typename Func>
     void View3DRegs(Func&& func);
 

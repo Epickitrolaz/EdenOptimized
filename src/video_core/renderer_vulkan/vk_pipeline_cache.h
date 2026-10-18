@@ -97,6 +97,10 @@ struct ShaderPools {
         inst.ReleaseContents();
     }
 
+    [[nodiscard]] size_t TotalBytes() const noexcept {
+        return inst.TotalBytes() + block.TotalBytes() + flow_block.TotalBytes();
+    }
+
     Shader::ObjectPool<Shader::IR::Inst> inst{8192};
     Shader::ObjectPool<Shader::IR::Block> block{32};
     Shader::ObjectPool<Shader::Maxwell::Flow::Block> flow_block{32};
@@ -118,6 +122,37 @@ public:
 
     void LoadDiskResources(u64 title_id, std::stop_token stop_loading,
                            const VideoCore::DiskResourceLoadCallback& callback);
+
+    [[nodiscard]] u64 GetHostMemoryUsage() const noexcept {
+        const size_t num_graphics = graphics_cache.size();
+        const size_t num_compute = compute_cache.size();
+        return static_cast<u64>((num_graphics + num_compute) * sizeof(GraphicsPipelineCacheKey) +
+                                (num_graphics * 2048) + (num_compute * 1024));
+    }
+
+    [[nodiscard]] u64 GetDriverEstimatedMemory() const noexcept {
+        return static_cast<u64>(graphics_cache.size() + compute_cache.size()) * (48ULL * 1024);
+    }
+
+    [[nodiscard]] u64 GetTotalMemory() const noexcept {
+        return GetHostMemoryUsage() + GetDriverEstimatedMemory();
+    }
+
+    [[nodiscard]] u64 GetMainPoolsMemory() const noexcept {
+        return static_cast<u64>(main_pools.TotalBytes());
+    }
+
+    [[nodiscard]] u64 GetSerializationBlobSize() const noexcept {
+        return last_cache_size.load(std::memory_order_relaxed);
+    }
+
+    [[nodiscard]] size_t GetGraphicsPipelineCount() const noexcept {
+        return graphics_cache.size();
+    }
+
+    [[nodiscard]] size_t GetComputePipelineCount() const noexcept {
+        return compute_cache.size();
+    }
 
 private:
     [[nodiscard]] GraphicsPipeline* CurrentGraphicsPipelineSlowPath();

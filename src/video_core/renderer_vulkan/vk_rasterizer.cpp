@@ -15,6 +15,7 @@
 
 #include "common/assert.h"
 #include "common/logging.h"
+#include "common/memory_budget.h"
 #include "common/scope_exit.h"
 #include "common/settings.h"
 #include "video_core/buffer_cache/buffer_cache.h"
@@ -225,9 +226,59 @@ RasterizerVulkan::RasterizerVulkan(Core::Frontend::EmuWindow& emu_window_, Tegra
       fence_manager(*this, gpu, texture_cache, buffer_cache, query_cache, device, scheduler),
       wfi_event(device.GetLogical().CreateEvent()) {
     scheduler.SetQueryCache(query_cache);
+
+    auto& mb = Common::MemoryBudget::Instance();
+    mb.RegisterSubsystem(Common::MemorySubsystem::TextureCache, "Texture Cache",
+                         [this]() -> u64 { return texture_cache.GetTotalUsedMemory(); },
+                         1024ULL * 1024 * 1024,
+                         [this]() -> u64 { return texture_cache.GetEvictionsCount(); });
+
+    mb.RegisterSubsystem(Common::MemorySubsystem::BufferCache, "Buffer Cache",
+                         [this]() -> u64 { return buffer_cache.GetTotalUsedMemory(); },
+                         512ULL * 1024 * 1024,
+                         [this]() -> u64 { return buffer_cache.GetEvictionsCount(); });
+
+    mb.RegisterSubsystem(Common::MemorySubsystem::DescriptorRing, "Descriptor Ring",
+                         [this]() -> u64 { return descriptor_buffer_ring.GetTotalMemory(); },
+                         64ULL * 1024 * 1024);
+
+    mb.RegisterSubsystem(Common::MemorySubsystem::StagingPool, "Staging Pool",
+                         [this]() -> u64 { return staging_pool.GetTotalMemory(); },
+                         128ULL * 1024 * 1024);
+
+    mb.RegisterSubsystem(Common::MemorySubsystem::QueryCache, "Query Cache",
+                         [this]() -> u64 { return query_cache_runtime.GetTotalMemory(); },
+                         32ULL * 1024 * 1024);
+
+    mb.RegisterSubsystem(Common::MemorySubsystem::CommandPool, "Command Pool",
+                         [this]() -> u64 { return scheduler.GetCommandPoolMemory(); },
+                         32ULL * 1024 * 1024);
+
+    mb.RegisterSubsystem(Common::MemorySubsystem::PipelineCache, "Pipeline Cache",
+                         [this]() -> u64 { return pipeline_cache.GetTotalMemory(); },
+                         128ULL * 1024 * 1024);
+
+    mb.RegisterSubsystem(Common::MemorySubsystem::ObjectPools, "IR Object Pools",
+                         [this]() -> u64 { return pipeline_cache.GetMainPoolsMemory(); },
+                         64ULL * 1024 * 1024);
+
+    mb.RegisterSubsystem(Common::MemorySubsystem::DiskCacheBlob, "Disk Cache Blob",
+                         [this]() -> u64 { return pipeline_cache.GetSerializationBlobSize(); },
+                         32ULL * 1024 * 1024);
 }
 
 RasterizerVulkan::~RasterizerVulkan() {
+    auto& mb = Common::MemoryBudget::Instance();
+    mb.UnregisterSubsystem(Common::MemorySubsystem::TextureCache);
+    mb.UnregisterSubsystem(Common::MemorySubsystem::BufferCache);
+    mb.UnregisterSubsystem(Common::MemorySubsystem::DescriptorRing);
+    mb.UnregisterSubsystem(Common::MemorySubsystem::StagingPool);
+    mb.UnregisterSubsystem(Common::MemorySubsystem::QueryCache);
+    mb.UnregisterSubsystem(Common::MemorySubsystem::CommandPool);
+    mb.UnregisterSubsystem(Common::MemorySubsystem::PipelineCache);
+    mb.UnregisterSubsystem(Common::MemorySubsystem::ObjectPools);
+    mb.UnregisterSubsystem(Common::MemorySubsystem::DiskCacheBlob);
+
     scheduler.WaitWorker();
     scheduler.Finish();
 }
@@ -905,6 +956,7 @@ void RasterizerVulkan::TickFrame() {
         std::scoped_lock lock{buffer_cache.mutex};
         buffer_cache.TickFrame();
     }
+    Common::MemoryBudget::Instance().TickFrame();
 }
 
 bool RasterizerVulkan::AccelerateConditionalRendering() {

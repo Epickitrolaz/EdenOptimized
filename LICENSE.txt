@@ -1,3 +1,13 @@
+==============================================================================
+Eden-Bounded License Note
+==============================================================================
+Eden-Bounded is a fork of Eden (https://git.eden-emu.dev/eden-emu/eden).
+Both Eden and Eden-Bounded are licensed under the GNU General Public License,
+version 3 (or any later version). All copyright notices, attributions, and
+license terms are preserved in full. See below for the complete text of the
+GNU General Public License Version 3.
+==============================================================================
+
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 

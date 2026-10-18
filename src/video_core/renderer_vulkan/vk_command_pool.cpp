@@ -42,4 +42,12 @@ VkCommandBuffer CommandPool::Commit() {
     return pools[pool_index].cmdbufs[sub_index];
 }
 
+size_t CommandPool::GetPoolCount() const noexcept {
+    return pools.size();
+}
+
+u64 CommandPool::GetEstimatedMemory() const noexcept {
+    return static_cast<u64>(pools.size()) * (128ULL * 1024);
+}
+
 } // namespace Vulkan

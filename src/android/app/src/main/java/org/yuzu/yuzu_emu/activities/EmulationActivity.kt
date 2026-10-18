@@ -33,6 +33,8 @@ import org.yuzu.yuzu_emu.utils.CustomSettingsHandler
 import android.util.Rational
 import android.view.InputDevice
 import android.view.KeyEvent
+import java.io.FileDescriptor
+import java.io.PrintWriter
 import android.view.MotionEvent
 import android.view.Surface
 import android.view.View
@@ -265,6 +267,17 @@ class EmulationActivity : AppCompatActivity(), SensorEventListener, InputManager
         inputManager.unregisterInputDeviceListener(this)
         stopForegroundService(this)
         NativeLibrary.playTimeManagerStop()
+    }
+
+    override fun dump(prefix: String, fd: FileDescriptor?, writer: PrintWriter, args: Array<out String>?) {
+        super.dump(prefix, fd, writer, args)
+        writer.println("${prefix}=== Eden-Bounded Memory Governor Diagnostic Dump ===")
+        try {
+            writer.println(NativeLibrary.getMemoryBudgetReport())
+            writer.println(NativeLibrary.getMemoryBudgetTable())
+        } catch (e: Exception) {
+            writer.println("${prefix}Error generating memory budget dump: ${e.message}")
+        }
     }
 
     override fun onUserLeaveHint() {

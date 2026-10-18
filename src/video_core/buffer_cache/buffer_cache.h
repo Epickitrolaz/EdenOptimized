@@ -66,6 +66,7 @@ void BufferCache<P>::RunGarbageCollector() {
         auto& buffer = slot_buffers[buffer_id];
         DownloadBufferMemory(buffer);
         DeleteBuffer(buffer_id);
+        ++evictions_count;
         return false;
     };
     lru_cache.ForEachItemBelow(frame_tick - ticks_to_destroy, clean_up);

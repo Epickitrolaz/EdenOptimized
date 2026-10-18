@@ -165,6 +165,10 @@ public:
 
     ~SamplesStreamer() = default;
 
+    [[nodiscard]] size_t BankCount() const noexcept {
+        return bank_pool.BankCount();
+    }
+
     void StartCounter() override {
         if (has_started) {
             return;
@@ -720,6 +724,10 @@ public:
     }
 
     ~TFBCounterStreamer() = default;
+
+    [[nodiscard]] size_t BankCount() const noexcept {
+        return bank_pool.BankCount();
+    }
 
     void StartCounter() override {
         if (!device.IsExtTransformFeedbackSupported()) {
@@ -1364,6 +1372,17 @@ QueryCacheRuntime::QueryCacheRuntime(VideoCore::RasterizerInterface* rasterizer,
 
 void QueryCacheRuntime::Bind3DEngine(Maxwell3D* maxwell3d) {
     impl->maxwell3d = maxwell3d;
+}
+
+u64 QueryCacheRuntime::GetTotalMemory() const noexcept {
+    if (!impl) {
+        return 0;
+    }
+    u64 total = 0;
+    total += static_cast<u64>(impl->sample_streamer.BankCount()) * (256 * sizeof(u64) + 16384);
+    total += static_cast<u64>(impl->tfb_streamer.BankCount()) * (256 * 16);
+    total += sizeof(u32);
+    return total;
 }
 
 template <typename Func>

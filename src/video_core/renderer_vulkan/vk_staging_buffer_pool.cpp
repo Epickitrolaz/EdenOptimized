@@ -288,4 +288,21 @@ void StagingBufferPool::ReleaseLevel(StagingBuffersCache& cache, size_t log2) {
     }
 }
 
+u64 StagingBufferPool::GetTotalMemory() const noexcept {
+    u64 total = stream_buffer_size;
+    const auto sum_cache = [](const StagingBuffersCache& cache) {
+        u64 cache_total = 0;
+        for (const auto& level : cache) {
+            for (const auto& entry : level.entries) {
+                cache_total += 1ULL << entry.log2_level;
+            }
+        }
+        return cache_total;
+    };
+    total += sum_cache(device_local_cache);
+    total += sum_cache(upload_cache);
+    total += sum_cache(download_cache);
+    return total;
+}
+
 } // namespace Vulkan

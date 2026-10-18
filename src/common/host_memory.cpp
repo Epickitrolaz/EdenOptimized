@@ -794,6 +794,27 @@ void HostMemory::ClearBackingRegion(size_t physical_offset, size_t length, u32 f
     std::memset(backing_base + physical_offset, fill_value, length);
 }
 
+size_t HostMemory::GetBackingResidentBytes() const {
+#if defined(__linux__)
+    if (!backing_base || backing_size == 0) {
+        return 0;
+    }
+    constexpr size_t PAGE_SIZE = 4096;
+    const size_t num_pages = (backing_size + PAGE_SIZE - 1) / PAGE_SIZE;
+    std::vector<unsigned char> vec(num_pages);
+    if (mincore(backing_base, backing_size, vec.data()) == 0) {
+        size_t resident = 0;
+        for (size_t i = 0; i < num_pages; ++i) {
+            if (vec[i] & 1) {
+                ++resident;
+            }
+        }
+        return resident * PAGE_SIZE;
+    }
+#endif
+    return backing_size;
+}
+
 void HostMemory::EnableDirectMappedAddress() {
 #if !(defined(__OPENORBIS__) || defined(__managarm__))
     if (impl) {

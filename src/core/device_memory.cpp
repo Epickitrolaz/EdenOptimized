@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: Copyright 2020 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include "common/memory_budget.h"
 #include "core/device_memory.h"
 #include "hle/kernel/board/nintendo/nx/k_system_control.h"
 
@@ -14,8 +15,16 @@ constexpr size_t VirtualReserveSize = 1ULL << 39;
 
 DeviceMemory::DeviceMemory()
     : buffer{Kernel::Board::Nintendo::Nx::KSystemControl::Init::GetIntendedMemorySize(),
-             VirtualReserveSize} {}
+             VirtualReserveSize} {
+    Common::MemoryBudget::Instance().RegisterSubsystem(
+        Common::MemorySubsystem::GuestHeap, "Guest Heap (Touched)",
+        [this]() -> u64 { return static_cast<u64>(buffer.GetBackingResidentBytes()); },
+        3584ULL * 1024 * 1024 /* 3.5 GB target */
+    );
+}
 
-DeviceMemory::~DeviceMemory() = default;
+DeviceMemory::~DeviceMemory() {
+    Common::MemoryBudget::Instance().UnregisterSubsystem(Common::MemorySubsystem::GuestHeap);
+}
 
 } // namespace Core

@@ -493,4 +493,11 @@ void Scheduler::AcquireNewChunk() {
     }
 }
 
+u64 Scheduler::GetCommandPoolMemory() const noexcept {
+    if (command_pool) {
+        return command_pool->GetEstimatedMemory();
+    }
+    return 0;
+}
+
 } // namespace Vulkan

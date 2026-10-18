@@ -52,6 +52,10 @@ public:
         return !chunks.empty();
     }
 
+    [[nodiscard]] u64 GetTotalMemory() const noexcept {
+        return static_cast<u64>(chunks.size()) * chunk_capacity;
+    }
+
 private:
     const Device& device;
     std::vector<vk::Buffer> chunks;

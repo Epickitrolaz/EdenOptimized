@@ -23,6 +23,9 @@ public:
 
     VkCommandBuffer Commit();
 
+    [[nodiscard]] size_t GetPoolCount() const noexcept;
+    [[nodiscard]] u64 GetEstimatedMemory() const noexcept;
+
 private:
     struct Pool;
 

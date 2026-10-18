@@ -75,6 +75,16 @@ Save us some bandwidth! We have [mirrors available](./docs/user/ThirdParty.md#mi
 
 Eden is licensed under the GPLv3 (or any later version). Refer to the [LICENSE.txt](https://git.eden-emu.dev/eden-emu/eden/src/branch/master/LICENSE.txt) file.
 
+## Eden-Bounded Fork & Upstream Provenance
+
+**Eden-Bounded** is a fork of the [Eden Nintendo Switch emulator](https://git.eden-emu.dev/eden-emu/eden) (`eden-emu/eden`, GPLv3), with the single mission of running memory-hungry Switch titles (such as *Xenoblade Chronicles 3*) reliably on 8 GB Android handhelds without being terminated by OS low-memory killers (LMKD/OOM).
+
+- **Upstream Repository:** `https://git.eden-emu.dev/eden-emu/eden` (GitHub mirror: `https://github.com/eden-emulator/eden`)
+- **Upstream Base Commit:** `de7e6e01d43e8cf2ec193d74fa053b0d7949955f` (recorded in `UPSTREAM_BASE.txt`)
+- **License:** GNU General Public License v3.0 or later (GPL-3.0-or-later).
+- **Core Strategy:** Replace implicit "grow until driver crashes" memory allocations with an explicit process-wide memory governor and bounded cache policies.
+- **Diagnostics Build:** Phase 0 observability subsystem (`v0.1-memdiag`) exposes fine-grained per-subsystem telemetry and Android `dumpsys`/overlay reporting.
+
 ## Special thanks
 
 Super special thanks to Cloudflare for preventing the git server from blowing up.

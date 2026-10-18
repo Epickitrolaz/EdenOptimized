@@ -89,6 +89,8 @@ public:
     /// Invalidates current command buffer state except for render passes
     void InvalidateState();
 
+    [[nodiscard]] u64 GetCommandPoolMemory() const noexcept;
+
     /// Assigns the query cache.
     void SetQueryCache(VideoCommon::QueryCacheBase<QueryCacheParams>& query_cache_) {
         query_cache = &query_cache_;

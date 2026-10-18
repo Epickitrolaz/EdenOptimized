@@ -45,6 +45,7 @@ extern "C" {
 #include "common/android/id_cache.h"
 #include "common/dynamic_library.h"
 #include "common/fs/fs_util.h"
+#include "common/memory_budget.h"
 #include "common/fs/path_util.h"
 #include "common/logging.h"
 #include "common/scm_rev.h"
@@ -2332,6 +2333,24 @@ JNIEXPORT jbyteArray JNICALL Java_org_yuzu_yuzu_1emu_NativeLibrary_getDefaultAcc
             reinterpret_cast<const jbyte*>(Core::Constants::ACCOUNT_BACKUP_JPEG.data()));
     }
     return result;
+}
+
+JNIEXPORT jstring JNICALL Java_org_yuzu_yuzu_1emu_NativeLibrary_getMemoryBudgetReport(
+        JNIEnv* env,
+        [[maybe_unused]] jclass clazz) {
+    return Common::Android::ToJString(env, Common::MemoryBudget::Instance().GenerateReport(true));
+}
+
+JNIEXPORT jstring JNICALL Java_org_yuzu_yuzu_1emu_NativeLibrary_getMemoryBudgetOverlay(
+        JNIEnv* env,
+        [[maybe_unused]] jclass clazz) {
+    return Common::Android::ToJString(env, Common::MemoryBudget::Instance().GetOverlaySummary());
+}
+
+JNIEXPORT jstring JNICALL Java_org_yuzu_yuzu_1emu_NativeLibrary_getMemoryBudgetTable(
+        JNIEnv* env,
+        [[maybe_unused]] jclass clazz) {
+    return Common::Android::ToJString(env, Common::MemoryBudget::Instance().GenerateHistoryTable());
 }
 
 } // extern "C"
