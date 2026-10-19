@@ -575,8 +575,14 @@ public:
 #if defined(__linux__)
         if (Settings::values.use_memory_governor.GetValue() && !Settings::values.memory_governor_thp.GetValue()) {
             madvise(virtual_base, virtual_size, MADV_NOHUGEPAGE);
+            if (backing_base) {
+                madvise(backing_base, backing_size, MADV_NOHUGEPAGE);
+            }
         } else {
             madvise(virtual_base, virtual_size, MADV_HUGEPAGE);
+            if (backing_base) {
+                madvise(backing_base, backing_size, MADV_HUGEPAGE);
+            }
         }
 #endif
         free_manager.SetAddressSpace(virtual_base, virtual_size);
@@ -796,6 +802,25 @@ void HostMemory::Protect(size_t virtual_offset, size_t length, MemoryPermission 
 }
 
 void HostMemory::ClearBackingRegion(size_t physical_offset, size_t length, u32 fill_value) {
+    if (fill_value == 0) {
+#if defined(__linux__)
+        if (backing_base && length > 0 && physical_offset + length <= backing_size) {
+            constexpr size_t PAGE_MASK = PageAlignment - 1;
+            const size_t aligned_start = (physical_offset + PAGE_MASK) & ~PAGE_MASK;
+            const size_t aligned_end = (physical_offset + length) & ~PAGE_MASK;
+            if (aligned_end > aligned_start) {
+                madvise(backing_base + aligned_start, aligned_end - aligned_start, MADV_DONTNEED);
+            }
+            if (aligned_start > physical_offset) {
+                std::memset(backing_base + physical_offset, 0, aligned_start - physical_offset);
+            }
+            if (physical_offset + length > aligned_end && aligned_end >= physical_offset) {
+                std::memset(backing_base + aligned_end, 0, (physical_offset + length) - aligned_end);
+            }
+            return;
+        }
+#endif
+    }
     std::memset(backing_base + physical_offset, fill_value, length);
 }
 

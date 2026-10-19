@@ -543,7 +543,7 @@ struct Values {
     SwitchableSetting<int> memory_governor_safety_reserve{linkage, 640, "memory_governor_safety_reserve", Category::System}; // in MB
     SwitchableSetting<int> memory_governor_driver_baseline{linkage, 768, "memory_governor_driver_baseline", Category::System}; // in MB
     SwitchableSetting<bool> texture_cache_gc_isolated{linkage, false, "texture_cache_gc_isolated", Category::RendererAdvanced};
-    SwitchableSetting<bool> memory_governor_thp{linkage, true, "memory_governor_thp", Category::System};
+    SwitchableSetting<bool> memory_governor_thp{linkage, false, "memory_governor_thp", Category::System};
     SwitchableSetting<bool> memory_governor_pacing{linkage, true, "memory_governor_pacing", Category::System};
     SwitchableSetting<int> memory_governor_pacing_ms{linkage, 4, "memory_governor_pacing_ms", Category::System}; // in ms
 
