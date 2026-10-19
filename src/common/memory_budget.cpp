@@ -27,6 +27,10 @@
 #include <unistd.h>
 #endif
 
+#if defined(__ANDROID__)
+#include <android/log.h>
+#endif
+
 namespace Common {
 
 namespace {
@@ -99,9 +103,59 @@ MemoryBudget::MemoryBudget() {
         subsystems[i].target_bytes = DefaultTargets[i];
         subsystems[i].last_eviction_sample = start_time;
     }
+
+    AppendTraceToFile("\n===== Eden-Bounded Memory Governor Session Start =====\n");
+    AppendTraceToFile("| Minute | Elapsed | RSS (MB) | MemAvail (MB) | PSI full avg10 | FPS | GuestHeap (MB) | TexCache (MB) | BufCache (MB) | PipeCache (MB) | Staging (MB) | DescRing (MB) |\n");
+    AppendTraceToFile("|---|---|---|---|---|---|---|---|---|---|---|---|\n");
+
+    watchdog_thread = std::jthread([this](std::stop_token st) { WatchdogLoop(st); });
 }
 
-MemoryBudget::~MemoryBudget() = default;
+MemoryBudget::~MemoryBudget() {
+    watchdog_thread.request_stop();
+    if (watchdog_thread.joinable()) {
+        watchdog_thread.join();
+    }
+}
+
+void MemoryBudget::AppendTraceToFile(std::string_view text) {
+    static const char* const candidate_paths[] = {
+        "/sdcard/Download/eden_memdiag.txt",
+        "/data/data/dev.eden.eden_emulator/cache/eden_memdiag.txt",
+        "/data/user/0/dev.eden.eden_emulator/files/eden_memdiag.txt",
+        "/sdcard/eden_memdiag.txt",
+        "/tmp/eden_memdiag.txt",
+    };
+    for (const char* path : candidate_paths) {
+        FILE* fp = std::fopen(path, "a");
+        if (fp) {
+            std::fwrite(text.data(), 1, text.size(), fp);
+            std::fflush(fp);
+#if !defined(_WIN32)
+            int fd = fileno(fp);
+            if (fd >= 0) {
+                fsync(fd);
+            }
+#endif
+            std::fclose(fp);
+            break;
+        }
+    }
+}
+
+void MemoryBudget::WatchdogLoop(std::stop_token stop_token) {
+    while (!stop_token.stop_requested()) {
+        std::this_thread::sleep_for(std::chrono::seconds(2));
+        if (stop_token.stop_requested() || !enabled) {
+            continue;
+        }
+        const auto now = std::chrono::steady_clock::now();
+        const auto since_last_report = std::chrono::duration_cast<std::chrono::seconds>(now - last_report_time).count();
+        if (since_last_report >= 5) {
+            GenerateReport(true);
+        }
+    }
+}
 
 void MemoryBudget::Reset() {
     std::scoped_lock lk{registration_mutex, history_mutex};
@@ -367,6 +421,27 @@ void MemoryBudget::RecordSnapshot(u64 elapsed_seconds, const SystemMemoryInfo& s
         }
     }
 
+    const u64 minute = elapsed_seconds / 60;
+    const u64 gh = ToMiB(snap.subsystem_bytes[static_cast<size_t>(MemorySubsystem::GuestHeap)]);
+    const u64 tc = ToMiB(snap.subsystem_bytes[static_cast<size_t>(MemorySubsystem::TextureCache)]);
+    const u64 bc = ToMiB(snap.subsystem_bytes[static_cast<size_t>(MemorySubsystem::BufferCache)]);
+    const u64 pc = ToMiB(snap.subsystem_bytes[static_cast<size_t>(MemorySubsystem::PipelineCache)]);
+    const u64 st = ToMiB(snap.subsystem_bytes[static_cast<size_t>(MemorySubsystem::StagingPool)]);
+    const u64 dr = ToMiB(snap.subsystem_bytes[static_cast<size_t>(MemorySubsystem::DescriptorRing)]);
+
+    std::string snap_line = fmt::format(
+        "| {:>6} | {:>5}s | {:>8} | {:>13} | {:>14.2f} | {:>4.1f} | {:>14} | {:>13} | {:>13} | {:>14} | {:>12} | {:>13} |\n",
+        minute, elapsed_seconds, ToMiB(snap.process_rss),
+        ToMiB(snap.available_ram), snap.psi_full_avg10, snap.fps,
+        gh, tc, bc, pc, st, dr);
+
+    AppendTraceToFile(snap_line);
+
+#if defined(__ANDROID__)
+    __android_log_print(ANDROID_LOG_INFO, "EdenMemoryBudget", "SNAP: %s", snap_line.c_str());
+    __android_log_print(ANDROID_LOG_INFO, "HW_Memory", "SNAP: %s", snap_line.c_str());
+#endif
+
     history.push_back(snap);
     // Keep max 120 minutes of history snapshots (2 hours)
     if (history.size() > 120) {
@@ -532,6 +607,11 @@ std::string MemoryBudget::GenerateReport([[maybe_unused]] bool force_read) {
     for (const auto& warn : warnings) {
         report += warn + "\n";
         LOG_WARNING(HW_Memory, "{}", warn);
+#if defined(__ANDROID__)
+        __android_log_print(ANDROID_LOG_WARN, "EdenMemoryBudget", "%s", warn.c_str());
+        __android_log_print(ANDROID_LOG_WARN, "HW_Memory", "%s", warn.c_str());
+#endif
+        AppendTraceToFile(warn + "\n");
     }
 
     report += "========================================================\n";
@@ -540,6 +620,14 @@ std::string MemoryBudget::GenerateReport([[maybe_unused]] bool force_read) {
     LOG_INFO(HW_Memory, "MemoryBudget [F: {}, {:.1f}s]: RSS: {:.1f} MB, Avail: {:.1f} MB, Reg: {:.1f} MB, PSI: {:.2f}",
              frame_counter, elapsed_seconds_f, ToMiBF(sys.process_rss), ToMiBF(sys.available_ram),
              ToMiBF(total_registered_bytes), sys.psi_full_avg10);
+
+#if defined(__ANDROID__)
+    __android_log_print(ANDROID_LOG_INFO, "EdenMemoryBudget", "%s", report.c_str());
+    __android_log_print(ANDROID_LOG_INFO, "HW_Memory", "MemoryBudget [F: %llu, %.1fs]: RSS: %.1f MB, Avail: %.1f MB, Reg: %.1f MB, PSI: %.2f",
+                        static_cast<unsigned long long>(frame_counter), elapsed_seconds_f,
+                        ToMiBF(sys.process_rss), ToMiBF(sys.available_ram),
+                        ToMiBF(total_registered_bytes), sys.psi_full_avg10);
+#endif
 
     // Update overlay cache
     cached_overlay_summary = fmt::format(

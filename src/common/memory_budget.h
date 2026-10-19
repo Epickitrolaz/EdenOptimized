@@ -8,8 +8,10 @@
 #include <chrono>
 #include <functional>
 #include <mutex>
+#include <stop_token>
 #include <string>
 #include <string_view>
+#include <thread>
 #include <vector>
 
 #include "common/common_types.h"
@@ -132,6 +134,9 @@ private:
     MemoryBudget(const MemoryBudget&) = delete;
     MemoryBudget& operator=(const MemoryBudget&) = delete;
 
+    void WatchdogLoop(std::stop_token stop_token);
+    void AppendTraceToFile(std::string_view text);
+
     void RecordSnapshot(u64 elapsed_seconds, const SystemMemoryInfo& sys_info, double fps);
 
     std::array<SubsystemInfo, static_cast<size_t>(MemorySubsystem::Count)> subsystems{};
@@ -152,6 +157,8 @@ private:
 
     std::string cached_overlay_summary;
     std::chrono::steady_clock::time_point last_overlay_update{};
+
+    std::jthread watchdog_thread;
 };
 
 } // namespace Common

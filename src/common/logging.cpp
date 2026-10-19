@@ -329,6 +329,10 @@ struct LogcatBackend : public Backend {
             }
         }();
         auto const df = GetDirectFormatArgs(entry);
+        // Tag with the specific log class (e.g. "HW_Memory") so filtering by tag in logcat works:
+        // `adb logcat -s HW_Memory:*`
+        __android_log_print(android_log_priority, df.class_name, "%s:%u:%s: %s", entry.filename, entry.line_num, entry.function, entry.message);
+        // Also tag with "YuzuNative" for backwards compatibility
         __android_log_print(android_log_priority, "YuzuNative", "%s %s:%u:%s: %s", df.class_name, entry.filename, entry.line_num, entry.function, entry.message);
     }
     void Flush() noexcept override {}
