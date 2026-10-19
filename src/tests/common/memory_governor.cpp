@@ -175,6 +175,28 @@ TEST_CASE("MemoryGovernor: Deficit Carry-over and Throttle Signaling", "[common]
     governor.UnregisterClient(&stubborn_client);
 }
 
+TEST_CASE("MemoryGovernor: Deficit Does Not Accumulate Runaway", "[common][memory_governor]") {
+    auto& governor = MemoryGovernor::Instance();
+    governor.Reset();
+    governor.SetEnabled(true);
+
+    MockMemoryClient client("Fixed", 1000 * 1024 * 1024, 1000 * 1024 * 1024, MemoryClientPriority::Lowest);
+    client.max_shrinkable_bytes = 0; // Unshrinkable
+
+    governor.RegisterClient(&client);
+    governor.SetManualBudget(800ULL * 1024 * 1024); // Exactly 200 MB deficit
+
+    for (int i = 0; i < 100; ++i) {
+        governor.TickFrame(30.0);
+    }
+
+    // Deficit must remain bounded to exactly 200 MB, NOT 20,000 MB!
+    REQUIRE(governor.GetCurrentDeficit() == 200LL * 1024 * 1024);
+    REQUIRE(governor.GetCarriedDeficit() == 200LL * 1024 * 1024);
+
+    governor.UnregisterClient(&client);
+}
+
 TEST_CASE("MemoryGovernor: ObjectPool Reset Reclaims Memory", "[common][memory_governor]") {
     struct TestNode {
         u64 payload[8]{};

@@ -56,6 +56,14 @@ public:
         return static_cast<bool>(pipeline);
     }
 
+    void Touch(u64 tick) noexcept {
+        last_tick = tick;
+    }
+
+    [[nodiscard]] u64 LastTick() const noexcept {
+        return last_tick;
+    }
+
 private:
     const Device& device;
     vk::PipelineCache& pipeline_cache;
@@ -80,6 +88,7 @@ private:
     std::condition_variable build_condvar;
     std::mutex build_mutex;
     std::atomic_bool is_built{false};
+    u64 last_tick{0};
 };
 
 } // namespace Vulkan

@@ -133,7 +133,7 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
     const u64 total_registered = GetTotalRegisteredBytes();
 
     if (total_registered > budget) {
-        s64 deficit = static_cast<s64>(total_registered - budget) + carried_deficit.load(std::memory_order_relaxed);
+        s64 deficit = static_cast<s64>(total_registered - budget);
         current_deficit.store(deficit, std::memory_order_relaxed);
 
         const u32 deficit_frames = persistent_deficit_frames.fetch_add(1, std::memory_order_relaxed) + 1;

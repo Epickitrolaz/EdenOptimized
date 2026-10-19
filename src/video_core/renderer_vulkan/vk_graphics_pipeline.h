@@ -106,6 +106,19 @@ public:
 
     void AddTransition(GraphicsPipeline* transition);
 
+    void ClearTransitions() noexcept {
+        transition_keys.clear();
+        transitions.clear();
+    }
+
+    void Touch(u64 tick) noexcept {
+        last_tick = tick;
+    }
+
+    [[nodiscard]] u64 LastTick() const noexcept {
+        return last_tick;
+    }
+
     bool Configure(bool is_indexed) {
         return configure_func(this, is_indexed);
     }
@@ -187,6 +200,7 @@ private:
     std::atomic_bool is_built{false};
     bool uses_push_descriptor{false};
     bool uses_descriptor_buffer{false};
+    u64 last_tick{0};
 };
 
 } // namespace Vulkan

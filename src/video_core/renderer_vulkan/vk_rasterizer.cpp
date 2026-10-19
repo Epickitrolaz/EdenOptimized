@@ -317,7 +317,10 @@ RasterizerVulkan::RasterizerVulkan(Core::Frontend::EmuWindow& emu_window_, Tegra
 
     memory_clients.push_back(std::make_unique<GenericMemoryClient>(
         "Pipeline Cache", [this] { return pipeline_cache.GetTotalMemory(); },
-        128ULL * 1024 * 1024, Common::MemoryClientPriority::PipelineCache));
+        128ULL * 1024 * 1024, Common::MemoryClientPriority::PipelineCache,
+        [this](u64 t, std::chrono::microseconds b) {
+            return pipeline_cache.ShrinkTo(t, b);
+        }));
 
     memory_clients.push_back(std::make_unique<GenericMemoryClient>(
         "Buffer Cache", [this] { return buffer_cache.GetTotalUsedMemory(); },
@@ -1034,6 +1037,7 @@ void RasterizerVulkan::TickFrame() {
         std::scoped_lock lock{buffer_cache.mutex};
         buffer_cache.TickFrame();
     }
+    pipeline_cache.TickFrame();
     Common::MemoryGovernor::Instance().TickFrame();
     Common::MemoryBudget::Instance().TickFrame();
 

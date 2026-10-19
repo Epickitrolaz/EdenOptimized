@@ -144,6 +144,12 @@ public:
         return GetHostMemoryUsage() + GetDriverEstimatedMemory();
     }
 
+    void TickFrame() noexcept {
+        ++frame_tick;
+    }
+
+    u64 ShrinkTo(u64 target_bytes, std::chrono::microseconds max_time);
+
     void ShrinkObjectPools() {
         main_pools.Reset();
     }
@@ -228,6 +234,7 @@ private:
     Common::ThreadWorker workers;
     Common::ThreadWorker serialization_thread;
     DynamicFeatures dynamic_features;
+    u64 frame_tick{0};
 };
 
 } // namespace Vulkan
