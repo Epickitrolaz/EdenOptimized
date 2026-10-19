@@ -566,6 +566,25 @@ std::string MemoryBudget::GenerateReport([[maybe_unused]] bool force_read) {
         report += "\n";
     }
 
+    // 4.5 Memory Governor
+    if (MemoryGovernor::Instance().IsEnabled()) {
+        const u64 budget = MemoryGovernor::Instance().GetCurrentBudget();
+        const s64 def = MemoryGovernor::Instance().GetCurrentDeficit();
+        const s64 carried = MemoryGovernor::Instance().GetCarriedDeficit();
+        const u32 def_frames = MemoryGovernor::Instance().GetPersistentDeficitFrames();
+        const bool thr = MemoryGovernor::Instance().ShouldThrottle();
+        report += "Memory Governor Status:\n";
+        report += "  - State                 : Active\n";
+        report += fmt::format("  - Budget                : {:>7.1f} MB\n", ToMiBF(budget));
+        report += fmt::format("  - Deficit               : {:>7.1f} MB (Carried: {:.1f} MB)\n",
+                              static_cast<double>(def) / (1024.0 * 1024.0),
+                              static_cast<double>(carried) / (1024.0 * 1024.0));
+        report += fmt::format("  - Deficit Frames        : {} frames\n", def_frames);
+        report += fmt::format("  - Pressure Throttle     : {}\n\n", thr ? "ACTIVE (Pacing)" : "Inactive");
+    } else {
+        report += "Memory Governor Status: Inactive (Unmanaged)\n\n";
+    }
+
     // 5. Per-Subsystem Breakdown
     report += "Subsystem Breakdown:\n";
     u64 total_registered_bytes = 0;
@@ -632,13 +651,20 @@ std::string MemoryBudget::GenerateReport([[maybe_unused]] bool force_read) {
 #endif
 
     // Update overlay cache
+    std::string gov_str;
+    if (MemoryGovernor::Instance().IsEnabled()) {
+        const u64 budget_mb = ToMiB(MemoryGovernor::Instance().GetCurrentBudget());
+        const s64 def_mb = MemoryGovernor::Instance().GetCurrentDeficit() / (1024 * 1024);
+        const bool thr = MemoryGovernor::Instance().ShouldThrottle();
+        gov_str = fmt::format("|Gov:{:.0f}M({}M{})", static_cast<double>(budget_mb), def_mb, thr ? "!THR" : "");
+    }
     cached_overlay_summary = fmt::format(
-        "RSS:{:.0f}M|Avail:{:.0f}M|PSI:{:.1f}|TC:{:.0f}M|BC:{:.0f}M|GH:{:.0f}M|PL:{:.0f}M",
+        "RSS:{:.0f}M|Avail:{:.0f}M|PSI:{:.1f}{}|TC:{:.0f}M|BC:{:.0f}M|GH:{:.0f}M",
         ToMiBF(sys.process_rss), ToMiBF(sys.available_ram), sys.psi_full_avg10,
+        gov_str,
         ToMiBF(GetSubsystemBytes(MemorySubsystem::TextureCache)),
         ToMiBF(GetSubsystemBytes(MemorySubsystem::BufferCache)),
-        ToMiBF(GetSubsystemBytes(MemorySubsystem::GuestHeap)),
-        ToMiBF(GetSubsystemBytes(MemorySubsystem::PipelineCache)));
+        ToMiBF(GetSubsystemBytes(MemorySubsystem::GuestHeap)));
     last_overlay_update = now;
 
     last_report_time = now;
@@ -650,13 +676,20 @@ std::string MemoryBudget::GetOverlaySummary() {
     if (cached_overlay_summary.empty() ||
         std::chrono::duration_cast<std::chrono::milliseconds>(now - last_overlay_update).count() > 1000) {
         SystemMemoryInfo sys = ReadSystemMemoryInfo();
+        std::string gov_str;
+        if (MemoryGovernor::Instance().IsEnabled()) {
+            const u64 budget_mb = ToMiB(MemoryGovernor::Instance().GetCurrentBudget());
+            const s64 def_mb = MemoryGovernor::Instance().GetCurrentDeficit() / (1024 * 1024);
+            const bool thr = MemoryGovernor::Instance().ShouldThrottle();
+            gov_str = fmt::format("|Gov:{:.0f}M({}M{})", static_cast<double>(budget_mb), def_mb, thr ? "!THR" : "");
+        }
         cached_overlay_summary = fmt::format(
-            "RSS:{:.0f}M|Avail:{:.0f}M|PSI:{:.1f}|TC:{:.0f}M|BC:{:.0f}M|GH:{:.0f}M|PL:{:.0f}M",
+            "RSS:{:.0f}M|Avail:{:.0f}M|PSI:{:.1f}{}|TC:{:.0f}M|BC:{:.0f}M|GH:{:.0f}M",
             ToMiBF(sys.process_rss), ToMiBF(sys.available_ram), sys.psi_full_avg10,
+            gov_str,
             ToMiBF(GetSubsystemBytes(MemorySubsystem::TextureCache)),
             ToMiBF(GetSubsystemBytes(MemorySubsystem::BufferCache)),
-            ToMiBF(GetSubsystemBytes(MemorySubsystem::GuestHeap)),
-            ToMiBF(GetSubsystemBytes(MemorySubsystem::PipelineCache)));
+            ToMiBF(GetSubsystemBytes(MemorySubsystem::GuestHeap)));
         last_overlay_update = now;
     }
     return cached_overlay_summary;

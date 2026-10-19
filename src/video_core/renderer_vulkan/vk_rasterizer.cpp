@@ -1046,7 +1046,7 @@ void RasterizerVulkan::TickFrame() {
         Settings::values.memory_governor_pacing.GetValue()) {
         scheduler.WaitWorker();
         scheduler.Finish();
-        const u32 pacing_ms = Settings::values.memory_governor_pacing_ms.GetValue();
+        const int pacing_ms = Settings::values.memory_governor_pacing_ms.GetValue();
         if (pacing_ms > 0) {
             std::this_thread::sleep_for(std::chrono::milliseconds(pacing_ms));
         }

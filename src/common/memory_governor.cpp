@@ -92,7 +92,7 @@ u64 MemoryGovernor::ComputeBudget(u64 mem_available) const {
     if (manual > 0) {
         return manual;
     }
-    const u32 setting_manual_mb = Settings::values.memory_governor_budget.GetValue();
+    const int setting_manual_mb = Settings::values.memory_governor_budget.GetValue();
     if (setting_manual_mb > 0) {
         return static_cast<u64>(setting_manual_mb) * 1024ULL * 1024ULL;
     }

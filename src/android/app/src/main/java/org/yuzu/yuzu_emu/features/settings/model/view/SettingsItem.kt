@@ -311,6 +311,43 @@ abstract class SettingsItem(
             )
             put(
                 SwitchSetting(
+                    BooleanSetting.USE_MEMORY_GOVERNOR,
+                    titleId = R.string.use_memory_governor,
+                    descriptionId = R.string.use_memory_governor_description
+                )
+            )
+            put(
+                SingleChoiceSetting(
+                    IntSetting.MEMORY_GOVERNOR_BUDGET,
+                    titleId = R.string.memory_governor_budget,
+                    descriptionId = R.string.memory_governor_budget_description,
+                    choicesId = R.array.governorBudgetEntries,
+                    valuesId = R.array.governorBudgetValues
+                )
+            )
+            put(
+                SwitchSetting(
+                    BooleanSetting.MEMORY_GOVERNOR_PACING,
+                    titleId = R.string.memory_governor_pacing,
+                    descriptionId = R.string.memory_governor_pacing_description
+                )
+            )
+            put(
+                SwitchSetting(
+                    BooleanSetting.MEMORY_GOVERNOR_THP,
+                    titleId = R.string.memory_governor_thp,
+                    descriptionId = R.string.memory_governor_thp_description
+                )
+            )
+            put(
+                SwitchSetting(
+                    BooleanSetting.TEXTURE_CACHE_GC_ISOLATED,
+                    titleId = R.string.texture_cache_gc_isolated,
+                    descriptionId = R.string.texture_cache_gc_isolated_description
+                )
+            )
+            put(
+                SwitchSetting(
                     BooleanSetting.CORE_SYNC_CORE_SPEED,
                     titleId = R.string.use_sync_core,
                     descriptionId = R.string.use_sync_core_description

@@ -515,6 +515,13 @@ class SettingsFragmentPresenter(
             add(BooleanSetting.USE_CUSTOM_CPU_TICKS.key)
             add(IntSetting.CPU_TICKS.key)
 
+            add(HeaderSetting(R.string.memory_governor_header))
+            add(BooleanSetting.USE_MEMORY_GOVERNOR.key)
+            add(IntSetting.MEMORY_GOVERNOR_BUDGET.key)
+            add(BooleanSetting.MEMORY_GOVERNOR_PACING.key)
+            add(BooleanSetting.MEMORY_GOVERNOR_THP.key)
+            add(BooleanSetting.TEXTURE_CACHE_GC_ISOLATED.key)
+
             if (!NativeConfig.isPerGameConfigLoaded()) {
                 add(HeaderSetting(R.string.network))
                 add(StringSetting.WEB_TOKEN.key)

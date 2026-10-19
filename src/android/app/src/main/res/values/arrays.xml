@@ -696,4 +696,23 @@
         <item>3</item>
         <item>4</item>
     </integer-array>
+
+    <!-- Memory Governor Arrays -->
+    <string-array name="governorBudgetEntries">
+        <item>@string/memory_governor_budget_auto</item>
+        <item>3072 MB (3.0 GB)</item>
+        <item>3584 MB (3.5 GB)</item>
+        <item>4096 MB (4.0 GB)</item>
+        <item>4608 MB (4.5 GB)</item>
+        <item>5120 MB (5.0 GB)</item>
+    </string-array>
+
+    <integer-array name="governorBudgetValues">
+        <item>0</item>
+        <item>3072</item>
+        <item>3584</item>
+        <item>4096</item>
+        <item>4608</item>
+        <item>5120</item>
+    </integer-array>
 </resources>

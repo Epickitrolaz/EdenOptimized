@@ -539,6 +539,20 @@
     <string name="memory_layout">Memory Layout</string>
     <string name="memory_layout_description">(EXPERIMENTAL) Change the emulated memory layout. This setting will not increase performance, but may help with games utilizing high resolutions via mods. Do not use on phones with 8GB of RAM or less. Only works on the Dynarmic (JIT) backend.</string>
 
+    <!-- Memory Governor Strings -->
+    <string name="memory_governor_header">Memory Governor (Eden-Bounded)</string>
+    <string name="use_memory_governor">Enable Memory Governor</string>
+    <string name="use_memory_governor_description">Process-wide active memory budgeting and dynamic priority shrinking for 8GB handhelds (e.g. Retroid Pocket 5). Enforces real physical RAM bounds to prevent LMKD and OOM terminations.</string>
+    <string name="memory_governor_budget">Governor Budget Target</string>
+    <string name="memory_governor_budget_description">Target process memory budget in MB. Auto calculates safe budget dynamically based on available system RAM and safety reserves.</string>
+    <string name="memory_governor_budget_auto">Auto (Dynamic Headroom)</string>
+    <string name="memory_governor_pacing">Governor Pressure Pacing</string>
+    <string name="memory_governor_pacing_description">Drain in-flight GPU queues and briefly pace draw thread when deficit persists, giving zram and direct-reclaim time to free pages.</string>
+    <string name="memory_governor_thp">Transparent Huge Pages (THP)</string>
+    <string name="memory_governor_thp_description">Use MADV_HUGEPAGE for guest DRAM. Disabling THP prevents sparse commit amplification and improves zram compression on memory-constrained devices.</string>
+    <string name="texture_cache_gc_isolated">Isolate Texture Cache GC</string>
+    <string name="texture_cache_gc_isolated_description">Drive texture cache GC directly from its own tracked allocations rather than whole-process Vulkan memory usage.</string>
+
     <string name="generate">Generate</string>
 
     <!-- Network settings strings -->

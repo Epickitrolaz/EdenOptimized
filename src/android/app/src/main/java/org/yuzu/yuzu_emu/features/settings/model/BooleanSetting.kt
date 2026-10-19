@@ -42,6 +42,12 @@ enum class BooleanSetting(override val key: String) : AbstractBooleanSetting {
     PICTURE_IN_PICTURE("picture_in_picture"),
     USE_CUSTOM_RTC("custom_rtc_enabled"),
     BLACK_BACKGROUNDS("black_backgrounds"),
+
+    // Eden-Bounded Memory Governor
+    USE_MEMORY_GOVERNOR("use_memory_governor"),
+    MEMORY_GOVERNOR_THP("memory_governor_thp"),
+    MEMORY_GOVERNOR_PACING("memory_governor_pacing"),
+    TEXTURE_CACHE_GC_ISOLATED("texture_cache_gc_isolated"),
     INVERT_CONFIRM_BACK_CONTROLLER_BUTTONS("invert_confirm_back_controller_buttons"),
 
     ENABLE_FOLDER_BUTTON("enable_folder_button"),
