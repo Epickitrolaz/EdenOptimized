@@ -203,10 +203,16 @@ bool HeapTracker::DeferredMapSeparateHeap(size_t virtual_offset) {
     return true;
 }
 
+void HeapTracker::ShrinkResidentMappings() {
+    this->RebuildSeparateHeapAddressSpace();
+}
+
 void HeapTracker::RebuildSeparateHeapAddressSpace() {
     std::scoped_lock lk{m_rebuild_lock, m_lock};
 
-    ASSERT(!m_resident_mappings.empty());
+    if (m_resident_mappings.empty()) {
+        return;
+    }
 
     // Dump half of the mappings.
     //

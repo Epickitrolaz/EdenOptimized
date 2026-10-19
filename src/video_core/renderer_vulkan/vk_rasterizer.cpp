@@ -307,7 +307,13 @@ RasterizerVulkan::RasterizerVulkan(Core::Frontend::EmuWindow& emu_window_, Tegra
 
     memory_clients.push_back(std::make_unique<GenericMemoryClient>(
         "IR Object Pools", [this] { return pipeline_cache.GetMainPoolsMemory(); },
-        64ULL * 1024 * 1024, Common::MemoryClientPriority::ObjectPools));
+        64ULL * 1024 * 1024, Common::MemoryClientPriority::ObjectPools,
+        [this](u64 target, [[maybe_unused]] std::chrono::microseconds b) {
+            if (pipeline_cache.GetMainPoolsMemory() > target) {
+                pipeline_cache.ShrinkObjectPools();
+            }
+            return pipeline_cache.GetMainPoolsMemory();
+        }));
 
     memory_clients.push_back(std::make_unique<GenericMemoryClient>(
         "Pipeline Cache", [this] { return pipeline_cache.GetTotalMemory(); },
@@ -1030,6 +1036,21 @@ void RasterizerVulkan::TickFrame() {
     }
     Common::MemoryGovernor::Instance().TickFrame();
     Common::MemoryBudget::Instance().TickFrame();
+
+    // Phase 3: Pressure Pacing
+    // When the memory governor signals persistent deficit (throttle_requested),
+    // drain in-flight GPU work to allow staging buffers, descriptor allocations,
+    // and retired commands to be reclaimed, and pace the CPU draw thread.
+    if (Common::MemoryGovernor::Instance().IsEnabled() &&
+        Common::MemoryGovernor::Instance().ShouldThrottle() &&
+        Settings::values.memory_governor_pacing.GetValue()) {
+        scheduler.WaitWorker();
+        scheduler.Finish();
+        const u32 pacing_ms = Settings::values.memory_governor_pacing_ms.GetValue();
+        if (pacing_ms > 0) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(pacing_ms));
+        }
+    }
 }
 
 bool RasterizerVulkan::AccelerateConditionalRendering() {

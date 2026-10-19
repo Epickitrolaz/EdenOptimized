@@ -64,6 +64,11 @@ public:
     bool DeferredMapSeparateHeap(u8* fault_address);
     bool DeferredMapSeparateHeap(size_t virtual_offset);
 
+    void ShrinkResidentMappings();
+    [[nodiscard]] s64 GetResidentMapCount() const noexcept {
+        return m_resident_map_count;
+    }
+
 private:
     using AddrTreeTraits =
         Common::IntrusiveRedBlackTreeMemberTraitsDeferredAssert<&SeparateHeapMap::addr_node>;

@@ -57,6 +57,7 @@
 #include "common/alignment.h"
 #include "common/assert.h"
 #include "common/free_region_manager.h"
+#include "common/settings.h"
 #include "common/host_memory.h"
 #include "common/logging.h"
 
@@ -572,7 +573,11 @@ public:
             return false;
         }
 #if defined(__linux__)
-        madvise(virtual_base, virtual_size, MADV_HUGEPAGE);
+        if (Settings::values.use_memory_governor.GetValue() && !Settings::values.memory_governor_thp.GetValue()) {
+            madvise(virtual_base, virtual_size, MADV_NOHUGEPAGE);
+        } else {
+            madvise(virtual_base, virtual_size, MADV_HUGEPAGE);
+        }
 #endif
         free_manager.SetAddressSpace(virtual_base, virtual_size);
         return true;
@@ -792,6 +797,14 @@ void HostMemory::Protect(size_t virtual_offset, size_t length, MemoryPermission 
 
 void HostMemory::ClearBackingRegion(size_t physical_offset, size_t length, u32 fill_value) {
     std::memset(backing_base + physical_offset, fill_value, length);
+}
+
+void HostMemory::ReleaseBackingRegion(size_t physical_offset, size_t length) {
+#if defined(__linux__)
+    if (backing_base && length > 0 && physical_offset + length <= backing_size) {
+        madvise(backing_base + physical_offset, length, MADV_DONTNEED);
+    }
+#endif
 }
 
 size_t HostMemory::GetBackingResidentBytes() const {

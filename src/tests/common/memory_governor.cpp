@@ -5,7 +5,9 @@
 #include <string>
 #include <vector>
 
+#include "common/host_memory.h"
 #include "common/memory_governor.h"
+#include "shader_recompiler/object_pool.h"
 
 namespace Common {
 
@@ -171,6 +173,34 @@ TEST_CASE("MemoryGovernor: Deficit Carry-over and Throttle Signaling", "[common]
     REQUIRE(governor.ShouldThrottle() == false);
 
     governor.UnregisterClient(&stubborn_client);
+}
+
+TEST_CASE("MemoryGovernor: ObjectPool Reset Reclaims Memory", "[common][memory_governor]") {
+    struct TestNode {
+        u64 payload[8]{};
+    };
+    Shader::ObjectPool<TestNode> pool(64);
+    REQUIRE(pool.TotalBytes() > 0);
+    const size_t initial_bytes = pool.TotalBytes();
+
+    // Allocate many objects across multiple chunks
+    for (size_t i = 0; i < 2000; ++i) {
+        void(pool.Create());
+    }
+    const size_t expanded_bytes = pool.TotalBytes();
+    REQUIRE(expanded_bytes > initial_bytes);
+
+    // Reset pool back to initial size
+    pool.Reset();
+    REQUIRE(pool.TotalBytes() == initial_bytes);
+}
+
+TEST_CASE("MemoryGovernor: HostMemory ReleaseBackingRegion Validated", "[common][memory_governor]") {
+    HostMemory host_mem(0x10000, 0x100000);
+    // Clearing and releasing valid region should succeed
+    host_mem.ClearBackingRegion(0, 0x1000, 0);
+    host_mem.ReleaseBackingRegion(0, 0x1000);
+    REQUIRE(host_mem.GetBackingTotalBytes() == 0x10000);
 }
 
 } // namespace Common

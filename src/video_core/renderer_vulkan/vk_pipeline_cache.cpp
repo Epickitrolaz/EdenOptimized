@@ -17,6 +17,7 @@
 #include "common/cityhash.h"
 #include "common/fs/fs.h"
 #include "common/fs/path_util.h"
+#include "common/memory_governor.h"
 #include "common/thread_worker.h"
 #include "core/core.h"
 #include "shader_recompiler/backend/spirv/emit_spirv.h"
@@ -739,6 +740,11 @@ void PipelineCache::QueueVulkanPipelineCacheFlush() {
     if (!use_vulkan_pipeline_cache || vulkan_pipeline_cache_filename.empty()) {
         return;
     }
+    if (Common::MemoryGovernor::Instance().IsEnabled() &&
+        Common::MemoryGovernor::Instance().ShouldThrottle()) {
+        // Defer disk serialization while under persistent memory deficit
+        return;
+    }
     if (++pipelines_since_flush < VULKAN_CACHE_FLUSH_PIPELINES) {
         return;
     }
@@ -1056,6 +1062,8 @@ void PipelineCache::SerializeVulkanPipelineCache(const std::filesystem::path& fi
         pipeline_cache.Read(&cache_size, cache_data.data());
     }
     file.write(cache_data.data(), cache_size);
+    cache_data.clear();
+    cache_data.shrink_to_fit();
 
     LOG_INFO(Render_Vulkan, "Vulkan driver pipelines cached at: {}",
              Common::FS::PathToUTF8String(filename));

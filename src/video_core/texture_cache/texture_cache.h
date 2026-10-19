@@ -123,21 +123,24 @@ void TextureCache<P>::RunGarbageCollector() {
 
     u64 effective_expected = expected_memory;
     u64 effective_critical = critical_memory;
+    bool governor_pressure = false;
     if (Common::MemoryGovernor::Instance().IsEnabled()) {
         const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::TextureCache);
         if (gov_target > 0) {
             effective_expected = std::min(expected_memory, (gov_target * 8) / 10);
             effective_critical = std::min(critical_memory, gov_target);
         }
+        governor_pressure = (Common::MemoryGovernor::Instance().GetCurrentDeficit() > 0) ||
+                            (total_used_memory >= effective_expected);
     }
 
     const auto Configure = [&](bool allow_aggressive) {
-        high_priority_mode = total_used_memory >= effective_expected;
-        aggressive_mode = allow_aggressive && total_used_memory >= effective_critical;
-        ticks_to_destroy = aggressive_mode ? 10ULL : high_priority_mode ? 25ULL : 50ULL;
-        num_iterations = aggressive_mode ? 40 : (high_priority_mode ? 20 : 10);
+        high_priority_mode = total_used_memory >= effective_expected || (governor_pressure && allow_aggressive);
+        aggressive_mode = allow_aggressive && (total_used_memory >= effective_critical || governor_pressure);
+        ticks_to_destroy = aggressive_mode ? 5ULL : high_priority_mode ? 20ULL : 50ULL;
+        num_iterations = aggressive_mode ? 64 : (high_priority_mode ? 32 : 10);
     };
-    const auto Cleanup = [this, &num_iterations, &high_priority_mode, &aggressive_mode, effective_expected, effective_critical](ImageId image_id) {
+    const auto Cleanup = [this, &num_iterations, &high_priority_mode, &aggressive_mode, governor_pressure, effective_expected, effective_critical](ImageId image_id) {
         if (num_iterations == 0) {
             return true;
         }
@@ -147,7 +150,8 @@ void TextureCache<P>::RunGarbageCollector() {
             return false;
         }
         const bool must_download = IsDownloadable(image) && False(image.flags & ImageFlagBits::BadOverlap);
-        if ((!aggressive_mode && True(image.flags & ImageFlagBits::CostlyLoad)) || (!high_priority_mode && must_download)) {
+        const bool skip_costly = !aggressive_mode && !governor_pressure && True(image.flags & ImageFlagBits::CostlyLoad);
+        if (skip_costly || (!high_priority_mode && must_download)) {
             return false;
         }
         if (must_download) {
@@ -225,13 +229,22 @@ u64 TextureCache<P>::ShrinkTo(u64 target_bytes, std::chrono::microseconds max_ti
     }
     const auto start = std::chrono::steady_clock::now();
     size_t iterations = 0;
-    while (total_used_memory > target_bytes && iterations < 120) {
+    while (total_used_memory > target_bytes && iterations < 160) {
         const auto now = std::chrono::steady_clock::now();
         if (now - start >= max_time_budget) {
             break;
         }
         RunGarbageCollector();
         iterations += 40;
+    }
+    sentenced_images.Tick();
+    sentenced_framebuffers.Tick();
+    sentenced_image_view.Tick();
+    if constexpr (IMPLEMENTS_ASYNC_DOWNLOADS) {
+        for (auto& buffer : async_buffers_death_ring) {
+            runtime.FreeDeferredStagingBuffer(buffer);
+        }
+        async_buffers_death_ring.clear();
     }
     return total_used_memory;
 }

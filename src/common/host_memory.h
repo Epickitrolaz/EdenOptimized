@@ -53,6 +53,7 @@ public:
     void EnableDirectMappedAddress();
 
     void ClearBackingRegion(size_t physical_offset, size_t length, u32 fill_value);
+    void ReleaseBackingRegion(size_t physical_offset, size_t length);
 
     [[nodiscard]] size_t GetBackingResidentBytes() const;
     [[nodiscard]] size_t GetBackingTotalBytes() const noexcept {

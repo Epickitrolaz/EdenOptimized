@@ -41,6 +41,12 @@ public:
         node = &chunks.front();
     }
 
+    void Reset() {
+        chunks.clear();
+        chunks.emplace_back(new_chunk_size);
+        node = &chunks.front();
+    }
+
     [[nodiscard]] size_t TotalBytes() const noexcept {
         size_t total = 0;
         for (const auto& chunk_item : chunks) {

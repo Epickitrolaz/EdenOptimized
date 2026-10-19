@@ -97,6 +97,12 @@ struct ShaderPools {
         inst.ReleaseContents();
     }
 
+    void Reset() {
+        flow_block.Reset();
+        block.Reset();
+        inst.Reset();
+    }
+
     [[nodiscard]] size_t TotalBytes() const noexcept {
         return inst.TotalBytes() + block.TotalBytes() + flow_block.TotalBytes();
     }
@@ -136,6 +142,10 @@ public:
 
     [[nodiscard]] u64 GetTotalMemory() const noexcept {
         return GetHostMemoryUsage() + GetDriverEstimatedMemory();
+    }
+
+    void ShrinkObjectPools() {
+        main_pools.Reset();
     }
 
     [[nodiscard]] u64 GetMainPoolsMemory() const noexcept {

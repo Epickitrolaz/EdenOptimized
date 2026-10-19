@@ -56,9 +56,21 @@ BufferCache<P>::~BufferCache() = default;
 
 template <class P>
 void BufferCache<P>::RunGarbageCollector() {
-    const bool aggressive_gc = total_used_memory >= critical_memory;
-    const u64 ticks_to_destroy = aggressive_gc ? 60 : 120;
+    bool aggressive_gc = total_used_memory >= critical_memory;
+    u64 ticks_to_destroy = aggressive_gc ? 60 : 120;
     int num_iterations = aggressive_gc ? 64 : 32;
+
+    if (Common::MemoryGovernor::Instance().IsEnabled()) {
+        const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::BufferCache);
+        const bool over_target = (gov_target > 0 && total_used_memory >= gov_target);
+        const bool has_deficit = Common::MemoryGovernor::Instance().GetCurrentDeficit() > 0;
+        if (over_target || has_deficit) {
+            aggressive_gc = true;
+            ticks_to_destroy = 20;
+            num_iterations = 64;
+        }
+    }
+
     const auto clean_up = [this, &num_iterations](BufferId buffer_id) {
         if (num_iterations == 0) {
             return true;
@@ -131,6 +143,11 @@ u64 BufferCache<P>::ShrinkTo(u64 target_bytes, std::chrono::microseconds max_tim
         RunGarbageCollector();
         iterations += 32;
     }
+    delayed_destruction_ring.Tick();
+    for (auto& buffer : async_buffers_death_ring) {
+        runtime.FreeDeferredStagingBuffer(buffer);
+    }
+    async_buffers_death_ring.clear();
     return total_used_memory;
 }
 
