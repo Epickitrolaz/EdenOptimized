@@ -317,7 +317,7 @@ RasterizerVulkan::RasterizerVulkan(Core::Frontend::EmuWindow& emu_window_, Tegra
 
     memory_clients.push_back(std::make_unique<GenericMemoryClient>(
         "Pipeline Cache", [this] { return pipeline_cache.GetTotalMemory(); },
-        128ULL * 1024 * 1024, Common::MemoryClientPriority::PipelineCache,
+        256ULL * 1024 * 1024, Common::MemoryClientPriority::PipelineCache,
         [this](u64 t, std::chrono::microseconds b) {
             return pipeline_cache.ShrinkTo(t, b);
         }));
@@ -1043,13 +1043,11 @@ void RasterizerVulkan::TickFrame() {
 
     // Phase 3: Pressure Pacing
     // When the memory governor signals persistent deficit (throttle_requested),
-    // drain in-flight GPU work to allow staging buffers, descriptor allocations,
-    // and retired commands to be reclaimed, and pace the CPU draw thread.
+    // pace the CPU draw thread and ensure worker work is flushed to allow memory reclamation.
     if (Common::MemoryGovernor::Instance().IsEnabled() &&
         Common::MemoryGovernor::Instance().ShouldThrottle() &&
         Settings::values.memory_governor_pacing.GetValue()) {
         scheduler.WaitWorker();
-        scheduler.Finish();
         const int pacing_ms = Settings::values.memory_governor_pacing_ms.GetValue();
         if (pacing_ms > 0) {
             std::this_thread::sleep_for(std::chrono::milliseconds(pacing_ms));

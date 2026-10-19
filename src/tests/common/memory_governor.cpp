@@ -120,11 +120,11 @@ TEST_CASE("MemoryGovernor: Shrink Ordering Ascending Priority", "[common][memory
 
     governor.TickFrame(30.0);
 
-    // Ascending priority order: StagingPool (10) -> PipelineCache (40) -> TextureCache (60)
+    // Ascending priority order: StagingPool (10) -> TextureCache (50) -> PipelineCache (70)
     REQUIRE(!shrink_order.empty());
     REQUIRE(shrink_order[0] == "Staging");
     if (shrink_order.size() > 1) {
-        REQUIRE(shrink_order[1] == "Pipeline");
+        REQUIRE(shrink_order[1] == "Texture");
     }
 
     governor.UnregisterClient(&texture_client);

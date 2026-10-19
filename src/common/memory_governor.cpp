@@ -28,8 +28,8 @@ void MemoryGovernor::Reset() {
     enabled.store(false, std::memory_order_relaxed);
     throttle_requested.store(false, std::memory_order_relaxed);
     manual_budget.store(0, std::memory_order_relaxed);
-    safety_reserve.store(640ULL * 1024 * 1024, std::memory_order_relaxed);
-    driver_baseline.store(768ULL * 1024 * 1024, std::memory_order_relaxed);
+    safety_reserve.store(450ULL * 1024 * 1024, std::memory_order_relaxed); // 450 MB default
+    driver_baseline.store(0, std::memory_order_relaxed);
     current_budget.store(0, std::memory_order_relaxed);
     current_deficit.store(0, std::memory_order_relaxed);
     carried_deficit.store(0, std::memory_order_relaxed);
@@ -99,16 +99,17 @@ u64 MemoryGovernor::ComputeBudget(u64 mem_available) const {
 
     const u64 reserve = safety_reserve.load(std::memory_order_relaxed);
     const u64 baseline = driver_baseline.load(std::memory_order_relaxed);
+    const u64 total_reserve = reserve + baseline;
     const u64 total_registered = GetTotalRegisteredBytes();
 
     // Headroom calculation:
-    // If MemAvailable exceeds our reserve + baseline margin, we have room to expand.
-    // If MemAvailable falls below reserve + baseline, we have a waterline deficit that must be cut.
-    if (mem_available >= reserve + baseline) {
-        const u64 headroom = mem_available - (reserve + baseline);
+    // If MemAvailable exceeds our reserve margin, we have room to expand.
+    // If MemAvailable falls below reserve margin, we have a waterline deficit that must be cut.
+    if (mem_available >= total_reserve) {
+        const u64 headroom = mem_available - total_reserve;
         return total_registered + headroom;
     } else {
-        const u64 shortfall = (reserve + baseline) - mem_available;
+        const u64 shortfall = total_reserve - mem_available;
         constexpr u64 MIN_PROCESS_BUDGET = 256ULL * 1024 * 1024; // 256 MB safety floor
         if (total_registered > shortfall) {
             return std::max(MIN_PROCESS_BUDGET, total_registered - shortfall);

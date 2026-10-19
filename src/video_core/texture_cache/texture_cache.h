@@ -123,24 +123,21 @@ void TextureCache<P>::RunGarbageCollector() {
 
     u64 effective_expected = expected_memory;
     u64 effective_critical = critical_memory;
-    bool governor_pressure = false;
     if (Common::MemoryGovernor::Instance().IsEnabled()) {
         const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::TextureCache);
         if (gov_target > 0) {
             effective_expected = std::min(expected_memory, (gov_target * 8) / 10);
             effective_critical = std::min(critical_memory, gov_target);
         }
-        governor_pressure = (Common::MemoryGovernor::Instance().GetCurrentDeficit() > 0) ||
-                            (total_used_memory >= effective_expected);
     }
 
     const auto Configure = [&](bool allow_aggressive) {
-        high_priority_mode = total_used_memory >= effective_expected || (governor_pressure && allow_aggressive);
-        aggressive_mode = allow_aggressive && (total_used_memory >= effective_critical || governor_pressure);
-        ticks_to_destroy = aggressive_mode ? 5ULL : high_priority_mode ? 20ULL : 50ULL;
-        num_iterations = aggressive_mode ? 64 : (high_priority_mode ? 32 : 10);
+        high_priority_mode = total_used_memory >= effective_expected;
+        aggressive_mode = allow_aggressive && total_used_memory >= effective_critical;
+        ticks_to_destroy = aggressive_mode ? 15ULL : high_priority_mode ? 30ULL : 60ULL;
+        num_iterations = aggressive_mode ? 40 : (high_priority_mode ? 20 : 10);
     };
-    const auto Cleanup = [this, &num_iterations, &high_priority_mode, &aggressive_mode, governor_pressure, effective_expected, effective_critical](ImageId image_id) {
+    const auto Cleanup = [this, &num_iterations, &high_priority_mode, &aggressive_mode, effective_expected, effective_critical](ImageId image_id) {
         if (num_iterations == 0) {
             return true;
         }
@@ -150,7 +147,7 @@ void TextureCache<P>::RunGarbageCollector() {
             return false;
         }
         const bool must_download = IsDownloadable(image) && False(image.flags & ImageFlagBits::BadOverlap);
-        const bool skip_costly = !aggressive_mode && !governor_pressure && True(image.flags & ImageFlagBits::CostlyLoad);
+        const bool skip_costly = !aggressive_mode && True(image.flags & ImageFlagBits::CostlyLoad);
         if (skip_costly || (!high_priority_mode && must_download)) {
             return false;
         }

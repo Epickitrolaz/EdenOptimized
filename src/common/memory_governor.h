@@ -21,10 +21,10 @@ enum class MemoryClientPriority : u32 {
     StagingPool = 10,
     QueryCache = 20,
     CommandPool = 30,
-    ObjectPools = 35,
-    PipelineCache = 40,
-    BufferCache = 50,
-    TextureCache = 60,
+    BufferCache = 40,
+    TextureCache = 50,
+    ObjectPools = 60,
+    PipelineCache = 70,
     Highest = 100,
 };
 
