@@ -23,6 +23,8 @@
 #include "common/fs/path_util.h"
 #include "common/literals.h"
 #include <ranges>
+#include "common/memory_budget.h"
+#include "common/memory_governor.h"
 #include "common/settings.h"
 #include "common/settings_enums.h"
 #include "video_core/vulkan_common/nsight_aftermath_tracker.h"
@@ -1641,9 +1643,19 @@ void Device::CollectPhysicalMemoryInfo() {
         device_access_memory += mem_properties.memoryHeaps[element].size;
     }
     if (is_integrated) {
-        const s64 available_memory = static_cast<s64>(device_access_memory - device_initial_usage);
-        const u64 memory_size = Settings::values.vram_usage_mode.GetValue() == Settings::VramUsageMode::Aggressive ? 6_GiB : 4_GiB;
-        device_access_memory = static_cast<u64>(std::max<s64>(std::min<s64>(available_memory - 8_GiB, memory_size), std::min<s64>(local_memory, memory_size)));
+        if (Common::MemoryGovernor::Instance().IsEnabled()) {
+            const auto sys_mem = Common::MemoryBudget::Instance().ReadSystemMemoryInfo();
+            const u64 real_budget = Common::MemoryGovernor::Instance().ComputeBudget(sys_mem.available_ram);
+            // On integrated mobile GPUs, GPU allocations share memory with guest DRAM.
+            // Allocate at most 50% of governor budget to VRAM device access, minimum 512MB, maximum 2GB.
+            device_access_memory = std::clamp<u64>(real_budget / 2, 512_MiB, 2_GiB);
+            LOG_INFO(Render_Vulkan, "MemoryGovernor active: bounded integrated GPU device_access_memory to {:.1f} MB",
+                     static_cast<double>(device_access_memory) / (1024.0 * 1024.0));
+        } else {
+            const s64 available_memory = static_cast<s64>(device_access_memory - device_initial_usage);
+            const u64 memory_size = Settings::values.vram_usage_mode.GetValue() == Settings::VramUsageMode::Aggressive ? 6_GiB : 4_GiB;
+            device_access_memory = static_cast<u64>(std::max<s64>(std::min<s64>(available_memory - 8_GiB, memory_size), std::min<s64>(local_memory, memory_size)));
+        }
     } else {
         const u64 reserve_memory = std::min<u64>(device_access_memory / 8, 1_GiB);
         device_access_memory -= reserve_memory;

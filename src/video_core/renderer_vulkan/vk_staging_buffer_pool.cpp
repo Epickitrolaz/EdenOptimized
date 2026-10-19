@@ -305,4 +305,28 @@ u64 StagingBufferPool::GetTotalMemory() const noexcept {
     return total;
 }
 
+u64 StagingBufferPool::ShrinkTo(u64 target_bytes, [[maybe_unused]] std::chrono::microseconds max_time_budget) {
+    if (GetTotalMemory() <= target_bytes) {
+        return GetTotalMemory();
+    }
+    const auto drain_cache = [this, target_bytes](StagingBuffersCache& cache) {
+        for (size_t lvl = 0; lvl < NUM_LEVELS; ++lvl) {
+            auto& entries = cache[lvl].entries;
+            const auto is_deletable = [this](const StagingBuffer& entry) {
+                return scheduler.IsFree(entry.tick);
+            };
+            entries.erase(std::remove_if(entries.begin(), entries.end(), is_deletable), entries.end());
+            cache[lvl].delete_index = 0;
+            cache[lvl].iterate_index = 0;
+            if (GetTotalMemory() <= target_bytes) {
+                return;
+            }
+        }
+    };
+    drain_cache(device_local_cache);
+    drain_cache(upload_cache);
+    drain_cache(download_cache);
+    return GetTotalMemory();
+}
+
 } // namespace Vulkan

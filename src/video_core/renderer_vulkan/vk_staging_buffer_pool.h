@@ -47,6 +47,7 @@ public:
     void TickFrame();
 
     [[nodiscard]] u64 GetTotalMemory() const noexcept;
+    u64 ShrinkTo(u64 target_bytes, std::chrono::microseconds max_time_budget);
 
 private:
     struct StreamBufferCommit {

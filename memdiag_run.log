@@ -1,0 +1,1364 @@
+--------- beginning of main
+10-19 17:26:13.521 12354 12379 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 0, 12.0s]: RSS: 223.6 MB, Avail: 4726.1 MB, Reg: 0.0 MB, PSI: 0.00
+10-19 17:26:13.521 12354 12379 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 0, Time: 12.0s, FPS: 0.0] =====
+10-19 17:26:13.521 12354 12379 I EdenMemoryBudget: System RAM: 7700.2 MB total, 4726.1 MB available
+10-19 17:26:13.521 12354 12379 I EdenMemoryBudget: Process RSS: 223.6 MB (Anon: 94.9 MB, File: 123.9 MB, Shmem: 4.8 MB)
+10-19 17:26:13.521 12354 12379 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 7.3 MB, compr: 2.7 MB (2.68x), used: 3.2 MB | SwapFree: 8183.5 MB / 8192.0 MB
+10-19 17:26:13.521 12354 12379 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:26:13.521 12354 12379 I EdenMemoryBudget:   - Guest Heap (Touched)    :     0.0 MB / target:  3584.0 MB
+10-19 17:26:13.521 12354 12379 I EdenMemoryBudget:   Total Registered Bytes  :     0.0 MB
+10-19 17:26:13.521 12354 12379 I EdenMemoryBudget: ========================================================
+10-19 17:26:13.521 12354 12379 I HW_Memory: MemoryBudget [F: 0, 12.0s]: RSS: 223.6 MB, Avail: 4726.1 MB, Reg: 0.0 MB, PSI: 0.00
+10-19 17:26:19.558 12354 12379 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 0, 18.1s]: RSS: 223.6 MB, Avail: 4794.5 MB, Reg: 0.0 MB, PSI: 0.00
+10-19 17:26:19.558 12354 12379 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 0, Time: 18.1s, FPS: 0.0] =====
+10-19 17:26:19.558 12354 12379 I EdenMemoryBudget: System RAM: 7700.2 MB total, 4794.5 MB available
+10-19 17:26:19.558 12354 12379 I EdenMemoryBudget: Process RSS: 223.6 MB (Anon: 94.8 MB, File: 123.9 MB, Shmem: 4.9 MB)
+10-19 17:26:19.558 12354 12379 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 7.3 MB, compr: 2.7 MB (2.68x), used: 3.2 MB | SwapFree: 8183.5 MB / 8192.0 MB
+10-19 17:26:19.558 12354 12379 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:26:19.558 12354 12379 I EdenMemoryBudget:   - Guest Heap (Touched)    :     0.0 MB / target:  3584.0 MB
+10-19 17:26:19.558 12354 12379 I EdenMemoryBudget:   Total Registered Bytes  :     0.0 MB
+10-19 17:26:19.558 12354 12379 I EdenMemoryBudget: ========================================================
+10-19 17:26:19.558 12354 12379 I HW_Memory: MemoryBudget [F: 0, 18.1s]: RSS: 223.6 MB, Avail: 4794.5 MB, Reg: 0.0 MB, PSI: 0.00
+10-19 17:26:25.608 12354 12379 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 0, 24.1s]: RSS: 224.6 MB, Avail: 4807.6 MB, Reg: 0.0 MB, PSI: 0.00
+10-19 17:26:25.608 12354 12379 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 0, Time: 24.1s, FPS: 0.0] =====
+10-19 17:26:25.608 12354 12379 I EdenMemoryBudget: System RAM: 7700.2 MB total, 4807.6 MB available
+10-19 17:26:25.608 12354 12379 I EdenMemoryBudget: Process RSS: 224.6 MB (Anon: 95.8 MB, File: 123.9 MB, Shmem: 4.9 MB)
+10-19 17:26:25.608 12354 12379 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 7.3 MB, compr: 2.7 MB (2.68x), used: 3.2 MB | SwapFree: 8183.5 MB / 8192.0 MB
+10-19 17:26:25.608 12354 12379 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:26:25.608 12354 12379 I EdenMemoryBudget:   - Guest Heap (Touched)    :     0.0 MB / target:  3584.0 MB
+10-19 17:26:25.608 12354 12379 I EdenMemoryBudget:   Total Registered Bytes  :     0.0 MB
+10-19 17:26:25.608 12354 12379 I EdenMemoryBudget: ========================================================
+10-19 17:26:25.608 12354 12379 I HW_Memory: MemoryBudget [F: 0, 24.1s]: RSS: 224.6 MB, Avail: 4807.6 MB, Reg: 0.0 MB, PSI: 0.00
+10-19 17:26:31.652 12354 12379 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 0, 30.2s]: RSS: 224.6 MB, Avail: 4790.7 MB, Reg: 0.0 MB, PSI: 0.00
+10-19 17:26:31.652 12354 12379 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 0, Time: 30.2s, FPS: 0.0] =====
+10-19 17:26:31.652 12354 12379 I EdenMemoryBudget: System RAM: 7700.2 MB total, 4790.7 MB available
+10-19 17:26:31.652 12354 12379 I EdenMemoryBudget: Process RSS: 224.6 MB (Anon: 95.7 MB, File: 123.9 MB, Shmem: 5.0 MB)
+10-19 17:26:31.652 12354 12379 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 7.3 MB, compr: 2.7 MB (2.68x), used: 3.2 MB | SwapFree: 8183.5 MB / 8192.0 MB
+10-19 17:26:31.652 12354 12379 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:26:31.652 12354 12379 I EdenMemoryBudget:   - Guest Heap (Touched)    :     0.0 MB / target:  3584.0 MB
+10-19 17:26:31.652 12354 12379 I EdenMemoryBudget:   Total Registered Bytes  :     0.0 MB
+10-19 17:26:31.652 12354 12379 I EdenMemoryBudget: ========================================================
+10-19 17:26:31.652 12354 12379 I HW_Memory: MemoryBudget [F: 0, 30.2s]: RSS: 224.6 MB, Avail: 4790.7 MB, Reg: 0.0 MB, PSI: 0.00
+10-19 17:26:36.111 12354 12354 E YuzuNative: Common.Filesystem common/fs/path_util.cpp:308:SetEdenPath: Filesystem object at new_path=/storage/emulated/0/Android/data/dev.eden.eden_emulator.relWithDebInfo/files/tas is not a directory
+10-19 17:26:36.112 12354 12354 I YuzuNative: Config frontend_common/config.cpp:77:WriteToIni: Writing Global configuration to: /storage/emulated/0/Android/data/dev.eden.eden_emulator.relWithDebInfo/files/config/config.ini
+10-19 17:26:36.115 12354 12354 I YuzuNative: Config frontend_common/config.cpp:77:WriteToIni: Writing Global configuration to: /storage/emulated/0/Android/data/dev.eden.eden_emulator.relWithDebInfo/files/config/config.ini
+10-19 17:26:36.145 12354 12354 I YuzuNative: Config frontend_common/config.cpp:77:WriteToIni: Writing Game Specific configuration to: /storage/emulated/0/Android/data/dev.eden.eden_emulator.relWithDebInfo/files/config/custom/010074F013262000.ini
+10-19 17:26:36.145 12354 12354 I YuzuNative: Config frontend_common/config.cpp:77:WriteToIni: Writing Game Specific configuration to: /storage/emulated/0/Android/data/dev.eden.eden_emulator.relWithDebInfo/files/config/custom/010074F013262000.ini
+10-19 17:26:36.145 12354 12354 I YuzuNative: Frontend main/jni/native_log.cpp:22:Java_org_yuzu_yuzu_1emu_utils_Log_info: [EmulationFragment] Loading custom settings for Xenoblade Chronicles 3
+10-19 17:26:36.146 12354 12354 I YuzuNative: Frontend main/jni/native_log.cpp:22:Java_org_yuzu_yuzu_1emu_utils_Log_info: [EmulationFragment] Using global Freedreno config for 010074F013262000
+10-19 17:26:36.185 12354 12354 I YuzuNative: Frontend main/jni/native_log.cpp:22:Java_org_yuzu_yuzu_1emu_utils_Log_info: [EmulationFragment] Starting view setup for game: Xenoblade Chronicles 3
+10-19 17:26:36.187 12354 12354 I YuzuNative: Frontend main/jni/emu_window/emu_window.cpp:259:EmuWindow_Android: initializing
+10-19 17:26:36.193 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_conditional_rendering
+10-19 17:26:36.193 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_conservative_rasterization
+10-19 17:26:36.193 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_depth_bias_control
+10-19 17:26:36.193 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_depth_range_unrestricted
+10-19 17:26:36.193 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_extended_dynamic_state2
+10-19 17:26:36.193 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_extended_dynamic_state3
+10-19 17:26:36.193 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_external_memory_host
+10-19 17:26:36.193 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_4444_formats
+10-19 17:26:36.193 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_NV_geometry_shader_passthrough
+10-19 17:26:36.193 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_NV_viewport_array2
+10-19 17:26:36.193 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_NV_viewport_swizzle
+10-19 17:26:36.193 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1170:GetSuitability: Device doesn't support feature storageBuffer8BitAccess
+10-19 17:26:36.193 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1170:GetSuitability: Device doesn't support feature depthBiasControl
+10-19 17:26:36.193 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1170:GetSuitability: Device doesn't support feature leastRepresentableValueForceUnormRepresentation
+10-19 17:26:36.193 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1170:GetSuitability: Device doesn't support feature depthBiasExact
+10-19 17:26:36.193 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1170:GetSuitability: Device doesn't support feature formatA4B4G4R4
+10-19 17:26:36.193 12354 12354 E YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1171:GetSuitability: Missing required feature logicOp
+10-19 17:26:36.193 12354 12354 E YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1171:GetSuitability: Missing required feature wideLines
+10-19 17:26:36.193 12354 12354 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:446:RemoveExtensionFeatureIfUnsuitable: Removing features for unsuitable extension VK_EXT_subgroup_size_control
+10-19 17:26:36.193 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1296:GetSuitability: Extended Dynamic State disabled by user setting, clearing all EDS features
+10-19 17:26:36.193 12354 12354 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:474:Device: Unsuitable driver - continuing anyways
+10-19 17:26:36.193 12354 12354 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:524:Device: Qualcomm drivers require scaled vertex format emulation.
+10-19 17:26:36.193 12354 12354 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:526:Device: Qualcomm drivers have broken descriptor aliasing.
+10-19 17:26:36.193 12354 12354 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:527:Device: Qualcomm drivers have broken color write enable.
+10-19 17:26:36.193 12354 12354 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:530:Device: Qualcomm drivers have broken shader atomic int64.
+10-19 17:26:36.193 12354 12354 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:536:Device: Qualcomm drivers have broken workgroup memory explicit layout.
+10-19 17:26:36.193 12354 12354 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:554:Device: BCn patch debug override active: false (auto-detected: true)
+10-19 17:26:36.193 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:576:Device: Adreno driver supports BCn textures natively (no patch needed)
+10-19 17:26:36.193 12354 12354 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:660:Device: Driver requires higher-than-reported binding limits
+10-19 17:26:36.196 12354 12354 I YuzuNative: Frontend main/jni/native.cpp:1493:Java_org_yuzu_yuzu_1emu_NativeLibrary_firmwareVersion: Installed firmware: NintendoSDK Firmware for NX 22.5.0-1.0
+10-19 17:26:36.199 12354 12354 I YuzuNative: Frontend main/jni/emu_window/emu_window.cpp:259:EmuWindow_Android: initializing
+10-19 17:26:36.206 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_conditional_rendering
+10-19 17:26:36.206 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_conservative_rasterization
+10-19 17:26:36.206 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_depth_bias_control
+10-19 17:26:36.206 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_depth_range_unrestricted
+10-19 17:26:36.206 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_extended_dynamic_state2
+10-19 17:26:36.206 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_extended_dynamic_state3
+10-19 17:26:36.206 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_external_memory_host
+10-19 17:26:36.206 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_4444_formats
+10-19 17:26:36.206 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_NV_geometry_shader_passthrough
+10-19 17:26:36.206 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_NV_viewport_array2
+10-19 17:26:36.206 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_NV_viewport_swizzle
+10-19 17:26:36.206 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1170:GetSuitability: Device doesn't support feature storageBuffer8BitAccess
+10-19 17:26:36.206 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1170:GetSuitability: Device doesn't support feature depthBiasControl
+10-19 17:26:36.206 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1170:GetSuitability: Device doesn't support feature leastRepresentableValueForceUnormRepresentation
+10-19 17:26:36.206 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1170:GetSuitability: Device doesn't support feature depthBiasExact
+10-19 17:26:36.206 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1170:GetSuitability: Device doesn't support feature formatA4B4G4R4
+10-19 17:26:36.206 12354 12354 E YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1171:GetSuitability: Missing required feature logicOp
+10-19 17:26:36.206 12354 12354 E YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1171:GetSuitability: Missing required feature wideLines
+10-19 17:26:36.206 12354 12354 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:446:RemoveExtensionFeatureIfUnsuitable: Removing features for unsuitable extension VK_EXT_subgroup_size_control
+10-19 17:26:36.206 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1296:GetSuitability: Extended Dynamic State disabled by user setting, clearing all EDS features
+10-19 17:26:36.206 12354 12354 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:474:Device: Unsuitable driver - continuing anyways
+10-19 17:26:36.206 12354 12354 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:524:Device: Qualcomm drivers require scaled vertex format emulation.
+10-19 17:26:36.206 12354 12354 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:526:Device: Qualcomm drivers have broken descriptor aliasing.
+10-19 17:26:36.206 12354 12354 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:527:Device: Qualcomm drivers have broken color write enable.
+10-19 17:26:36.206 12354 12354 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:530:Device: Qualcomm drivers have broken shader atomic int64.
+10-19 17:26:36.206 12354 12354 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:536:Device: Qualcomm drivers have broken workgroup memory explicit layout.
+10-19 17:26:36.206 12354 12354 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:554:Device: BCn patch debug override active: false (auto-detected: true)
+10-19 17:26:36.206 12354 12354 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:576:Device: Adreno driver supports BCn textures natively (no patch needed)
+10-19 17:26:36.206 12354 12354 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:660:Device: Driver requires higher-than-reported binding limits
+10-19 17:26:36.345 12354 12354 I YuzuNative: Render video_core/post_processing/fx_effect.cpp:278:ReloadFxCatalog: Loaded 22 post-processing effects (22 usable)
+10-19 17:26:36.569 12354 12803 I YuzuNative: Frontend main/jni/native.cpp:523:RunEmulation: starting
+10-19 17:26:36.569 12354 12803 I YuzuNative: Frontend main/jni/emu_window/emu_window.cpp:259:EmuWindow_Android: initializing
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:135:LogSettings: Eden Configuration:
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: M- Debugging.serial_unit: 2029213155
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: M- Debugging.serial_battery: 2926139891
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: M- System.fast_gpu_time: Normal
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: M- Renderer.use_asynchronous_shaders: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: M- Renderer.scaling_filter: Bilinear
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Audio.output_engine: sdl3
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Audio.output_device: auto
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Audio.input_device: auto
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Audio.volume: 100
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Audio.audio_muted: false
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Audio.dump_audio_commands: false
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Core.use_multi_core: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Core.memory_layout_mode: Memory_4Gb
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Core.use_speed_limit: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Core.speed_limit: 100
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Core.slow_speed_limit: 50
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Core.turbo_speed_limit: 200
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Core.current_speed_mode: Standard
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Core.sync_core_speed: false
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpu_backend: Nce
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpu_accuracy: Auto
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.use_custom_cpu_ticks: false
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpu_ticks: 16000
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpuopt_page_tables: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpuopt_block_linking: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpuopt_return_stack_buffer: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpuopt_fast_dispatcher: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpuopt_context_elimination: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpuopt_const_prop: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpuopt_misc_ir: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpuopt_reduce_misalign_checks: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpuopt_fastmem: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpuopt_fastmem_exclusives: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpuopt_recompile_exclusives: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpuopt_ignore_memory_aborts: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpuopt_unsafe_host_mmu: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpuopt_unsafe_unfuse_fma: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpuopt_unsafe_reduce_fp_error: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpuopt_unsafe_ignore_standard_fpcr: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpuopt_unsafe_inaccurate_nan: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpuopt_unsafe_fastmem_check: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Cpu.cpuopt_unsafe_ignore_global_monitor: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.backend: Vulkan
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.vulkan_device: 0
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.resolution_setup: Res1X
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.use_vsync: Fifo
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.fsr_sharpening_slider: 0
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.aspect_ratio: R16_9
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.anti_aliasing: None
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.post_shader_chain: 
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.post_shader_preset: 
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.post_shader_enabled: true
+10-19 17:26:36.569 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.frame_gen: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.frame_gen_multiplier: 2
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.frame_gen_target_rate: 0
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.frame_gen_flow_scale_auto: true
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.frame_gen_flow_scale: 75
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.frame_gen_queue_target: 0
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.frame_gen_dump_flow: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.use_asynchronous_gpu_emulation: true
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.fullscreen_mode: Exclusive
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.bg_red: 0
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.bg_green: 0
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.bg_blue: 0
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.gpu_accuracy: Low
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.dma_accuracy: Default
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.gpu_fence_behavior: Default
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.vram_usage_mode: Conservative
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.nvdec_emulation: Cpu
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.max_anisotropy: Default
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.accelerate_astc: Gpu
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.frame_pacing_mode: Target_Auto
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.astc_recompression: Uncompressed
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.sync_memory_operations: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.force_max_clock: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.use_disk_shader_cache: true
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.use_vulkan_driver_pipeline_cache: true
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.enable_compute_pipelines: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.use_video_framerate: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.use_reactive_flushing: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.barrier_feedback_loops: true
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.enable_buffer_history: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.use_optimized_vertex_buffers: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.skip_cpu_inner_invalidation: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.nce_invalidation_gpu_readback: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.async_presentation: true
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.fix_bloom_effects: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.emulate_bgr565: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.gpu_unswizzle_texture_size: Large
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.gpu_unswizzle_stream_size: Medium
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.gpu_unswizzle_chunk_size: Medium
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.gpu_unswizzle_enabled: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.dyna_state: Disabled
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.sample_shading_fraction: 0
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.vertex_input_dynamic_state: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.debug: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.shader_feedback: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.nsight_aftermath: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.disable_shader_loop_safety_checks: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.renderdoc_hotkey: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.patch_old_qcom_drivers: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Renderer.disable_buffer_reorder: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- System.fast_cpu_time: Normal
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- System.language_index: EnglishAmerican
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- System.region_index: Usa
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- System.time_zone_index: Auto
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- System.custom_rtc_enabled: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- System.custom_rtc: 0
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- System.custom_rtc_offset: 0
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- System.rng_seed_enabled: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- System.rng_seed: 0
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- System.device_name: Eden
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- System.current_user: 0
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- System.use_docked_mode: Handheld
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- System.sound_index: Stereo
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Data Storage.use_virtual_sd: true
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Data Storage.gamecard_inserted: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Data Storage.gamecard_current_game: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Data Storage.gamecard_path: 
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Data Storage.ext_content_from_game_dirs: true
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.use_gdbstub: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.gdbstub_port: 6543
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.program_args: 
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.dump_exefs: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.dump_nso: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.enable_fs_access_log: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.reporting_services: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.quest_flag: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.use_dev_keys: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.extended_logging: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.use_debug_asserts: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.use_auto_stub: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.enable_all_controllers: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.perform_vulkan_check: true
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.disable_web_applet: true
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.gpu_log_level: Off
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.gpu_log_vulkan_calls: true
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.gpu_log_shader_dumps: false
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.gpu_log_memory_tracking: true
+10-19 17:26:36.570 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.gpu_log_driver_debug: true
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.gpu_log_ring_buffer_size: 512
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.debug_knobs: 0
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.dump_guest_shaders: false
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.dump_macros: false
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.disable_macro_jit: false
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Debugging.disable_macro_hle: false
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Miscellaneous.log_filter: *:Info
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Miscellaneous.flush_line: false
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Miscellaneous.censor_username: true
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Miscellaneous.first_launch: true
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Network.network_interface: 
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Network.airplane_mode: true
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- WebService.web_api_url: api.ynet-fun.xyz
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- WebService.eden_username: Eden
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.disable_wgi_xinput: false
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.enable_raw_input: false
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.controller_navigation: true
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.enable_joycon_driver: true
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.enable_procon_driver: false
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.vibration_enabled: true
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.enable_accurate_vibrations: false
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.motion_enabled: true
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.udp_input_servers: 127.0.0.1:26760
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.enable_udp_controller: false
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.pause_tas_on_load: true
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.tas_enable: false
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.tas_loop: false
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.tas_show_recording_dialog: true
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.mouse_panning: false
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.mouse_panning_sensitivity: 50
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.mouse_enabled: false
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.mouse_panning_x_sensitivity: 50
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.mouse_panning_y_sensitivity: 50
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.mouse_panning_deadzone_counterweight: 20
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.mouse_panning_decay_strength: 18
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.mouse_panning_min_decay: 6
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.emulate_analog_keyboard: false
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.keyboard_enabled: false
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.debug_pad_enabled: false
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.touch_device: min_x:100,min_y:50,max_x:1800,max_y:850
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.touch_from_button_map: 0
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.enable_ring_controller: true
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.enable_ir_sensor: false
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.ir_sensor_device: auto
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- Controls.random_amiibo_id: false
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- LibraryApplet.cabinet_applet_mode: LLE
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- LibraryApplet.controller_applet_mode: HLE
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- LibraryApplet.data_erase_applet_mode: HLE
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- LibraryApplet.error_applet_mode: LLE
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- LibraryApplet.net_connect_applet_mode: LLE
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- LibraryApplet.player_select_applet_mode: LLE
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- LibraryApplet.swkbd_applet_mode: HLE
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- LibraryApplet.mii_edit_applet_mode: LLE
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- LibraryApplet.web_applet_mode: HLE
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- LibraryApplet.shop_applet_mode: HLE
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- LibraryApplet.photo_viewer_applet_mode: LLE
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- LibraryApplet.offline_web_applet_mode: LLE
+10-19 17:26:36.571 12354 12803 I YuzuNative: Config common/settings.cpp:137:LogSettings: -- LibraryApplet.my_page_applet_mode: LLE
+10-19 17:26:36.661 12354 12803 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:26:36.672 12354 12803 I YuzuNative: Loader core/loader/nca.cpp:102:Load: Read heap size 0x6e6f69 bytes from main.npdm
+10-19 17:26:36.674 12354 12803 I YuzuNative: Loader core/file_sys/patch_manager.cpp:199:PatchExeFS: Patching ExeFS for title_id=010074F013262000
+10-19 17:26:36.675 12354 12803 I YuzuNative: Loader core/file_sys/patch_manager.cpp:327:PatchExeFS:     ExeFS: Update (v0.10.0) applied successfully
+10-19 17:26:36.675 12354 12803 I YuzuNative: Loader core/file_sys/patch_manager.cpp:358:PatchExeFS:     ExeFS: LayeredExeFS patches applied successfully
+10-19 17:26:36.933 12354 12803 I YuzuNative: HW.Memory common/heap_tracker.cpp:25:GetMaxPermissibleResidentMapCount: Current maximum map count: 65530
+10-19 17:26:36.952 12354 12803 I YuzuNative: Loader core/file_sys/patch_manager.cpp:475:HasNSOPatch: Querying NSO patch existence for build_id=E79AB9AF2AB0517496B6C5630B5C7A69769806D4, name=rtld
+10-19 17:26:37.054 12354 12803 I YuzuNative: Loader core/file_sys/patch_manager.cpp:475:HasNSOPatch: Querying NSO patch existence for build_id=82D187FE9EF9BE921B8E1B1CDDF7BD287CDB22C1, name=main
+10-19 17:26:37.084 12354 12803 I YuzuNative: Loader core/file_sys/patch_manager.cpp:475:HasNSOPatch: Querying NSO patch existence for build_id=BE1EE79A9968A35A6B63FC8F1036A6D4447F4AC3, name=subsdk0
+10-19 17:26:37.128 12354 12803 I YuzuNative: Loader core/file_sys/patch_manager.cpp:475:HasNSOPatch: Querying NSO patch existence for build_id=E8CDCEB1E77A8465FE20F21928E8D296EEA3117E, name=sdk
+10-19 17:26:37.131 12354 12803 I YuzuNative: Loader core/loader/nca.cpp:121:Load: Set pointer buffer size to 0x8000 bytes for ProgramID 0x010074f013262000 (Heap size: 0x6e6f69)
+10-19 17:26:37.132 12354 12803 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:26:37.132 12354 12803 I YuzuNative: Loader core/loader/nca.cpp:128:Load: Control data for 010074F013262000: name="Xenoblade Chronicles 3" supported_languages=000070DE
+10-19 17:26:37.132 12354 12803 I YuzuNative: Core core/core.cpp:351:Load: Loading Xenoblade Chronicles 3 (010074F013262000) ...
+10-19 17:26:37.187 12354 12803 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_conservative_rasterization
+10-19 17:26:37.187 12354 12803 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_depth_bias_control
+10-19 17:26:37.187 12354 12803 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_depth_range_unrestricted
+10-19 17:26:37.187 12354 12803 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_EXT_external_memory_host
+10-19 17:26:37.187 12354 12803 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_NV_geometry_shader_passthrough
+10-19 17:26:37.187 12354 12803 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_NV_viewport_array2
+10-19 17:26:37.188 12354 12803 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1081:GetSuitability: Device doesn't support extension VK_NV_viewport_swizzle
+10-19 17:26:37.188 12354 12803 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1170:GetSuitability: Device doesn't support feature storageBuffer8BitAccess
+10-19 17:26:37.188 12354 12803 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1170:GetSuitability: Device doesn't support feature depthBiasControl
+10-19 17:26:37.188 12354 12803 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1170:GetSuitability: Device doesn't support feature leastRepresentableValueForceUnormRepresentation
+10-19 17:26:37.188 12354 12803 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1170:GetSuitability: Device doesn't support feature depthBiasExact
+10-19 17:26:37.188 12354 12803 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1170:GetSuitability: Device doesn't support feature shaderInt8
+10-19 17:26:37.188 12354 12803 E YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1171:GetSuitability: Missing required feature wideLines
+10-19 17:26:37.188 12354 12803 I YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:1296:GetSuitability: Extended Dynamic State disabled by user setting, clearing all EDS features
+10-19 17:26:37.188 12354 12803 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:474:Device: Unsuitable driver - continuing anyways
+10-19 17:26:37.188 12354 12803 W YuzuNative: Render.Vulkan video_core/vulkan_common/vulkan_device.cpp:660:Device: Driver requires higher-than-reported binding limits
+10-19 17:26:37.639 12354 12803 I YuzuNative: Render.Vulkan video_core/renderer_vulkan/vk_pipeline_cache.cpp:506:PipelineCache: DynamicState setting value: 0
+10-19 17:26:37.639 12354 12803 I YuzuNative: HW.Memory common/memory_budget.cpp:198:RegisterSubsystem: Registered subsystem counter: 'Texture Cache' (Target: 1024.0 MB)
+10-19 17:26:37.639 12354 12803 I YuzuNative: HW.Memory common/memory_budget.cpp:198:RegisterSubsystem: Registered subsystem counter: 'Buffer Cache' (Target: 512.0 MB)
+10-19 17:26:37.639 12354 12803 I YuzuNative: HW.Memory common/memory_budget.cpp:198:RegisterSubsystem: Registered subsystem counter: 'Descriptor Ring' (Target: 64.0 MB)
+10-19 17:26:37.639 12354 12803 I YuzuNative: HW.Memory common/memory_budget.cpp:198:RegisterSubsystem: Registered subsystem counter: 'Staging Pool' (Target: 128.0 MB)
+10-19 17:26:37.639 12354 12803 I YuzuNative: HW.Memory common/memory_budget.cpp:198:RegisterSubsystem: Registered subsystem counter: 'Query Cache' (Target: 32.0 MB)
+10-19 17:26:37.639 12354 12803 I YuzuNative: HW.Memory common/memory_budget.cpp:198:RegisterSubsystem: Registered subsystem counter: 'Command Pool' (Target: 32.0 MB)
+10-19 17:26:37.639 12354 12803 I YuzuNative: HW.Memory common/memory_budget.cpp:198:RegisterSubsystem: Registered subsystem counter: 'Pipeline Cache' (Target: 128.0 MB)
+10-19 17:26:37.640 12354 12803 I YuzuNative: HW.Memory common/memory_budget.cpp:198:RegisterSubsystem: Registered subsystem counter: 'IR Object Pools' (Target: 64.0 MB)
+10-19 17:26:37.640 12354 12803 I YuzuNative: HW.Memory common/memory_budget.cpp:198:RegisterSubsystem: Registered subsystem counter: 'Disk Cache Blob' (Target: 32.0 MB)
+10-19 17:26:37.640 12354 12803 I YuzuNative: Render.Vulkan video_core/renderer_vulkan/renderer_vulkan.cpp:264:Report: Driver: turnip Mesa driver 24.2.99
+10-19 17:26:37.640 12354 12803 I YuzuNative: Render.Vulkan video_core/renderer_vulkan/renderer_vulkan.cpp:265:Report: Device: Turnip Adreno (TM) 650
+10-19 17:26:37.640 12354 12803 I YuzuNative: Render.Vulkan video_core/renderer_vulkan/renderer_vulkan.cpp:266:Report: Vulkan: 1.3.292
+10-19 17:26:37.640 12354 12803 I YuzuNative: Render.Vulkan video_core/renderer_vulkan/renderer_vulkan.cpp:267:Report: Available VRAM: 4.00 GiB
+10-19 17:26:37.641 12354 12803 I YuzuNative: Audio.Sink audio_core/sink/sdl3_sink.cpp:42:InitializeAudio: SDL audio driver: openslES
+10-19 17:26:37.684 12354 12379 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 0, 36.2s]: RSS: 708.5 MB, Avail: 4044.5 MB, Reg: 341.9 MB, PSI: 0.00
+10-19 17:26:37.684 12354 12379 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 0, Time: 36.2s, FPS: 0.0] =====
+10-19 17:26:37.684 12354 12379 I EdenMemoryBudget: System RAM: 7700.2 MB total, 4044.5 MB available
+10-19 17:26:37.684 12354 12379 I EdenMemoryBudget: Process RSS: 708.5 MB (Anon: 480.9 MB, File: 136.8 MB, Shmem: 90.8 MB)
+10-19 17:26:37.684 12354 12379 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 12.3 MB, compr: 3.9 MB (3.14x), used: 4.4 MB | SwapFree: 8179.0 MB / 8192.0 MB
+10-19 17:26:37.684 12354 12379 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:26:37.684 12354 12379 I EdenMemoryBudget:   - Guest Heap (Touched)    :    84.7 MB / target:  3584.0 MB
+10-19 17:26:37.684 12354 12379 I EdenMemoryBudget:   - Texture Cache           :     0.0 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:26:37.684 12354 12379 I EdenMemoryBudget:   - Buffer Cache            :     0.0 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:26:37.684 12354 12379 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:26:37.684 12354 12379 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:26:37.684 12354 12379 I EdenMemoryBudget:   - Query Cache             :     0.0 MB / target:    32.0 MB
+10-19 17:26:37.684 12354 12379 I EdenMemoryBudget:   - Command Pool            :     0.1 MB / target:    32.0 MB
+10-19 17:26:37.684 12354 12379 I EdenMemoryBudget:   - Pipeline Cache          :     0.0 MB / target:   128.0 MB
+10-19 17:26:37.684 12354 12379 I EdenMemoryBudget:   - IR Object Pools         :     1.1 MB / target:    64.0 MB
+10-19 17:26:37.684 12354 12379 I EdenMemoryBudget:   - Disk Cache Blob         :     0.0 MB / target:    32.0 MB
+10-19 17:26:37.684 12354 12379 I EdenMemoryBudget:   Total Registered Bytes  :   341.9 MB
+10-19 17:26:37.684 12354 12379 I EdenMemoryBudget: =============
+10-19 17:26:37.684 12354 12379 I HW_Memory: MemoryBudget [F: 0, 36.2s]: RSS: 708.5 MB, Avail: 4044.5 MB, Reg: 341.9 MB, PSI: 0.00
+10-19 17:26:37.744 12354 12803 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:26:37.744 12354 12803 I YuzuNative: Core core/game_settings.cpp:137:LoadOverrides: Applied game settings for title ID 010074F013262000 on OS 4, GPU vendor 4 (Turnip)
+10-19 17:26:37.749 12354 12803 I YuzuNative: Render.Vulkan video_core/renderer_vulkan/vk_pipeline_cache.cpp:715:LoadDiskResources: Total Pipeline Count: 0
+10-19 17:26:37.749 12354 12803 I YuzuNative: Render.Vulkan video_core/renderer_vulkan/vk_pipeline_cache.cpp:1061:SerializeVulkanPipelineCache: Vulkan driver pipelines cached at: /storage/emulated/0/Android/data/dev.eden.eden_emulator.relWithDebInfo/files/cache/shader/010074f013262000/vulkan_pipelines.bin
+10-19 17:26:37.790 12354 12851 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:520:GetExternalSteadyClockSourceId: called, clock_source_id=81b8d13e-5b0b-1951-21d9-1c46571b85f6
+10-19 17:26:37.790 12354 12851 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:536:GetUserSystemClockContext: called
+10-19 17:26:37.790 12354 12851 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:923:GetNetworkSystemClockContext: called
+10-19 17:26:37.790 12354 12851 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:941:IsUserSystemClockAutomaticCorrectionEnabled: called, out_automatic_correction_enabled=true
+10-19 17:26:37.790 12354 12851 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:1371:GetUserSystemClockAutomaticCorrectionUpdatedTime: called
+10-19 17:26:37.790 12354 12851 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:897:GetDeviceTimeZoneLocationName: called
+10-19 17:26:37.790 12354 12851 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:1354:GetDeviceTimeZoneLocationUpdatedTime: called
+10-19 17:26:37.791 12354 12854 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:544:SetUserSystemClockContext: called
+10-19 17:26:37.792 12354 12854 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:931:SetNetworkSystemClockContext: called
+10-19 17:26:37.792 12354 12854 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:951:SetUserSystemClockAutomaticCorrectionEnabled: called, out_automatic_correction_enabled=true
+10-19 17:26:37.793 12354 12854 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:1379:SetUserSystemClockAutomaticCorrectionUpdatedTime: called
+10-19 17:26:37.871 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:26:38.105 12354 12851 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:665:GetVibrationMasterVolume: called, vibration_master_volume=1
+10-19 17:26:38.148 12354 12851 W YuzuNative: Service.VI core/hle/service/vi/application_display_service.cpp:81:GetManagerDisplayService: (STUBBED) called
+10-19 17:26:38.148 12354 12851 I YuzuNative: Service.AM core/hle/service/am/service/window_controller.cpp:38:GetAppletResourceUserId: called
+10-19 17:26:38.148 12354 12851 W YuzuNative: Service.AM core/hle/service/am/service/common_state_getter.cpp:353:SetRequestExitToLibraryAppletAtExecuteNextProgramEnabled: (STUBBED) called
+10-19 17:26:38.148 12354 12851 W YuzuNative: Service.AM core/hle/service/am/service/application_functions.cpp:495:GetGpuErrorDetectedSystemEvent: (STUBBED) called
+10-19 17:26:38.150 12354 12851 I YuzuNative: Service.AM core/hle/service/am/service/window_controller.cpp:57:AcquireForegroundRights: called
+10-19 17:26:38.150 12354 12851 I YuzuNative: Service.AM core/hle/service/am/service/self_controller.cpp:189:SetFocusHandlingMode: called, notify=false background=false suspend=true
+10-19 17:26:38.150 12354 12851 I YuzuNative: Service.AM core/hle/service/am/service/self_controller.cpp:219:SetOutOfFocusSuspendingEnabled: called, enabled=false
+10-19 17:26:38.152 12354 12851 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:26:39.589 12354 12841 I YuzuNative: Loader core/file_sys/patch_manager.cpp:610:PatchRomFS: Patching RomFS for title_id=010074F013262000, type=01
+10-19 17:26:39.590 12354 12841 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:26:39.599 12354 12851 W YuzuNative: Service.AOC core/hle/service/aoc/addon_content_manager.cpp:165:PrepareAddOnContent: (STUBBED) called with addon_index=1, process_id=81
+10-19 17:26:39.599 12354 12851 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:26:39.600 12354 12841 I YuzuNative: Loader core/file_sys/patch_manager.cpp:610:PatchRomFS: Patching RomFS for title_id=010074F013263001, type=02
+10-19 17:26:39.601 12354 12851 W YuzuNative: Service.AOC core/hle/service/aoc/addon_content_manager.cpp:165:PrepareAddOnContent: (STUBBED) called with addon_index=1, process_id=81
+10-19 17:26:39.601 12354 12851 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:26:39.602 12354 12841 I YuzuNative: Loader core/file_sys/patch_manager.cpp:610:PatchRomFS: Patching RomFS for title_id=010074F013263001, type=02
+10-19 17:26:39.603 12354 12851 W YuzuNative: Service.AOC core/hle/service/aoc/addon_content_manager.cpp:165:PrepareAddOnContent: (STUBBED) called with addon_index=2, process_id=81
+10-19 17:26:39.603 12354 12851 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:26:39.604 12354 12841 I YuzuNative: Loader core/file_sys/patch_manager.cpp:610:PatchRomFS: Patching RomFS for title_id=010074F013263002, type=02
+10-19 17:26:39.606 12354 12851 W YuzuNative: Service.AOC core/hle/service/aoc/addon_content_manager.cpp:165:PrepareAddOnContent: (STUBBED) called with addon_index=2, process_id=81
+10-19 17:26:39.608 12354 12851 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:26:39.608 12354 12841 I YuzuNative: Loader core/file_sys/patch_manager.cpp:610:PatchRomFS: Patching RomFS for title_id=010074F013263002, type=02
+10-19 17:26:39.611 12354 12851 W YuzuNative: Service.AOC core/hle/service/aoc/addon_content_manager.cpp:165:PrepareAddOnContent: (STUBBED) called with addon_index=3, process_id=81
+10-19 17:26:39.611 12354 12851 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:26:39.613 12354 12841 I YuzuNative: Loader core/file_sys/patch_manager.cpp:610:PatchRomFS: Patching RomFS for title_id=010074F013263003, type=02
+10-19 17:26:39.614 12354 12851 W YuzuNative: Service.AOC core/hle/service/aoc/addon_content_manager.cpp:165:PrepareAddOnContent: (STUBBED) called with addon_index=3, process_id=81
+10-19 17:26:39.614 12354 12851 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:26:39.614 12354 12841 I YuzuNative: Loader core/file_sys/patch_manager.cpp:610:PatchRomFS: Patching RomFS for title_id=010074F013263003, type=02
+10-19 17:26:39.615 12354 12851 W YuzuNative: Service.AOC core/hle/service/aoc/addon_content_manager.cpp:165:PrepareAddOnContent: (STUBBED) called with addon_index=4, process_id=81
+10-19 17:26:39.615 12354 12851 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:26:39.616 12354 12841 I YuzuNative: Loader core/file_sys/patch_manager.cpp:610:PatchRomFS: Patching RomFS for title_id=010074F013263004, type=02
+10-19 17:26:39.618 12354 12851 W YuzuNative: Service.AOC core/hle/service/aoc/addon_content_manager.cpp:165:PrepareAddOnContent: (STUBBED) called with addon_index=4, process_id=81
+10-19 17:26:39.618 12354 12851 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:26:39.618 12354 12841 I YuzuNative: Loader core/file_sys/patch_manager.cpp:610:PatchRomFS: Patching RomFS for title_id=010074F013263004, type=02
+10-19 17:26:39.621 12354 12851 W YuzuNative: Service.ACC core/hle/service/acc/acc.cpp:937:InitializeApplicationInfoRestricted: (Partial implementation) called
+10-19 17:26:39.624 12354 12851 W YuzuNative: Service.ACC core/hle/service/acc/acc.cpp:982:InitializeApplicationInfoBase: ApplicationInfo init required
+10-19 17:26:39.624 12354 12851 I YuzuNative: Service.AM core/hle/service/am/service/application_functions.cpp:136:PopLaunchParameter: called, kind=2
+10-19 17:26:39.625 12354 12851 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:1428:GetTouchScreenMode: called, touch_screen_mode=1
+10-19 17:26:39.626 12354 12841 I YuzuNative: Service.FS core/hle/service/filesystem/fsp/fsp_srv.cpp:273:OpenSaveDataFileSystem: called.
+10-19 17:26:39.628 12354 12841 I YuzuNative: Service.FS core/hle/service/filesystem/fsp/fsp_srv.cpp:273:OpenSaveDataFileSystem: called.
+10-19 17:26:39.653 12354 12851 I YuzuNative: Service.AM core/hle/service/am/service/self_controller.cpp:171:SetOperationModeChangedNotification: called, enabled=true
+10-19 17:26:39.653 12354 12851 I YuzuNative: Service.AM core/hle/service/am/service/self_controller.cpp:180:SetPerformanceModeChangedNotification: called, enabled=true
+10-19 17:26:39.653 12354 12851 I YuzuNative: Service.AM core/hle/service/am/service/self_controller.cpp:200:SetRestartMessageEnabled: called, enabled=true
+10-19 17:26:39.654 12354 12851 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:26:39.654 12354 12851 I YuzuNative: Service.NS core/hle/service/ns/read_only_application_control_data_interface.cpp:192:GetApplicationDesiredLanguage: called with supported_languages=000070DE
+10-19 17:26:39.874 12354 12843 W YuzuNative: Service.NVDRV core/hle/service/nvdrv/nvdrv_interface.cpp:158:Initialize: (STUBBED) called
+10-19 17:26:39.876 12354 12843 W YuzuNative: Service.NVDRV core/hle/service/nvdrv/nvdrv_interface.cpp:215:SetAruid: (STUBBED) called, pid=0x51
+10-19 17:26:39.876 12354 12843 W YuzuNative: Service.NVDRV core/hle/service/nvdrv/nvdrv_interface.cpp:223:SetGraphicsFirmwareMemoryMarginEnabled: (STUBBED) called
+10-19 17:26:39.877 12354 12845 W YuzuNative: Service.VI core/hle/service/vi/application_display_service.cpp:81:GetManagerDisplayService: (STUBBED) called
+10-19 17:26:39.877 12354 12845 W YuzuNative: Service.VI core/hle/service/vi/application_display_service.cpp:74:GetSystemDisplayService: (STUBBED) called
+10-19 17:26:39.877 12354 12845 W YuzuNative: Service.VI core/hle/service/vi/application_display_service.cpp:68:GetRelayService: (STUBBED) called
+10-19 17:26:39.877 12354 12851 W YuzuNative: Service.AM core/hle/service/am/service/self_controller.cpp:271:CreateManagedDisplaySeparableLayer: (STUBBED) called
+10-19 17:26:39.886 12354 12843 W YuzuNative: Service.NVDRV core/hle/service/nvdrv/devices/nvhost_gpu.cpp:165:SetErrorNotifier: (STUBBED) called, offset=0, size=1000, mem=C
+10-19 17:26:39.886 12354 12843 I YuzuNative: Service.NVDRV core/hle/service/nvdrv/devices/nvhost_gpu.cpp:441:ChannelSetTimeout: called, timeout=0x266
+10-19 17:26:39.886 12354 12843 I YuzuNative: Service.NVDRV core/hle/service/nvdrv/devices/nvhost_gpu.cpp:447:ChannelSetTimeslice: called, timeslice=0x400
+10-19 17:26:39.980 12354 12851 I YuzuNative: Service.HID hid_core/frontend/emulated_controller.cpp:1330:SetPollingMode: Set polling mode 0, device_index=3
+10-19 17:26:40.117 12354 12852 I EdenMemoryBudget: SNAP: |      0 |    38s |     4680 |          1179 |           0.18 |  0.0 |           3282 |           407 |           407 |              0 |          256 |             0 |
+10-19 17:26:40.117 12354 12852 I HW_Memory: SNAP: |      0 |    38s |     4680 |          1179 |           0.18 |  0.0 |           3282 |           407 |           407 |              0 |          256 |             0 |
+10-19 17:26:40.221 12354 12851 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:26:40.222 12354 12851 I YuzuNative: Service.NS core/hle/service/ns/read_only_application_control_data_interface.cpp:192:GetApplicationDesiredLanguage: called with supported_languages=000070DE
+10-19 17:26:40.420 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:26:40.719 12354 12851 W YuzuNative: Service.AM core/hle/service/am/service/application_functions.cpp:349:GetPseudoDeviceId: (stubbed)
+10-19 17:26:40.720 12354 12851 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:26:40.723 12354 12851 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:26:40.724 12354 12851 I YuzuNative: Service.NS core/hle/service/ns/read_only_application_control_data_interface.cpp:192:GetApplicationDesiredLanguage: called with supported_languages=000070DE
+10-19 17:26:40.724 12354 12851 W YuzuNative: Service.AM core/hle/service/am/service/self_controller.cpp:384:SetAlbumImageTakenNotificationEnabled: (STUBBED) called. enabled=true
+10-19 17:26:40.936 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:26:41.209 12354 12851 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:26:41.436 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:26:42.134 12354 12851 W YuzuNative: Service.AM core/hle/service/am/service/application_functions.cpp:343:NotifyRunning: (STUBBED) called
+10-19 17:26:42.227 12354 12840 I YuzuNative: Service.Audio audio_core/sink/sdl3_sink.cpp:124:SDLSinkStream: Opening SDL stream 0xb400007cb327db30 with: rate 48000 channels 2 (system channels 2)  format 32784
+10-19 17:26:43.710 12354 12379 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:26:43.710 12354 12379 W EdenMemoryBudget: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:26:43.710 12354 12379 W HW_Memory: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:26:43.716 12354 12379 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 91, 42.2s]: RSS: 5806.8 MB, Avail: 999.8 MB, Reg: 4483.5 MB, PSI: 0.71
+10-19 17:26:43.716 12354 12379 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 90, Time: 42.2s, FPS: 29.9] =====
+10-19 17:26:43.716 12354 12379 I EdenMemoryBudget: System RAM: 7700.2 MB total, 999.8 MB available | PSI full avg10: 0.71 (some avg10: 1.75)
+10-19 17:26:43.716 12354 12379 I EdenMemoryBudget: Process RSS: 5806.8 MB (Anon: 903.3 MB, File: 95.6 MB, Shmem: 4807.9 MB)
+10-19 17:26:43.716 12354 12379 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 142.2 MB, compr: 41.0 MB (3.47x), used: 43.2 MB | SwapFree: 8048.6 MB / 8192.0 MB
+10-19 17:26:43.716 12354 12379 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:26:43.716 12354 12379 I EdenMemoryBudget:   - Guest Heap (Touched)    :  3282.2 MB / target:  3584.0 MB
+10-19 17:26:43.716 12354 12379 I EdenMemoryBudget:   - Texture Cache           :   471.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:26:43.716 12354 12379 I EdenMemoryBudget:   - Buffer Cache            :   471.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:26:43.716 12354 12379 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:26:43.716 12354 12379 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:26:43.716 12354 12379 I EdenMemoryBudget:   - Query Cache             :     0.0 MB / target:    32.0 MB
+10-19 17:26:43.716 12354 12379 I EdenMemoryBudget:   - Command Pool            :     0.2 MB / target:    32.0 MB
+10-19 17:26:43.716 12354 12379 I EdenMemoryBudget:   - Pipeline Cache          :     0.6 MB / target:   128.0 MB
+10-19 17:26:43.716 12354 12379 I EdenMemoryBudget:   - IR Object Pools         :     1.1 MB / target:    64.0 MB
+10-19 17:26:43.716 12354 12379 I EdenMemoryBudget:   - Disk Cache Blob         :     0.0 MB / target:    32.0 MB
+10-19 17:26:43.716 12354 12379 I EdenMemoryBudget:   To
+10-19 17:26:43.716 12354 12379 I HW_Memory: MemoryBudget [F: 91, 42.2s]: RSS: 5806.8 MB, Avail: 999.8 MB, Reg: 4483.5 MB, PSI: 0.71
+10-19 17:26:44.005 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:26:44.695 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:26:44.695 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:26:44.695 12354 12852 W HW_Memory: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:26:44.699 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 120, 43.2s]: RSS: 5803.4 MB, Avail: 998.4 MB, Reg: 4483.5 MB, PSI: 0.58
+10-19 17:26:44.699 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 120, Time: 43.2s, FPS: 30.1] =====
+10-19 17:26:44.699 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 998.4 MB available | PSI full avg10: 0.58 (some avg10: 1.43)
+10-19 17:26:44.699 12354 12852 I EdenMemoryBudget: Process RSS: 5803.4 MB (Anon: 898.2 MB, File: 97.3 MB, Shmem: 4807.9 MB)
+10-19 17:26:44.699 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 142.2 MB, compr: 41.0 MB (3.47x), used: 43.2 MB | SwapFree: 8048.6 MB / 8192.0 MB
+10-19 17:26:44.699 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:26:44.699 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  3282.2 MB / target:  3584.0 MB
+10-19 17:26:44.699 12354 12852 I EdenMemoryBudget:   - Texture Cache           :   471.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:26:44.699 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :   471.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:26:44.699 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:26:44.699 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:26:44.699 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.0 MB / target:    32.0 MB
+10-19 17:26:44.699 12354 12852 I EdenMemoryBudget:   - Command Pool            :     0.2 MB / target:    32.0 MB
+10-19 17:26:44.699 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :     0.6 MB / target:   128.0 MB
+10-19 17:26:44.699 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :     1.1 MB / target:    64.0 MB
+10-19 17:26:44.699 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     0.0 MB / target:    32.0 MB
+10-19 17:26:44.699 12354 12852 I EdenMemoryBudget:   T
+10-19 17:26:44.699 12354 12852 I HW_Memory: MemoryBudget [F: 120, 43.2s]: RSS: 5803.4 MB, Avail: 998.4 MB, Reg: 4483.5 MB, PSI: 0.58
+10-19 17:26:45.021 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:26:47.571 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:26:48.777 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:26:48.777 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:26:48.778 12354 12852 W HW_Memory: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:26:48.782 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 240, 47.3s]: RSS: 5803.2 MB, Avail: 1022.0 MB, Reg: 4483.5 MB, PSI: 0.39
+10-19 17:26:48.782 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 240, Time: 47.3s, FPS: 28.0] =====
+10-19 17:26:48.782 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 1022.0 MB available | PSI full avg10: 0.39 (some avg10: 0.96)
+10-19 17:26:48.782 12354 12852 I EdenMemoryBudget: Process RSS: 5803.2 MB (Anon: 899.8 MB, File: 95.0 MB, Shmem: 4808.4 MB)
+10-19 17:26:48.782 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 142.6 MB, compr: 41.3 MB (3.45x), used: 43.5 MB | SwapFree: 8048.4 MB / 8192.0 MB
+10-19 17:26:48.782 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:26:48.782 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  3282.2 MB / target:  3584.0 MB
+10-19 17:26:48.782 12354 12852 I EdenMemoryBudget:   - Texture Cache           :   471.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:26:48.782 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :   471.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:26:48.782 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:26:48.782 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:26:48.782 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.0 MB / target:    32.0 MB
+10-19 17:26:48.782 12354 12852 I EdenMemoryBudget:   - Command Pool            :     0.2 MB / target:    32.0 MB
+10-19 17:26:48.782 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :     0.6 MB / target:   128.0 MB
+10-19 17:26:48.782 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :     1.1 MB / target:    64.0 MB
+10-19 17:26:48.782 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     0.0 MB / target:    32.0 MB
+10-19 17:26:48.782 12354 12852 I EdenMemoryBudget:   
+10-19 17:26:48.782 12354 12852 I HW_Memory: MemoryBudget [F: 240, 47.3s]: RSS: 5803.2 MB, Avail: 1022.0 MB, Reg: 4483.5 MB, PSI: 0.39
+10-19 17:26:50.109 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:26:52.759 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:26:52.759 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:26:52.759 12354 12852 W HW_Memory: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:26:52.762 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 360, 51.3s]: RSS: 5805.9 MB, Avail: 1013.4 MB, Reg: 4483.5 MB, PSI: 0.26
+10-19 17:26:52.762 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 360, Time: 51.3s, FPS: 30.0] =====
+10-19 17:26:52.762 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 1013.4 MB available | PSI full avg10: 0.26 (some avg10: 0.64)
+10-19 17:26:52.762 12354 12852 I EdenMemoryBudget: Process RSS: 5805.9 MB (Anon: 900.2 MB, File: 96.7 MB, Shmem: 4809.1 MB)
+10-19 17:26:52.762 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 142.6 MB, compr: 41.3 MB (3.45x), used: 43.5 MB | SwapFree: 8048.4 MB / 8192.0 MB
+10-19 17:26:52.762 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:26:52.762 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  3282.2 MB / target:  3584.0 MB
+10-19 17:26:52.762 12354 12852 I EdenMemoryBudget:   - Texture Cache           :   471.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:26:52.762 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :   471.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:26:52.762 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:26:52.762 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:26:52.762 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.0 MB / target:    32.0 MB
+10-19 17:26:52.762 12354 12852 I EdenMemoryBudget:   - Command Pool            :     0.2 MB / target:    32.0 MB
+10-19 17:26:52.762 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :     0.6 MB / target:   128.0 MB
+10-19 17:26:52.762 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :     1.1 MB / target:    64.0 MB
+10-19 17:26:52.762 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     0.0 MB / target:    32.0 MB
+10-19 17:26:52.762 12354 12852 I EdenMemoryBudget:   
+10-19 17:26:52.762 12354 12852 I HW_Memory: MemoryBudget [F: 360, 51.3s]: RSS: 5805.9 MB, Avail: 1013.4 MB, Reg: 4483.5 MB, PSI: 0.26
+10-19 17:26:56.826 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:26:56.826 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:26:56.826 12354 12852 W HW_Memory: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:26:56.829 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 480, 55.4s]: RSS: 5820.7 MB, Avail: 1006.8 MB, Reg: 4483.5 MB, PSI: 0.17
+10-19 17:26:56.829 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 480, Time: 55.4s, FPS: 27.3] =====
+10-19 17:26:56.829 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 1006.8 MB available | PSI full avg10: 0.17 (some avg10: 0.43)
+10-19 17:26:56.829 12354 12852 I EdenMemoryBudget: Process RSS: 5820.7 MB (Anon: 900.9 MB, File: 95.8 MB, Shmem: 4824.0 MB)
+10-19 17:26:56.829 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 142.8 MB, compr: 41.5 MB (3.44x), used: 43.6 MB | SwapFree: 8048.2 MB / 8192.0 MB
+10-19 17:26:56.829 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:26:56.829 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  3282.2 MB / target:  3584.0 MB
+10-19 17:26:56.829 12354 12852 I EdenMemoryBudget:   - Texture Cache           :   471.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:26:56.829 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :   471.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:26:56.829 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:26:56.829 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:26:56.829 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.0 MB / target:    32.0 MB
+10-19 17:26:56.829 12354 12852 I EdenMemoryBudget:   - Command Pool            :     0.2 MB / target:    32.0 MB
+10-19 17:26:56.829 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :     0.6 MB / target:   128.0 MB
+10-19 17:26:56.829 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :     1.1 MB / target:    64.0 MB
+10-19 17:26:56.829 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     0.0 MB / target:    32.0 MB
+10-19 17:26:56.829 12354 12852 I EdenMemoryBudget:   
+10-19 17:26:56.829 12354 12852 I HW_Memory: MemoryBudget [F: 480, 55.4s]: RSS: 5820.7 MB, Avail: 1006.8 MB, Reg: 4483.5 MB, PSI: 0.17
+10-19 17:26:58.237 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:26:59.755 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:00.770 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:00.828 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:00.828 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:00.828 12354 12852 W HW_Memory: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:00.831 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 600, 59.3s]: RSS: 5924.8 MB, Avail: 1013.5 MB, Reg: 4483.5 MB, PSI: 0.11
+10-19 17:27:00.831 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 600, Time: 59.3s, FPS: 29.9] =====
+10-19 17:27:00.831 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 1013.5 MB available | PSI full avg10: 0.11 (some avg10: 0.29)
+10-19 17:27:00.831 12354 12852 I EdenMemoryBudget: Process RSS: 5924.8 MB (Anon: 902.6 MB, File: 91.5 MB, Shmem: 4930.7 MB)
+10-19 17:27:00.831 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 143.1 MB, compr: 41.7 MB (3.43x), used: 43.8 MB | SwapFree: 8047.9 MB / 8192.0 MB
+10-19 17:27:00.831 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:27:00.831 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  3282.2 MB / target:  3584.0 MB
+10-19 17:27:00.831 12354 12852 I EdenMemoryBudget:   - Texture Cache           :   471.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:27:00.831 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :   471.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:27:00.831 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:27:00.831 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:27:00.831 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.0 MB / target:    32.0 MB
+10-19 17:27:00.831 12354 12852 I EdenMemoryBudget:   - Command Pool            :     0.2 MB / target:    32.0 MB
+10-19 17:27:00.831 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :     0.6 MB / target:   128.0 MB
+10-19 17:27:00.831 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :     1.1 MB / target:    64.0 MB
+10-19 17:27:00.831 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     0.0 MB / target:    32.0 MB
+10-19 17:27:00.831 12354 12852 I EdenMemoryBudget:   
+10-19 17:27:00.831 12354 12852 I HW_Memory: MemoryBudget [F: 600, 59.3s]: RSS: 5924.8 MB, Avail: 1013.5 MB, Reg: 4483.5 MB, PSI: 0.11
+10-19 17:27:01.482 12354 12852 I EdenMemoryBudget: SNAP: |      1 |    60s |     5923 |          1014 |           0.11 | 29.9 |           3282 |           471 |           471 |              0 |          256 |             0 |
+10-19 17:27:01.482 12354 12852 I HW_Memory: SNAP: |      1 |    60s |     5923 |          1014 |           0.11 | 29.9 |           3282 |           471 |           471 |              0 |          256 |             0 |
+10-19 17:27:01.803 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:05.373 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:05.821 12354 12851 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:27:05.889 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:05.915 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:05.915 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:05.915 12354 12852 W HW_Memory: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:05.932 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 720, 64.4s]: RSS: 6148.8 MB, Avail: 750.0 MB, Reg: 4897.1 MB, PSI: 0.07
+10-19 17:27:05.932 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 720, Time: 64.4s, FPS: 5.1] =====
+10-19 17:27:05.932 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 750.0 MB available | PSI full avg10: 0.07 (some avg10: 0.19)
+10-19 17:27:05.932 12354 12852 I EdenMemoryBudget: Process RSS: 6148.8 MB (Anon: 944.6 MB, File: 261.4 MB, Shmem: 4942.8 MB)
+10-19 17:27:05.932 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 145.5 MB, compr: 43.4 MB (3.36x), used: 45.6 MB | SwapFree: 8045.4 MB / 8192.0 MB
+10-19 17:27:05.932 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:27:05.932 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  3282.2 MB / target:  3584.0 MB
+10-19 17:27:05.932 12354 12852 I EdenMemoryBudget:   - Texture Cache           :   671.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:27:05.932 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :   671.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:27:05.932 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:27:05.932 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:27:05.932 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:27:05.932 12354 12852 I EdenMemoryBudget:   - Command Pool            :     0.8 MB / target:    32.0 MB
+10-19 17:27:05.932 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :    12.1 MB / target:   128.0 MB
+10-19 17:27:05.932 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :     2.7 MB / target:    64.0 MB
+10-19 17:27:05.932 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     0.0 MB / target:    32.0 MB
+10-19 17:27:05.932 12354 12852 I EdenMemoryBudget:   T
+10-19 17:27:05.932 12354 12852 I HW_Memory: MemoryBudget [F: 720, 64.4s]: RSS: 6148.8 MB, Avail: 750.0 MB, Reg: 4897.1 MB, PSI: 0.07
+10-19 17:27:06.906 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:09.921 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:09.921 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:09.921 12354 12852 W HW_Memory: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:09.933 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 840, 68.5s]: RSS: 6210.7 MB, Avail: 766.6 MB, Reg: 4897.1 MB, PSI: 0.05
+10-19 17:27:09.933 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 840, Time: 68.5s, FPS: 30.2] =====
+10-19 17:27:09.933 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 766.6 MB available | PSI full avg10: 0.05 (some avg10: 0.12)
+10-19 17:27:09.933 12354 12852 I EdenMemoryBudget: Process RSS: 6210.7 MB (Anon: 941.0 MB, File: 327.0 MB, Shmem: 4942.8 MB)
+10-19 17:27:09.933 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 145.1 MB, compr: 43.3 MB (3.36x), used: 45.7 MB | SwapFree: 8045.9 MB / 8192.0 MB
+10-19 17:27:09.933 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:27:09.933 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  3282.2 MB / target:  3584.0 MB
+10-19 17:27:09.933 12354 12852 I EdenMemoryBudget:   - Texture Cache           :   671.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:27:09.933 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :   671.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:27:09.933 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:27:09.933 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:27:09.933 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:27:09.933 12354 12852 I EdenMemoryBudget:   - Command Pool            :     0.8 MB / target:    32.0 MB
+10-19 17:27:09.933 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :    12.1 MB / target:   128.0 MB
+10-19 17:27:09.933 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :     2.7 MB / target:    64.0 MB
+10-19 17:27:09.933 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     0.0 MB / target:    32.0 MB
+10-19 17:27:09.933 12354 12852 I EdenMemoryBudget:   
+10-19 17:27:09.933 12354 12852 I HW_Memory: MemoryBudget [F: 840, 68.5s]: RSS: 6210.7 MB, Avail: 766.6 MB, Reg: 4897.1 MB, PSI: 0.05
+10-19 17:27:09.940 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:13.898 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:13.898 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:13.898 12354 12852 W HW_Memory: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:13.946 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 960, 72.4s]: RSS: 6193.1 MB, Avail: 778.3 MB, Reg: 4893.2 MB, PSI: 0.21
+10-19 17:27:13.946 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 960, Time: 72.4s, FPS: 30.1] =====
+10-19 17:27:13.946 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 778.3 MB available | PSI full avg10: 0.21 (some avg10: 0.59)
+10-19 17:27:13.946 12354 12852 I EdenMemoryBudget: Process RSS: 6193.1 MB (Anon: 941.7 MB, File: 312.5 MB, Shmem: 4938.9 MB)
+10-19 17:27:13.946 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 151.3 MB, compr: 44.7 MB (3.39x), used: 46.9 MB | SwapFree: 8039.7 MB / 8192.0 MB
+10-19 17:27:13.946 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:27:13.946 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  3278.3 MB / target:  3584.0 MB
+10-19 17:27:13.946 12354 12852 I EdenMemoryBudget:   - Texture Cache           :   671.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:27:13.946 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :   671.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:27:13.946 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:27:13.946 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:27:13.946 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:27:13.946 12354 12852 I EdenMemoryBudget:   - Command Pool            :     0.8 MB / target:    32.0 MB
+10-19 17:27:13.946 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :    12.1 MB / target:   128.0 MB
+10-19 17:27:13.946 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :     2.7 MB / target:    64.0 MB
+10-19 17:27:13.946 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     0.0 MB / target:    32.0 MB
+10-19 17:27:13.946 12354 12852 I EdenMemoryBudget:   
+10-19 17:27:13.946 12354 12852 I HW_Memory: MemoryBudget [F: 960, 72.4s]: RSS: 6193.1 MB, Avail: 778.3 MB, Reg: 4893.2 MB, PSI: 0.21
+10-19 17:27:17.243 12354 12354 I YuzuNative: Service.HID hid_core/frontend/emulated_controller.cpp:1330:SetPollingMode: Set polling mode 0, device_index=3
+10-19 17:27:17.284 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - connected
+10-19 17:27:17.284 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - connected
+10-19 17:27:17.285 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - connected
+10-19 17:27:17.285 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - connected
+10-19 17:27:17.292 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - npad_type
+10-19 17:27:17.292 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - npad_type
+10-19 17:27:17.292 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - npad_type
+10-19 17:27:17.297 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - auto_mapping_device
+10-19 17:27:17.297 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - auto_mapping_device
+10-19 17:27:17.303 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - mapping_filter
+10-19 17:27:17.303 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - mapping_filter
+10-19 17:27:18.517 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - auto_mapping_device
+10-19 17:27:19.752 12354 12379 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:19.752 12354 12379 W EdenMemoryBudget: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:19.752 12354 12379 W HW_Memory: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:19.757 12354 12379 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 1031, 78.3s]: RSS: 6223.3 MB, Avail: 806.6 MB, Reg: 4887.8 MB, PSI: 0.38
+10-19 17:27:19.757 12354 12379 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 1031, Time: 78.3s, FPS: 30.2] =====
+10-19 17:27:19.757 12354 12379 I EdenMemoryBudget: System RAM: 7700.2 MB total, 806.6 MB available | PSI full avg10: 0.38 (some avg10: 0.86)
+10-19 17:27:19.757 12354 12379 I EdenMemoryBudget: Process RSS: 6223.3 MB (Anon: 939.1 MB, File: 352.2 MB, Shmem: 4932.0 MB)
+10-19 17:27:19.757 12354 12379 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 229.1 MB, compr: 69.4 MB (3.30x), used: 72.7 MB | SwapFree: 7962.0 MB / 8192.0 MB
+10-19 17:27:19.757 12354 12379 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:27:19.757 12354 12379 I EdenMemoryBudget:   - Guest Heap (Touched)    :  3273.0 MB / target:  3584.0 MB
+10-19 17:27:19.757 12354 12379 I EdenMemoryBudget:   - Texture Cache           :   671.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:27:19.757 12354 12379 I EdenMemoryBudget:   - Buffer Cache            :   671.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:27:19.757 12354 12379 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:27:19.757 12354 12379 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:27:19.757 12354 12379 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:27:19.757 12354 12379 I EdenMemoryBudget:   - Command Pool            :     0.8 MB / target:    32.0 MB
+10-19 17:27:19.757 12354 12379 I EdenMemoryBudget:   - Pipeline Cache          :    12.1 MB / target:   128.0 MB
+10-19 17:27:19.757 12354 12379 I EdenMemoryBudget:   - IR Object Pools         :     2.7 MB / target:    64.0 MB
+10-19 17:27:19.757 12354 12379 I EdenMemoryBudget:   - Disk Cache Blob         :     0.0 MB / target:    32.0 MB
+10-19 17:27:19.757 12354 12379 I EdenMemoryBudget:  
+10-19 17:27:19.757 12354 12379 I HW_Memory: MemoryBudget [F: 1031, 78.3s]: RSS: 6223.3 MB, Avail: 806.6 MB, Reg: 4887.8 MB, PSI: 0.38
+10-19 17:27:19.931 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - 
+10-19 17:27:19.931 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - 
+10-19 17:27:19.938 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - auto_mapping_device
+10-19 17:27:19.938 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - auto_mapping_device
+10-19 17:27:19.951 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - connected
+10-19 17:27:19.951 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - connected
+10-19 17:27:19.951 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - connected
+10-19 17:27:19.951 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - connected
+10-19 17:27:19.953 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - npad_type
+10-19 17:27:19.953 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - npad_type
+10-19 17:27:19.953 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - npad_type
+10-19 17:27:19.954 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - auto_mapping_device
+10-19 17:27:19.954 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - auto_mapping_device
+10-19 17:27:19.959 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - mapping_filter
+10-19 17:27:19.959 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - mapping_filter
+10-19 17:27:21.130 12354 12354 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 2 efficiency cores, separation enabled
+10-19 17:27:21.882 12354 12354 I YuzuNative: Frontend main/jni/native_log.cpp:22:Java_org_yuzu_yuzu_1emu_utils_Log_info: [SettingsActivity] Settings activity stopping. Saving settings to INI...
+10-19 17:27:21.882 12354 12354 I YuzuNative: Service.HID hid_core/frontend/emulated_controller.cpp:1330:SetPollingMode: Set polling mode 0, device_index=3
+10-19 17:27:21.901 12354 12354 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:905:SetDeviceTimeZoneLocationName: called
+10-19 17:27:21.908 12354 12354 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:1362:SetDeviceTimeZoneLocationUpdatedTime: called
+10-19 17:27:21.909 12354 12354 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:544:SetUserSystemClockContext: called
+10-19 17:27:21.909 12354 12354 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:931:SetNetworkSystemClockContext: called
+10-19 17:27:21.911 12354 12354 I YuzuNative: Service.HID hid_core/frontend/emulated_controller.cpp:1330:SetPollingMode: Set polling mode 0, device_index=3
+10-19 17:27:21.913 12354 12854 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:544:SetUserSystemClockContext: called
+10-19 17:27:21.913 12354 12854 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:931:SetNetworkSystemClockContext: called
+10-19 17:27:21.915 12354 12354 I YuzuNative: Config frontend_common/config.cpp:77:WriteToIni: Writing Global configuration to: /storage/emulated/0/Android/data/dev.eden.eden_emulator.relWithDebInfo/files/config/config.ini
+10-19 17:27:21.917 12354 12354 I YuzuNative: Config frontend_common/config.cpp:77:WriteToIni: Writing Global configuration to: /storage/emulated/0/Android/data/dev.eden.eden_emulator.relWithDebInfo/files/config/config.ini
+10-19 17:27:22.008 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 2 efficiency cores, separation enabled
+10-19 17:27:22.676 12354 12851 W YuzuNative: Service.PREPO core/hle/service/prepo/prepo.cpp:126:GetSystemSessionId: (STUBBED) called
+10-19 17:27:22.676 12354 12851 W YuzuNative: Core core/core.cpp:786:ResolveCallerProgramId: Could not resolve caller process_id=0, falling back to application 010074F013262000
+10-19 17:27:22.684 12354 12851 W YuzuNative: Service.PREPO core/hle/service/prepo/prepo.cpp:126:GetSystemSessionId: (STUBBED) called
+10-19 17:27:22.685 12354 12851 W YuzuNative: Core core/core.cpp:786:ResolveCallerProgramId: Could not resolve caller process_id=0, falling back to application 010074F013262000
+10-19 17:27:23.014 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:23.524 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:23.618 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:23.618 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:23.618 12354 12852 W HW_Memory: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:23.622 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 1080, 82.1s]: RSS: 6112.0 MB, Avail: 784.1 MB, Reg: 4807.6 MB, PSI: 0.25
+10-19 17:27:23.622 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 1080, Time: 82.1s, FPS: 29.9] =====
+10-19 17:27:23.622 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 784.1 MB available | PSI full avg10: 0.25 (some avg10: 0.58)
+10-19 17:27:23.622 12354 12852 I EdenMemoryBudget: Process RSS: 6112.0 MB (Anon: 948.6 MB, File: 350.7 MB, Shmem: 4812.6 MB)
+10-19 17:27:23.622 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 317.2 MB, compr: 93.3 MB (3.40x), used: 97.5 MB | SwapFree: 7874.1 MB / 8192.0 MB
+10-19 17:27:23.622 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:27:23.622 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  3192.8 MB / target:  3584.0 MB
+10-19 17:27:23.622 12354 12852 I EdenMemoryBudget:   - Texture Cache           :   671.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:27:23.622 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :   671.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:27:23.622 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:27:23.622 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:27:23.622 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:27:23.622 12354 12852 I EdenMemoryBudget:   - Command Pool            :     0.8 MB / target:    32.0 MB
+10-19 17:27:23.622 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :    12.1 MB / target:   128.0 MB
+10-19 17:27:23.622 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :     2.7 MB / target:    64.0 MB
+10-19 17:27:23.622 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     0.0 MB / target:    32.0 MB
+10-19 17:27:23.622 12354 12852 I EdenMemoryBudget:  
+10-19 17:27:23.622 12354 12852 I HW_Memory: MemoryBudget [F: 1080, 82.1s]: RSS: 6112.0 MB, Avail: 784.1 MB, Reg: 4807.6 MB, PSI: 0.25
+10-19 17:27:24.024 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:25.039 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:28.304 12354 12354 I YuzuNative: Service.HID hid_core/frontend/emulated_controller.cpp:1330:SetPollingMode: Set polling mode 0, device_index=3
+10-19 17:27:28.335 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - connected
+10-19 17:27:28.336 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - connected
+10-19 17:27:28.336 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - connected
+10-19 17:27:28.336 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - connected
+10-19 17:27:28.342 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - npad_type
+10-19 17:27:28.342 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - npad_type
+10-19 17:27:28.342 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - npad_type
+10-19 17:27:28.347 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - auto_mapping_device
+10-19 17:27:28.347 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - auto_mapping_device
+10-19 17:27:28.352 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - mapping_filter
+10-19 17:27:28.352 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - mapping_filter
+10-19 17:27:29.250 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - mapping_filter
+10-19 17:27:29.787 12354 12379 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:29.787 12354 12379 W EdenMemoryBudget: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:29.787 12354 12379 W HW_Memory: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:29.793 12354 12379 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 1194, 88.3s]: RSS: 6107.9 MB, Avail: 782.7 MB, Reg: 4804.0 MB, PSI: 0.14
+10-19 17:27:29.793 12354 12379 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 1194, Time: 88.3s, FPS: 29.9] =====
+10-19 17:27:29.793 12354 12379 I EdenMemoryBudget: System RAM: 7700.2 MB total, 782.7 MB available | PSI full avg10: 0.14 (some avg10: 0.31)
+10-19 17:27:29.793 12354 12379 I EdenMemoryBudget: Process RSS: 6107.9 MB (Anon: 947.2 MB, File: 351.5 MB, Shmem: 4809.2 MB)
+10-19 17:27:29.793 12354 12379 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 320.0 MB, compr: 93.0 MB (3.44x), used: 97.5 MB | SwapFree: 7871.3 MB / 8192.0 MB
+10-19 17:27:29.793 12354 12379 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:27:29.793 12354 12379 I EdenMemoryBudget:   - Guest Heap (Touched)    :  3189.2 MB / target:  3584.0 MB
+10-19 17:27:29.793 12354 12379 I EdenMemoryBudget:   - Texture Cache           :   671.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:27:29.793 12354 12379 I EdenMemoryBudget:   - Buffer Cache            :   671.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:27:29.793 12354 12379 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:27:29.793 12354 12379 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:27:29.793 12354 12379 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:27:29.793 12354 12379 I EdenMemoryBudget:   - Command Pool            :     0.8 MB / target:    32.0 MB
+10-19 17:27:29.793 12354 12379 I EdenMemoryBudget:   - Pipeline Cache          :    12.1 MB / target:   128.0 MB
+10-19 17:27:29.793 12354 12379 I EdenMemoryBudget:   - IR Object Pools         :     2.7 MB / target:    64.0 MB
+10-19 17:27:29.793 12354 12379 I EdenMemoryBudget:   - Disk Cache Blob         :     0.0 MB / target:    32.0 MB
+10-19 17:27:29.793 12354 12379 I EdenMemoryBudget:  
+10-19 17:27:29.793 12354 12379 I HW_Memory: MemoryBudget [F: 1194, 88.3s]: RSS: 6107.9 MB, Avail: 782.7 MB, Reg: 4804.0 MB, PSI: 0.14
+10-19 17:27:30.167 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - auto_mapping_device
+10-19 17:27:31.139 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - 
+10-19 17:27:31.139 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - 
+10-19 17:27:31.145 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - auto_mapping_device
+10-19 17:27:31.145 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - auto_mapping_device
+10-19 17:27:31.155 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - connected
+10-19 17:27:31.155 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - connected
+10-19 17:27:31.155 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - connected
+10-19 17:27:31.155 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - connected
+10-19 17:27:31.157 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - npad_type
+10-19 17:27:31.157 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - npad_type
+10-19 17:27:31.157 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - npad_type
+10-19 17:27:31.158 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - auto_mapping_device
+10-19 17:27:31.158 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - auto_mapping_device
+10-19 17:27:31.163 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - mapping_filter
+10-19 17:27:31.163 12354 12354 E YuzuNative: Frontend main/jni/native_config.cpp:45:getSetting: [Android Native] Could not find setting - mapping_filter
+10-19 17:27:32.418 12354 12354 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 2 efficiency cores, separation enabled
+10-19 17:27:33.079 12354 12354 I YuzuNative: Frontend main/jni/native_log.cpp:22:Java_org_yuzu_yuzu_1emu_utils_Log_info: [SettingsActivity] Settings activity stopping. Saving settings to INI...
+10-19 17:27:33.079 12354 12354 I YuzuNative: Service.HID hid_core/frontend/emulated_controller.cpp:1330:SetPollingMode: Set polling mode 0, device_index=3
+10-19 17:27:33.081 12354 12354 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:905:SetDeviceTimeZoneLocationName: called
+10-19 17:27:33.082 12354 12354 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:1362:SetDeviceTimeZoneLocationUpdatedTime: called
+10-19 17:27:33.083 12354 12354 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:544:SetUserSystemClockContext: called
+10-19 17:27:33.084 12354 12354 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:931:SetNetworkSystemClockContext: called
+10-19 17:27:33.084 12354 12854 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:544:SetUserSystemClockContext: called
+10-19 17:27:33.085 12354 12354 I YuzuNative: Service.HID hid_core/frontend/emulated_controller.cpp:1330:SetPollingMode: Set polling mode 0, device_index=3
+10-19 17:27:33.085 12354 12854 I YuzuNative: Service.SET core/hle/service/set/system_settings_server.cpp:931:SetNetworkSystemClockContext: called
+10-19 17:27:33.088 12354 12354 I YuzuNative: Config frontend_common/config.cpp:77:WriteToIni: Writing Global configuration to: /storage/emulated/0/Android/data/dev.eden.eden_emulator.relWithDebInfo/files/config/config.ini
+10-19 17:27:33.090 12354 12354 I YuzuNative: Config frontend_common/config.cpp:77:WriteToIni: Writing Global configuration to: /storage/emulated/0/Android/data/dev.eden.eden_emulator.relWithDebInfo/files/config/config.ini
+10-19 17:27:33.511 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:33.511 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:33.511 12354 12852 W HW_Memory: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:33.515 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 1200, 92.0s]: RSS: 6098.2 MB, Avail: 783.6 MB, Reg: 4788.0 MB, PSI: 0.09
+10-19 17:27:33.515 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 1200, Time: 92.0s, FPS: 1.8] =====
+10-19 17:27:33.515 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 783.6 MB available | PSI full avg10: 0.09 (some avg10: 0.21)
+10-19 17:27:33.515 12354 12852 I EdenMemoryBudget: Process RSS: 6098.2 MB (Anon: 950.4 MB, File: 354.3 MB, Shmem: 4793.5 MB)
+10-19 17:27:33.515 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 334.4 MB, compr: 92.5 MB (3.62x), used: 96.6 MB | SwapFree: 7857.0 MB / 8192.0 MB
+10-19 17:27:33.515 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:27:33.515 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  3173.2 MB / target:  3584.0 MB
+10-19 17:27:33.515 12354 12852 I EdenMemoryBudget:   - Texture Cache           :   671.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:27:33.515 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :   671.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:27:33.515 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:27:33.515 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:27:33.515 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:27:33.515 12354 12852 I EdenMemoryBudget:   - Command Pool            :     0.8 MB / target:    32.0 MB
+10-19 17:27:33.515 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :    12.1 MB / target:   128.0 MB
+10-19 17:27:33.515 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :     2.7 MB / target:    64.0 MB
+10-19 17:27:33.515 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     0.0 MB / target:    32.0 MB
+10-19 17:27:33.515 12354 12852 I EdenMemoryBudget:   
+10-19 17:27:33.515 12354 12852 I HW_Memory: MemoryBudget [F: 1200, 92.0s]: RSS: 6098.2 MB, Avail: 783.6 MB, Reg: 4788.0 MB, PSI: 0.09
+10-19 17:27:34.323 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:36.910 12354 12835 I YuzuNative: Render.Vulkan video_core/renderer_vulkan/vk_pipeline_cache.cpp:1061:SerializeVulkanPipelineCache: Vulkan driver pipelines cached at: /storage/emulated/0/Android/data/dev.eden.eden_emulator.relWithDebInfo/files/cache/shader/010074f013262000/vulkan_pipelines.bin
+10-19 17:27:37.463 12354 12851 I YuzuNative: Loader core/file_sys/patch_manager.cpp:712:PatchRomFS:     RomFS: Update (v0.10.0) applied successfully
+10-19 17:27:37.469 12354 12851 W YuzuNative: Service.PREPO core/hle/service/prepo/prepo.cpp:126:GetSystemSessionId: (STUBBED) called
+10-19 17:27:37.469 12354 12851 W YuzuNative: Core core/core.cpp:786:ResolveCallerProgramId: Could not resolve caller process_id=0, falling back to application 010074F013262000
+10-19 17:27:37.496 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:37.496 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:37.496 12354 12852 W HW_Memory: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:37.500 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 1320, 96.0s]: RSS: 6085.4 MB, Avail: 799.1 MB, Reg: 4762.4 MB, PSI: 0.06
+10-19 17:27:37.500 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 1320, Time: 96.0s, FPS: 30.0] =====
+10-19 17:27:37.500 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 799.1 MB available | PSI full avg10: 0.06 (some avg10: 0.14)
+10-19 17:27:37.500 12354 12852 I EdenMemoryBudget: Process RSS: 6085.4 MB (Anon: 961.9 MB, File: 356.5 MB, Shmem: 4767.0 MB)
+10-19 17:27:37.500 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 361.3 MB, compr: 92.0 MB (3.93x), used: 96.1 MB | SwapFree: 7829.5 MB / 8192.0 MB
+10-19 17:27:37.500 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:27:37.500 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  3145.2 MB / target:  3584.0 MB
+10-19 17:27:37.500 12354 12852 I EdenMemoryBudget:   - Texture Cache           :   671.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:27:37.500 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :   671.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:27:37.500 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:27:37.500 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:27:37.500 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:27:37.500 12354 12852 I EdenMemoryBudget:   - Command Pool            :     0.8 MB / target:    32.0 MB
+10-19 17:27:37.500 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :    12.2 MB / target:   128.0 MB
+10-19 17:27:37.500 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :     2.7 MB / target:    64.0 MB
+10-19 17:27:37.500 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     2.2 MB / target:    32.0 MB
+10-19 17:27:37.500 12354 12852 I EdenMemoryBudget:  
+10-19 17:27:37.500 12354 12852 I HW_Memory: MemoryBudget [F: 1320, 96.0s]: RSS: 6085.4 MB, Avail: 799.1 MB, Reg: 4762.4 MB, PSI: 0.06
+10-19 17:27:37.975 12354 12851 W YuzuNative: Service.PREPO core/hle/service/prepo/prepo.cpp:126:GetSystemSessionId: (STUBBED) called
+10-19 17:27:37.975 12354 12851 W YuzuNative: Core core/core.cpp:786:ResolveCallerProgramId: Could not resolve caller process_id=0, falling back to application 010074F013262000
+10-19 17:27:38.941 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:39.956 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:40.473 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:41.513 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:41.513 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:41.513 12354 12852 W HW_Memory: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:41.515 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 1440, 100.0s]: RSS: 6455.6 MB, Avail: 806.5 MB, Reg: 4750.2 MB, PSI: 0.04
+10-19 17:27:41.515 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 1440, Time: 100.0s, FPS: 29.1] =====
+10-19 17:27:41.515 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 806.5 MB available | PSI full avg10: 0.04 (some avg10: 0.09)
+10-19 17:27:41.515 12354 12852 I EdenMemoryBudget: Process RSS: 6455.6 MB (Anon: 966.6 MB, File: 356.8 MB, Shmem: 5132.1 MB)
+10-19 17:27:41.515 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 372.1 MB, compr: 89.3 MB (4.17x), used: 93.4 MB | SwapFree: 7819.0 MB / 8192.0 MB
+10-19 17:27:41.515 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:27:41.515 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  3132.4 MB / target:  3584.0 MB
+10-19 17:27:41.515 12354 12852 I EdenMemoryBudget:   - Texture Cache           :   671.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:27:41.515 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :   671.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:27:41.515 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:27:41.515 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:27:41.515 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:27:41.515 12354 12852 I EdenMemoryBudget:   - Command Pool            :     0.8 MB / target:    32.0 MB
+10-19 17:27:41.515 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :    12.8 MB / target:   128.0 MB
+10-19 17:27:41.515 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :     2.7 MB / target:    64.0 MB
+10-19 17:27:41.515 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     2.2 MB / target:    32.0 MB
+10-19 17:27:41.515 12354 12852 I HW_Memory: MemoryBudget [F: 1440, 100.0s]: RSS: 6455.6 MB, Avail: 806.5 MB, Reg: 4750.2 MB, PSI: 0.04
+10-19 17:27:44.539 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:45.647 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:45.647 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:45.647 12354 12852 W HW_Memory: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:45.649 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 1560, 104.2s]: RSS: 6554.4 MB, Avail: 868.8 MB, Reg: 4700.8 MB, PSI: 0.02
+10-19 17:27:45.649 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 1560, Time: 104.2s, FPS: 30.1] =====
+10-19 17:27:45.649 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 868.8 MB available | PSI full avg10: 0.02 (some avg10: 0.24)
+10-19 17:27:45.649 12354 12852 I EdenMemoryBudget: Process RSS: 6554.4 MB (Anon: 966.4 MB, File: 350.2 MB, Shmem: 5237.7 MB)
+10-19 17:27:45.649 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 421.4 MB, compr: 88.7 MB (4.75x), used: 92.8 MB | SwapFree: 7769.6 MB / 8192.0 MB
+10-19 17:27:45.649 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:27:45.649 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  3083.1 MB / target:  3584.0 MB
+10-19 17:27:45.649 12354 12852 I EdenMemoryBudget:   - Texture Cache           :   671.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:27:45.649 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :   671.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:27:45.649 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:27:45.649 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:27:45.649 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:27:45.649 12354 12852 I EdenMemoryBudget:   - Command Pool            :     0.8 MB / target:    32.0 MB
+10-19 17:27:45.649 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :    12.8 MB / target:   128.0 MB
+10-19 17:27:45.649 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :     2.7 MB / target:    64.0 MB
+10-19 17:27:45.649 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     2.2 MB / target:    32.0 MB
+10-19 17:27:45.649 12354 12852 I HW_Memory: MemoryBudget [F: 1560, 104.2s]: RSS: 6554.4 MB, Avail: 868.8 MB, Reg: 4700.8 MB, PSI: 0.02
+10-19 17:27:46.073 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:48.092 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:49.622 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:49.647 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:49.647 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:49.647 12354 12852 W HW_Memory: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:49.649 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 1680, 108.2s]: RSS: 6532.6 MB, Avail: 899.5 MB, Reg: 4689.0 MB, PSI: 0.01
+10-19 17:27:49.649 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 1680, Time: 108.2s, FPS: 30.0] =====
+10-19 17:27:49.649 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 899.5 MB available | PSI full avg10: 0.01 (some avg10: 0.16)
+10-19 17:27:49.649 12354 12852 I EdenMemoryBudget: Process RSS: 6532.6 MB (Anon: 969.2 MB, File: 348.1 MB, Shmem: 5215.4 MB)
+10-19 17:27:49.649 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 433.2 MB, compr: 88.7 MB (4.88x), used: 92.9 MB | SwapFree: 7757.9 MB / 8192.0 MB
+10-19 17:27:49.649 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:27:49.649 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  3071.2 MB / target:  3584.0 MB
+10-19 17:27:49.649 12354 12852 I EdenMemoryBudget:   - Texture Cache           :   671.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:27:49.649 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :   671.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:27:49.649 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:27:49.649 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:27:49.649 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:27:49.649 12354 12852 I EdenMemoryBudget:   - Command Pool            :     0.8 MB / target:    32.0 MB
+10-19 17:27:49.649 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :    12.8 MB / target:   128.0 MB
+10-19 17:27:49.649 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :     2.7 MB / target:    64.0 MB
+10-19 17:27:49.649 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     2.2 MB / target:    32.0 MB
+10-19 17:27:49.649 12354 12852 I HW_Memory: MemoryBudget [F: 1680, 108.2s]: RSS: 6532.6 MB, Avail: 899.5 MB, Reg: 4689.0 MB, PSI: 0.01
+10-19 17:27:50.639 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:53.648 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:53.648 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:53.648 12354 12852 W HW_Memory: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:53.654 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 1800, 112.2s]: RSS: 6510.0 MB, Avail: 918.5 MB, Reg: 4679.2 MB, PSI: 0.01
+10-19 17:27:53.654 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 1800, Time: 112.2s, FPS: 29.9] =====
+10-19 17:27:53.654 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 918.5 MB available | PSI full avg10: 0.01 (some avg10: 0.10)
+10-19 17:27:53.654 12354 12852 I EdenMemoryBudget: Process RSS: 6510.0 MB (Anon: 966.4 MB, File: 347.9 MB, Shmem: 5195.6 MB)
+10-19 17:27:53.654 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 441.9 MB, compr: 88.3 MB (5.00x), used: 92.3 MB | SwapFree: 7749.1 MB / 8192.0 MB
+10-19 17:27:53.654 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:27:53.654 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  3061.4 MB / target:  3584.0 MB
+10-19 17:27:53.654 12354 12852 I EdenMemoryBudget:   - Texture Cache           :   671.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:27:53.654 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :   671.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:27:53.654 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:27:53.654 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:27:53.654 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:27:53.654 12354 12852 I EdenMemoryBudget:   - Command Pool            :     0.8 MB / target:    32.0 MB
+10-19 17:27:53.654 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :    12.8 MB / target:   128.0 MB
+10-19 17:27:53.654 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :     2.7 MB / target:    64.0 MB
+10-19 17:27:53.654 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     2.2 MB / target:    32.0 MB
+10-19 17:27:53.654 12354 12852 I HW_Memory: MemoryBudget [F: 1800, 112.2s]: RSS: 6510.0 MB, Avail: 918.5 MB, Reg: 4679.2 MB, PSI: 0.01
+10-19 17:27:56.733 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:27:57.663 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:57.664 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:57.664 12354 12852 W HW_Memory: -- WARN: Staging Pool (256.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:27:57.666 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 1920, 116.2s]: RSS: 6493.8 MB, Avail: 917.5 MB, Reg: 4671.3 MB, PSI: 0.00
+10-19 17:27:57.666 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 1920, Time: 116.2s, FPS: 29.5] =====
+10-19 17:27:57.666 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 917.5 MB available | PSI full avg10: 0.00 (some avg10: 0.07)
+10-19 17:27:57.666 12354 12852 I EdenMemoryBudget: Process RSS: 6493.8 MB (Anon: 966.8 MB, File: 347.2 MB, Shmem: 5179.8 MB)
+10-19 17:27:57.666 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 449.7 MB, compr: 88.3 MB (5.09x), used: 92.3 MB | SwapFree: 7741.5 MB / 8192.0 MB
+10-19 17:27:57.666 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:27:57.666 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  3053.6 MB / target:  3584.0 MB
+10-19 17:27:57.666 12354 12852 I EdenMemoryBudget:   - Texture Cache           :   671.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:27:57.666 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :   671.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:27:57.666 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:27:57.666 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   256.0 MB / target:   128.0 MB
+10-19 17:27:57.666 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:27:57.666 12354 12852 I EdenMemoryBudget:   - Command Pool            :     0.8 MB / target:    32.0 MB
+10-19 17:27:57.666 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :    12.8 MB / target:   128.0 MB
+10-19 17:27:57.666 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :     2.7 MB / target:    64.0 MB
+10-19 17:27:57.666 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     2.2 MB / target:    32.0 MB
+10-19 17:27:57.666 12354 12852 I HW_Memory: MemoryBudget [F: 1920, 116.2s]: RSS: 6493.8 MB, Avail: 917.5 MB, Reg: 4671.3 MB, PSI: 0.00
+10-19 17:27:59.806 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:28:00.727 12354 12852 W YuzuNative: Shader.SPIRV shader_recompiler/backend/spirv/emit_spirv.cpp:309:DefineEntryPoint: Geometry shader passthrough used with no support
+10-19 17:28:03.821 12354 12379 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (262.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:03.821 12354 12379 W EdenMemoryBudget: -- WARN: Staging Pool (262.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:03.821 12354 12379 W HW_Memory: -- WARN: Staging Pool (262.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:03.825 12354 12379 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 1994, 122.3s]: RSS: 6446.9 MB, Avail: 695.4 MB, Reg: 4910.9 MB, PSI: 0.00
+10-19 17:28:03.825 12354 12379 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 1994, Time: 122.3s, FPS: 7.0] =====
+10-19 17:28:03.825 12354 12379 I EdenMemoryBudget: System RAM: 7700.2 MB total, 695.4 MB available | PSI full avg10: 0.00 (some avg10: 0.03)
+10-19 17:28:03.825 12354 12379 I EdenMemoryBudget: Process RSS: 6446.9 MB (Anon: 1069.7 MB, File: 358.3 MB, Shmem: 5018.9 MB)
+10-19 17:28:03.825 12354 12379 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 527.6 MB, compr: 87.1 MB (6.06x), used: 91.1 MB | SwapFree: 7663.5 MB / 8192.0 MB
+10-19 17:28:03.825 12354 12379 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:28:03.825 12354 12379 I EdenMemoryBudget:   - Guest Heap (Touched)    :  2974.1 MB / target:  3584.0 MB
+10-19 17:28:03.825 12354 12379 I EdenMemoryBudget:   - Texture Cache           :   805.3 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:28:03.825 12354 12379 I EdenMemoryBudget:   - Buffer Cache            :   808.1 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:28:03.825 12354 12379 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:28:03.825 12354 12379 I EdenMemoryBudget:   - Staging Pool            :   262.1 MB / target:   128.0 MB
+10-19 17:28:03.825 12354 12379 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:28:03.825 12354 12379 I EdenMemoryBudget:   - Command Pool            :     1.1 MB / target:    32.0 MB
+10-19 17:28:03.825 12354 12379 I EdenMemoryBudget:   - Pipeline Cache          :    42.8 MB / target:   128.0 MB
+10-19 17:28:03.825 12354 12379 I EdenMemoryBudget:   - IR Object Pools         :    15.0 MB / target:    64.0 MB
+10-19 17:28:03.825 12354 12379 I EdenMemoryBudget:   - Disk Cache Blob         :     2.2 MB / target:    32.0 MB
+10-19 17:28:03.825 12354 12379 I HW_Memory: MemoryBudget [F: 1994, 122.3s]: RSS: 6446.9 MB, Avail: 695.4 MB, Reg: 4910.9 MB, PSI: 0.00
+10-19 17:28:03.898 12354 12852 I EdenMemoryBudget: SNAP: |      2 |   122s |     6447 |           697 |           0.00 |  0.4 |           2974 |           863 |           863 |             42 |          262 |             0 |
+10-19 17:28:03.898 12354 12852 I HW_Memory: SNAP: |      2 |   122s |     6447 |           697 |           0.00 |  0.4 |           2974 |           863 |           863 |             42 |          262 |             0 |
+10-19 17:28:04.287 12354 12852 W YuzuNative: Shader.SPIRV shader_recompiler/backend/spirv/emit_spirv.cpp:309:DefineEntryPoint: Geometry shader passthrough used with no support
+10-19 17:28:06.356 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Buffer Cache (1135.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:06.356 12354 12852 W EdenMemoryBudget: -- WARN: Buffer Cache (1135.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:06.356 12354 12852 W HW_Memory: -- WARN: Buffer Cache (1135.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:06.359 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (265.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:06.359 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (265.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:06.359 12354 12852 W HW_Memory: -- WARN: Staging Pool (265.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:06.360 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 2040, 124.9s]: RSS: 6110.6 MB, Avail: 545.5 MB, Reg: 5419.4 MB, PSI: 0.00
+10-19 17:28:06.360 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 2040, Time: 124.9s, FPS: 19.2] =====
+10-19 17:28:06.360 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 545.5 MB available | PSI full avg10: 0.00 (some avg10: 0.21)
+10-19 17:28:06.360 12354 12852 I EdenMemoryBudget: Process RSS: 6110.6 MB (Anon: 1104.3 MB, File: 375.4 MB, Shmem: 4630.9 MB)
+10-19 17:28:06.360 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 712.2 MB, compr: 86.5 MB (8.23x), used: 90.4 MB | SwapFree: 7479.0 MB / 8192.0 MB
+10-19 17:28:06.360 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:28:06.360 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  2787.9 MB / target:  3584.0 MB
+10-19 17:28:06.360 12354 12852 I EdenMemoryBudget:   - Texture Cache           :  1135.6 MB / target:  1024.0 MB |   7.5 evictions/s
+10-19 17:28:06.360 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :  1135.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:28:06.360 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:28:06.360 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   265.1 MB / target:   128.0 MB
+10-19 17:28:06.360 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:28:06.360 12354 12852 I EdenMemoryBudget:   - Command Pool            :     1.6 MB / target:    32.0 MB
+10-19 17:28:06.360 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :    76.2 MB / target:   128.0 MB
+10-19 17:28:06.360 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :    15.0 MB / target:    64.0 MB
+10-19 17:28:06.360 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     2.2 MB / target:    32.0 MB
+10-19 17:28:06.360 12354 12852 I HW_Memory: MemoryBudget [F: 2040, 124.9s]: RSS: 6110.6 MB, Avail: 545.5 MB, Reg: 5419.4 MB, PSI: 0.00
+10-19 17:28:10.366 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Buffer Cache (1327.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:10.366 12354 12852 W EdenMemoryBudget: -- WARN: Buffer Cache (1327.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:10.366 12354 12852 W HW_Memory: -- WARN: Buffer Cache (1327.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:10.372 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (261.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:10.372 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (261.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:10.372 12354 12852 W HW_Memory: -- WARN: Staging Pool (261.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:10.374 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 2160, 128.9s]: RSS: 5736.6 MB, Avail: 537.1 MB, Reg: 5599.1 MB, PSI: 0.14
+10-19 17:28:10.374 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 2160, Time: 128.9s, FPS: 30.5] =====
+10-19 17:28:10.374 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 537.1 MB available | PSI full avg10: 0.14 (some avg10: 0.62)
+10-19 17:28:10.374 12354 12852 I EdenMemoryBudget: Process RSS: 5736.6 MB (Anon: 1103.8 MB, File: 374.4 MB, Shmem: 4258.4 MB)
+10-19 17:28:10.374 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 912.7 MB, compr: 110.2 MB (8.29x), used: 114.9 MB | SwapFree: 7278.3 MB / 8192.0 MB
+10-19 17:28:10.374 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:28:10.374 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  2587.6 MB / target:  3584.0 MB
+10-19 17:28:10.374 12354 12852 I EdenMemoryBudget:   - Texture Cache           :  1327.6 MB / target:  1024.0 MB |  32.2 evictions/s
+10-19 17:28:10.374 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :  1327.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:28:10.374 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:28:10.374 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   261.1 MB / target:   128.0 MB
+10-19 17:28:10.374 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:28:10.374 12354 12852 I EdenMemoryBudget:   - Command Pool            :     1.6 MB / target:    32.0 MB
+10-19 17:28:10.374 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :    76.2 MB / target:   128.0 MB
+10-19 17:28:10.374 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :    15.0 MB / target:    64.0 MB
+10-19 17:28:10.374 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     2.2 MB / target:    32.0 
+10-19 17:28:10.374 12354 12852 I HW_Memory: MemoryBudget [F: 2160, 128.9s]: RSS: 5736.6 MB, Avail: 537.1 MB, Reg: 5599.1 MB, PSI: 0.14
+10-19 17:28:14.150 12354 12835 I YuzuNative: Render.Vulkan video_core/renderer_vulkan/vk_pipeline_cache.cpp:1061:SerializeVulkanPipelineCache: Vulkan driver pipelines cached at: /storage/emulated/0/Android/data/dev.eden.eden_emulator.relWithDebInfo/files/cache/shader/010074f013262000/vulkan_pipelines.bin
+10-19 17:28:14.397 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Buffer Cache (1455.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:14.397 12354 12852 W EdenMemoryBudget: -- WARN: Buffer Cache (1455.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:14.397 12354 12852 W HW_Memory: -- WARN: Buffer Cache (1455.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:14.400 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (265.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:14.400 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (265.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:14.400 12354 12852 W HW_Memory: -- WARN: Staging Pool (265.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:14.402 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 2280, 132.9s]: RSS: 5552.1 MB, Avail: 464.8 MB, Reg: 5774.9 MB, PSI: 0.10
+10-19 17:28:14.402 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 2280, Time: 132.9s, FPS: 29.8] =====
+10-19 17:28:14.402 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 464.8 MB available | PSI full avg10: 0.10 (some avg10: 0.71)
+10-19 17:28:14.402 12354 12852 I EdenMemoryBudget: Process RSS: 5552.1 MB (Anon: 1101.5 MB, File: 373.4 MB, Shmem: 4077.2 MB)
+10-19 17:28:14.402 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 1001.4 MB, compr: 135.7 MB (7.38x), used: 141.5 MB | SwapFree: 7189.7 MB / 8192.0 MB
+10-19 17:28:14.402 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:28:14.402 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  2497.0 MB / target:  3584.0 MB
+10-19 17:28:14.402 12354 12852 I EdenMemoryBudget:   - Texture Cache           :  1455.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:28:14.402 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :  1455.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:28:14.402 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:28:14.402 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   265.1 MB / target:   128.0 MB
+10-19 17:28:14.402 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:28:14.402 12354 12852 I EdenMemoryBudget:   - Command Pool            :     1.6 MB / target:    32.0 MB
+10-19 17:28:14.402 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :    76.3 MB / target:   128.0 MB
+10-19 17:28:14.402 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :    15.0 MB / target:    64.0 MB
+10-19 17:28:14.402 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     8.5 MB / target:    32.0
+10-19 17:28:14.402 12354 12852 I HW_Memory: MemoryBudget [F: 2280, 132.9s]: RSS: 5552.1 MB, Avail: 464.8 MB, Reg: 5774.9 MB, PSI: 0.10
+10-19 17:28:18.426 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Buffer Cache (1519.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:18.426 12354 12852 W EdenMemoryBudget: -- WARN: Buffer Cache (1519.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:18.426 12354 12852 W HW_Memory: -- WARN: Buffer Cache (1519.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:18.430 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (262.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:18.430 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (262.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:18.430 12354 12852 W HW_Memory: -- WARN: Staging Pool (262.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:18.431 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 2400, 136.9s]: RSS: 5406.4 MB, Avail: 473.9 MB, Reg: 5825.3 MB, PSI: 0.06
+10-19 17:28:18.431 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 2400, Time: 136.9s, FPS: 30.5] =====
+10-19 17:28:18.431 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 473.9 MB available | PSI full avg10: 0.06 (some avg10: 0.47)
+10-19 17:28:18.431 12354 12852 I EdenMemoryBudget: Process RSS: 5406.4 MB (Anon: 1099.9 MB, File: 378.8 MB, Shmem: 3927.8 MB)
+10-19 17:28:18.431 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 1075.8 MB, compr: 153.9 MB (6.99x), used: 160.7 MB | SwapFree: 7114.9 MB / 8192.0 MB
+10-19 17:28:18.431 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:28:18.431 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  2422.4 MB / target:  3584.0 MB
+10-19 17:28:18.431 12354 12852 I EdenMemoryBudget:   - Texture Cache           :  1519.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:28:18.431 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :  1519.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:28:18.431 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:28:18.431 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   262.1 MB / target:   128.0 MB
+10-19 17:28:18.431 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:28:18.431 12354 12852 I EdenMemoryBudget:   - Command Pool            :     1.6 MB / target:    32.0 MB
+10-19 17:28:18.431 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :    76.3 MB / target:   128.0 MB
+10-19 17:28:18.431 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :    15.0 MB / target:    64.0 MB
+10-19 17:28:18.431 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     8.5 MB / target:    32.0
+10-19 17:28:18.431 12354 12852 I HW_Memory: MemoryBudget [F: 2400, 136.9s]: RSS: 5406.4 MB, Avail: 473.9 MB, Reg: 5825.3 MB, PSI: 0.06
+10-19 17:28:22.441 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Buffer Cache (1519.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:22.441 12354 12852 W EdenMemoryBudget: -- WARN: Buffer Cache (1519.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:22.441 12354 12852 W HW_Memory: -- WARN: Buffer Cache (1519.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:22.450 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (262.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:22.450 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (262.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:22.450 12354 12852 W HW_Memory: -- WARN: Staging Pool (262.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:22.452 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 2520, 141.0s]: RSS: 5299.5 MB, Avail: 496.5 MB, Reg: 5770.9 MB, PSI: 0.04
+10-19 17:28:22.452 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 2520, Time: 141.0s, FPS: 30.1] =====
+10-19 17:28:22.452 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 496.5 MB available | PSI full avg10: 0.04 (some avg10: 0.46)
+10-19 17:28:22.452 12354 12852 I EdenMemoryBudget: Process RSS: 5299.5 MB (Anon: 1102.4 MB, File: 378.2 MB, Shmem: 3818.9 MB)
+10-19 17:28:22.452 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 1127.6 MB, compr: 165.5 MB (6.81x), used: 172.7 MB | SwapFree: 7063.4 MB / 8192.0 MB
+10-19 17:28:22.452 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:28:22.452 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  2368.0 MB / target:  3584.0 MB
+10-19 17:28:22.452 12354 12852 I EdenMemoryBudget:   - Texture Cache           :  1519.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:28:22.452 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :  1519.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:28:22.452 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:28:22.452 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   262.1 MB / target:   128.0 MB
+10-19 17:28:22.452 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:28:22.452 12354 12852 I EdenMemoryBudget:   - Command Pool            :     1.6 MB / target:    32.0 MB
+10-19 17:28:22.452 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :    76.3 MB / target:   128.0 MB
+10-19 17:28:22.452 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :    15.0 MB / target:    64.0 MB
+10-19 17:28:22.452 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     8.5 MB / target:    32.0
+10-19 17:28:22.452 12354 12852 I HW_Memory: MemoryBudget [F: 2520, 141.0s]: RSS: 5299.5 MB, Avail: 496.5 MB, Reg: 5770.9 MB, PSI: 0.04
+10-19 17:28:27.851 12354 12379 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Buffer Cache (1583.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:27.851 12354 12379 W EdenMemoryBudget: -- WARN: Buffer Cache (1583.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:27.851 12354 12379 W HW_Memory: -- WARN: Buffer Cache (1583.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:27.856 12354 12379 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (265.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:27.856 12354 12379 W EdenMemoryBudget: -- WARN: Staging Pool (265.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:27.856 12354 12379 W HW_Memory: -- WARN: Staging Pool (265.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:27.858 12354 12379 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 2614, 146.4s]: RSS: 5292.0 MB, Avail: 397.1 MB, Reg: 5904.2 MB, PSI: 0.02
+10-19 17:28:27.858 12354 12379 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 2614, Time: 146.4s, FPS: 27.3] =====
+10-19 17:28:27.858 12354 12379 I EdenMemoryBudget: System RAM: 7700.2 MB total, 397.1 MB available | PSI full avg10: 0.02 (some avg10: 0.37)
+10-19 17:28:27.858 12354 12379 I EdenMemoryBudget: Process RSS: 5292.0 MB (Anon: 1166.2 MB, File: 387.2 MB, Shmem: 3738.6 MB)
+10-19 17:28:27.858 12354 12379 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 1164.9 MB, compr: 177.8 MB (6.55x), used: 186.2 MB | SwapFree: 7026.0 MB / 8192.0 MB
+10-19 17:28:27.858 12354 12379 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:28:27.858 12354 12379 I EdenMemoryBudget:   - Guest Heap (Touched)    :  2328.4 MB / target:  3584.0 MB
+10-19 17:28:27.858 12354 12379 I EdenMemoryBudget:   - Texture Cache           :  1583.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:28:27.858 12354 12379 I EdenMemoryBudget:   - Buffer Cache            :  1583.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:28:27.858 12354 12379 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:28:27.858 12354 12379 I EdenMemoryBudget:   - Staging Pool            :   265.1 MB / target:   128.0 MB
+10-19 17:28:27.858 12354 12379 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:28:27.858 12354 12379 I EdenMemoryBudget:   - Command Pool            :     1.9 MB / target:    32.0 MB
+10-19 17:28:27.858 12354 12379 I EdenMemoryBudget:   - Pipeline Cache          :   118.0 MB / target:   128.0 MB
+10-19 17:28:27.858 12354 12379 I EdenMemoryBudget:   - IR Object Pools         :    15.0 MB / target:    64.0 MB
+10-19 17:28:27.858 12354 12379 I EdenMemoryBudget:   - Disk Cache Blob         :     8.5 MB / target:    32.0
+10-19 17:28:27.858 12354 12379 I HW_Memory: MemoryBudget [F: 2614, 146.4s]: RSS: 5292.0 MB, Avail: 397.1 MB, Reg: 5904.2 MB, PSI: 0.02
+10-19 17:28:28.814 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Buffer Cache (1583.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:28.814 12354 12852 W EdenMemoryBudget: -- WARN: Buffer Cache (1583.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:28.814 12354 12852 W HW_Memory: -- WARN: Buffer Cache (1583.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:28.818 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (265.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:28.818 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (265.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:28.818 12354 12852 W HW_Memory: -- WARN: Staging Pool (265.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:28.820 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 2640, 147.3s]: RSS: 5267.4 MB, Avail: 407.1 MB, Reg: 5896.8 MB, PSI: 0.01
+10-19 17:28:28.820 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 2640, Time: 147.3s, FPS: 26.6] =====
+10-19 17:28:28.820 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 407.1 MB available | PSI full avg10: 0.01 (some avg10: 0.31)
+10-19 17:28:28.820 12354 12852 I EdenMemoryBudget: Process RSS: 5267.4 MB (Anon: 1179.9 MB, File: 386.9 MB, Shmem: 3700.5 MB)
+10-19 17:28:28.820 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 1184.1 MB, compr: 177.8 MB (6.66x), used: 185.6 MB | SwapFree: 7006.8 MB / 8192.0 MB
+10-19 17:28:28.820 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:28:28.820 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  2309.1 MB / target:  3584.0 MB
+10-19 17:28:28.820 12354 12852 I EdenMemoryBudget:   - Texture Cache           :  1583.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:28:28.820 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :  1583.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:28:28.820 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:28:28.820 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   265.0 MB / target:   128.0 MB
+10-19 17:28:28.820 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:28:28.820 12354 12852 I EdenMemoryBudget:   - Command Pool            :     1.9 MB / target:    32.0 MB
+10-19 17:28:28.820 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :   129.9 MB / target:   128.0 MB
+10-19 17:28:28.820 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :    15.0 MB / target:    64.0 MB
+10-19 17:28:28.820 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     8.5 MB / target:    32.0
+10-19 17:28:28.820 12354 12852 I HW_Memory: MemoryBudget [F: 2640, 147.3s]: RSS: 5267.4 MB, Avail: 407.1 MB, Reg: 5896.8 MB, PSI: 0.01
+10-19 17:28:33.021 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Buffer Cache (1583.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:33.021 12354 12852 W EdenMemoryBudget: -- WARN: Buffer Cache (1583.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:33.021 12354 12852 W HW_Memory: -- WARN: Buffer Cache (1583.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:33.024 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (263.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:33.024 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (263.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:33.024 12354 12852 W HW_Memory: -- WARN: Staging Pool (263.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:33.025 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 2760, 151.5s]: RSS: 5297.2 MB, Avail: 363.2 MB, Reg: 5913.9 MB, PSI: 0.01
+10-19 17:28:33.025 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 2760, Time: 151.5s, FPS: 29.9] =====
+10-19 17:28:33.025 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 363.2 MB available | PSI full avg10: 0.01 (some avg10: 0.20)
+10-19 17:28:33.025 12354 12852 I EdenMemoryBudget: Process RSS: 5297.2 MB (Anon: 1222.5 MB, File: 403.4 MB, Shmem: 3671.2 MB)
+10-19 17:28:33.025 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 1200.7 MB, compr: 176.4 MB (6.81x), used: 184.8 MB | SwapFree: 6990.2 MB / 8192.0 MB
+10-19 17:28:33.025 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:28:33.025 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  2290.3 MB / target:  3584.0 MB
+10-19 17:28:33.025 12354 12852 I EdenMemoryBudget:   - Texture Cache           :  1583.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:28:33.025 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :  1583.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:28:33.025 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:28:33.025 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   263.1 MB / target:   128.0 MB
+10-19 17:28:33.025 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:28:33.025 12354 12852 I EdenMemoryBudget:   - Command Pool            :     1.9 MB / target:    32.0 MB
+10-19 17:28:33.025 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :   167.8 MB / target:   128.0 MB
+10-19 17:28:33.025 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :    15.0 MB / target:    64.0 MB
+10-19 17:28:33.025 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     8.5 MB / target:    32.0
+10-19 17:28:33.025 12354 12852 I HW_Memory: MemoryBudget [F: 2760, 151.5s]: RSS: 5297.2 MB, Avail: 363.2 MB, Reg: 5913.9 MB, PSI: 0.01
+10-19 17:28:34.498 12354 12851 W YuzuNative: Service.PREPO core/hle/service/prepo/prepo.cpp:126:GetSystemSessionId: (STUBBED) called
+10-19 17:28:34.500 12354 12851 W YuzuNative: Core core/core.cpp:786:ResolveCallerProgramId: Could not resolve caller process_id=0, falling back to application 010074F013262000
+10-19 17:28:34.501 12354 12851 W YuzuNative: Service.PREPO core/hle/service/prepo/prepo.cpp:126:GetSystemSessionId: (STUBBED) called
+10-19 17:28:34.501 12354 12851 W YuzuNative: Core core/core.cpp:786:ResolveCallerProgramId: Could not resolve caller process_id=0, falling back to application 010074F013262000
+10-19 17:28:37.053 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Buffer Cache (1631.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:37.053 12354 12852 W EdenMemoryBudget: -- WARN: Buffer Cache (1631.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:37.053 12354 12852 W HW_Memory: -- WARN: Buffer Cache (1631.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:37.057 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (262.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:37.057 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (262.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:37.057 12354 12852 W HW_Memory: -- WARN: Staging Pool (262.1 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:37.059 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 2880, 155.6s]: RSS: 5231.3 MB, Avail: 339.7 MB, Reg: 5978.4 MB, PSI: 0.00
+10-19 17:28:37.059 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 2880, Time: 155.6s, FPS: 29.8] =====
+10-19 17:28:37.059 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 339.7 MB available | PSI full avg10: 0.00 (some avg10: 0.13)
+10-19 17:28:37.059 12354 12852 I EdenMemoryBudget: Process RSS: 5231.3 MB (Anon: 1229.1 MB, File: 390.9 MB, Shmem: 3611.3 MB)
+10-19 17:28:37.059 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 1233.1 MB, compr: 190.1 MB (6.49x), used: 198.6 MB | SwapFree: 6957.7 MB / 8192.0 MB
+10-19 17:28:37.059 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:28:37.059 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  2255.9 MB / target:  3584.0 MB
+10-19 17:28:37.059 12354 12852 I EdenMemoryBudget:   - Texture Cache           :  1631.6 MB / target:  1024.0 MB |   0.0 evictions/s
+10-19 17:28:37.059 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :  1631.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:28:37.059 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:28:37.059 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   262.1 MB / target:   128.0 MB
+10-19 17:28:37.059 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:28:37.059 12354 12852 I EdenMemoryBudget:   - Command Pool            :     1.9 MB / target:    32.0 MB
+10-19 17:28:37.059 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :   171.6 MB / target:   128.0 MB
+10-19 17:28:37.059 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :    15.0 MB / target:    64.0 MB
+10-19 17:28:37.059 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     8.5 MB / target:    32.0
+10-19 17:28:37.059 12354 12852 I HW_Memory: MemoryBudget [F: 2880, 155.6s]: RSS: 5231.3 MB, Avail: 339.7 MB, Reg: 5978.4 MB, PSI: 0.00
+10-19 17:28:39.816 12354 12851 W YuzuNative: Service.PREPO core/hle/service/prepo/prepo.cpp:126:GetSystemSessionId: (STUBBED) called
+10-19 17:28:39.819 12354 12851 W YuzuNative: Core core/core.cpp:786:ResolveCallerProgramId: Could not resolve caller process_id=0, falling back to application 010074F013262000
+10-19 17:28:41.068 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Buffer Cache (1647.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:41.068 12354 12852 W EdenMemoryBudget: -- WARN: Buffer Cache (1647.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:41.068 12354 12852 W HW_Memory: -- WARN: Buffer Cache (1647.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:41.070 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (263.5 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:41.070 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (263.5 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:41.070 12354 12852 W HW_Memory: -- WARN: Staging Pool (263.5 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:41.073 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 3000, 159.6s]: RSS: 5259.0 MB, Avail: 306.7 MB, Reg: 6005.2 MB, PSI: 0.00
+10-19 17:28:41.073 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 3000, Time: 159.6s, FPS: 29.4] =====
+10-19 17:28:41.073 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 306.7 MB available | PSI full avg10: 0.00 (some avg10: 0.09)
+10-19 17:28:41.073 12354 12852 I EdenMemoryBudget: Process RSS: 5259.0 MB (Anon: 1239.4 MB, File: 407.2 MB, Shmem: 3612.4 MB)
+10-19 17:28:41.073 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 1232.0 MB, compr: 190.1 MB (6.48x), used: 198.0 MB | SwapFree: 6958.8 MB / 8192.0 MB
+10-19 17:28:41.073 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:28:41.073 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  2257.0 MB / target:  3584.0 MB
+10-19 17:28:41.073 12354 12852 I EdenMemoryBudget:   - Texture Cache           :  1637.4 MB / target:  1024.0 MB |  65.0 evictions/s
+10-19 17:28:41.073 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :  1647.6 MB / target:   512.0 MB |  77.2 evictions/s
+10-19 17:28:41.073 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:28:41.073 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   263.5 MB / target:   128.0 MB
+10-19 17:28:41.073 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:28:41.073 12354 12852 I EdenMemoryBudget:   - Command Pool            :     1.9 MB / target:    32.0 MB
+10-19 17:28:41.073 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :   174.3 MB / target:   128.0 MB
+10-19 17:28:41.073 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :    15.0 MB / target:    64.0 MB
+10-19 17:28:41.073 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :     8.5 MB / target:    32.0
+10-19 17:28:41.073 12354 12852 I HW_Memory: MemoryBudget [F: 3000, 159.6s]: RSS: 5259.0 MB, Avail: 306.7 MB, Reg: 6005.2 MB, PSI: 0.00
+10-19 17:28:42.030 12354 12851 W YuzuNative: Service.PREPO core/hle/service/prepo/prepo.cpp:126:GetSystemSessionId: (STUBBED) called
+10-19 17:28:42.031 12354 12851 W YuzuNative: Core core/core.cpp:786:ResolveCallerProgramId: Could not resolve caller process_id=0, falling back to application 010074F013262000
+10-19 17:28:44.340 12354 12835 I YuzuNative: Render.Vulkan video_core/renderer_vulkan/vk_pipeline_cache.cpp:1061:SerializeVulkanPipelineCache: Vulkan driver pipelines cached at: /storage/emulated/0/Android/data/dev.eden.eden_emulator.relWithDebInfo/files/cache/shader/010074f013262000/vulkan_pipelines.bin
+10-19 17:28:46.336 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Buffer Cache (1647.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:46.336 12354 12852 W EdenMemoryBudget: -- WARN: Buffer Cache (1647.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:46.336 12354 12852 W HW_Memory: -- WARN: Buffer Cache (1647.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:46.340 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (263.8 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:46.340 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (263.8 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:46.340 12354 12852 W HW_Memory: -- WARN: Staging Pool (263.8 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:46.341 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 3120, 164.9s]: RSS: 5362.8 MB, Avail: 215.3 MB, Reg: 6056.8 MB, PSI: 0.00
+10-19 17:28:46.341 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 3120, Time: 164.9s, FPS: 0.9] =====
+10-19 17:28:46.341 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 215.3 MB available | PSI full avg10: 0.00 (some avg10: 0.06)
+10-19 17:28:46.341 12354 12852 I EdenMemoryBudget: Process RSS: 5362.8 MB (Anon: 1308.2 MB, File: 411.3 MB, Shmem: 3643.2 MB)
+10-19 17:28:46.341 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 1208.6 MB, compr: 186.3 MB (6.49x), used: 194.2 MB | SwapFree: 6982.2 MB / 8192.0 MB
+10-19 17:28:46.341 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:28:46.341 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  2278.7 MB / target:  3584.0 MB
+10-19 17:28:46.341 12354 12852 I EdenMemoryBudget:   - Texture Cache           :  1641.8 MB / target:  1024.0 MB | 441.4 evictions/s
+10-19 17:28:46.341 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :  1647.6 MB / target:   512.0 MB |  18.4 evictions/s
+10-19 17:28:46.341 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:28:46.341 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   263.8 MB / target:   128.0 MB
+10-19 17:28:46.341 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:28:46.341 12354 12852 I EdenMemoryBudget:   - Command Pool            :     9.9 MB / target:    32.0 MB
+10-19 17:28:46.341 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :   186.2 MB / target:   128.0 MB
+10-19 17:28:46.341 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :    15.0 MB / target:    64.0 MB
+10-19 17:28:46.341 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :    13.7 MB / target:    32.0 
+10-19 17:28:46.341 12354 12852 I HW_Memory: MemoryBudget [F: 3120, 164.9s]: RSS: 5362.8 MB, Avail: 215.3 MB, Reg: 6056.8 MB, PSI: 0.00
+10-19 17:28:51.894 12354 12379 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Buffer Cache (1647.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:51.894 12354 12379 W EdenMemoryBudget: -- WARN: Buffer Cache (1647.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:51.894 12354 12379 W HW_Memory: -- WARN: Buffer Cache (1647.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:51.898 12354 12379 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (277.5 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:51.898 12354 12379 W EdenMemoryBudget: -- WARN: Staging Pool (277.5 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:51.898 12354 12379 W HW_Memory: -- WARN: Staging Pool (277.5 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:51.900 12354 12379 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 3125, 170.4s]: RSS: 5347.8 MB, Avail: 187.2 MB, Reg: 6073.8 MB, PSI: 0.00
+10-19 17:28:51.900 12354 12379 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 3125, Time: 170.4s, FPS: 0.3] =====
+10-19 17:28:51.900 12354 12379 I EdenMemoryBudget: System RAM: 7700.2 MB total, 187.2 MB available | PSI full avg10: 0.00 (some avg10: 0.03)
+10-19 17:28:51.900 12354 12379 I EdenMemoryBudget: Process RSS: 5347.8 MB (Anon: 1324.2 MB, File: 419.1 MB, Shmem: 3604.5 MB)
+10-19 17:28:51.900 12354 12379 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 1225.8 MB, compr: 202.6 MB (6.05x), used: 210.6 MB | SwapFree: 6965.2 MB / 8192.0 MB
+10-19 17:28:51.900 12354 12379 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:28:51.900 12354 12379 I EdenMemoryBudget:   - Guest Heap (Touched)    :  2260.1 MB / target:  3584.0 MB
+10-19 17:28:51.900 12354 12379 I EdenMemoryBudget:   - Texture Cache           :  1645.0 MB / target:  1024.0 MB |  18.0 evictions/s
+10-19 17:28:51.900 12354 12379 I EdenMemoryBudget:   - Buffer Cache            :  1647.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:28:51.900 12354 12379 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:28:51.900 12354 12379 I EdenMemoryBudget:   - Staging Pool            :   277.5 MB / target:   128.0 MB
+10-19 17:28:51.900 12354 12379 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:28:51.900 12354 12379 I EdenMemoryBudget:   - Command Pool            :     9.9 MB / target:    32.0 MB
+10-19 17:28:51.900 12354 12379 I EdenMemoryBudget:   - Pipeline Cache          :   204.8 MB / target:   128.0 MB
+10-19 17:28:51.900 12354 12379 I EdenMemoryBudget:   - IR Object Pools         :    15.0 MB / target:    64.0 MB
+10-19 17:28:51.900 12354 12379 I EdenMemoryBudget:   - Disk Cache Blob         :    13.7 MB / target:    32.0 
+10-19 17:28:51.900 12354 12379 I HW_Memory: MemoryBudget [F: 3125, 170.4s]: RSS: 5347.8 MB, Avail: 187.2 MB, Reg: 6073.8 MB, PSI: 0.00
+10-19 17:28:52.114 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:28:53.659 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:28:54.692 12354 12855 I YuzuNative: Common common/thread.cpp:307:ComputeTopologyLocked: CPU topology: 4 performance cores, 3 efficiency cores, separation enabled
+10-19 17:28:57.924 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Buffer Cache (1615.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:57.924 12354 12852 W EdenMemoryBudget: -- WARN: Buffer Cache (1615.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:57.924 12354 12852 W HW_Memory: -- WARN: Buffer Cache (1615.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:57.929 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (266.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:57.929 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (266.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:57.929 12354 12852 W HW_Memory: -- WARN: Staging Pool (266.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:57.932 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 3240, 176.4s]: RSS: 5126.9 MB, Avail: 133.0 MB, Reg: 5860.9 MB, PSI: 0.00
+10-19 17:28:57.932 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 3240, Time: 176.4s, FPS: 30.6] =====
+10-19 17:28:57.932 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 133.0 MB available | PSI full avg10: 0.00 (some avg10: 0.16)
+10-19 17:28:57.932 12354 12852 I EdenMemoryBudget: Process RSS: 5126.9 MB (Anon: 1313.4 MB, File: 503.0 MB, Shmem: 3310.5 MB)
+10-19 17:28:57.932 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 1368.3 MB, compr: 297.1 MB (4.61x), used: 306.9 MB | SwapFree: 6823.1 MB / 8192.0 MB
+10-19 17:28:57.932 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:28:57.932 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  2115.3 MB / target:  3584.0 MB
+10-19 17:28:57.932 12354 12852 I EdenMemoryBudget:   - Texture Cache           :  1615.6 MB / target:  1024.0 MB | 133.7 evictions/s
+10-19 17:28:57.932 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :  1615.6 MB / target:   512.0 MB |   3.6 evictions/s
+10-19 17:28:57.932 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:28:57.932 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   266.0 MB / target:   128.0 MB
+10-19 17:28:57.932 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:28:57.932 12354 12852 I EdenMemoryBudget:   - Command Pool            :     9.9 MB / target:    32.0 MB
+10-19 17:28:57.932 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :   209.6 MB / target:   128.0 MB
+10-19 17:28:57.932 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :    15.0 MB / target:    64.0 MB
+10-19 17:28:57.932 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :    13.7 MB / target:    32.0
+10-19 17:28:57.932 12354 12852 I HW_Memory: MemoryBudget [F: 3240, 176.4s]: RSS: 5126.9 MB, Avail: 133.0 MB, Reg: 5860.9 MB, PSI: 0.00
+10-19 17:28:57.969 12354 12379 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Buffer Cache (1615.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:57.969 12354 12379 W EdenMemoryBudget: -- WARN: Buffer Cache (1615.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:57.969 12354 12379 W HW_Memory: -- WARN: Buffer Cache (1615.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:28:57.973 12354 12379 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (266.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:57.973 12354 12379 W EdenMemoryBudget: -- WARN: Staging Pool (266.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:57.973 12354 12379 W HW_Memory: -- WARN: Staging Pool (266.0 MB) exceeds twice its target (128.0 MB)!
+10-19 17:28:57.976 12354 12379 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 3241, 176.5s]: RSS: 5126.9 MB, Avail: 133.0 MB, Reg: 5858.7 MB, PSI: 0.00
+10-19 17:28:57.976 12354 12379 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 3240, Time: 176.5s, FPS: 30.6] =====
+10-19 17:28:57.976 12354 12379 I EdenMemoryBudget: System RAM: 7700.2 MB total, 133.0 MB available | PSI full avg10: 0.00 (some avg10: 0.16)
+10-19 17:28:57.976 12354 12379 I EdenMemoryBudget: Process RSS: 5126.9 MB (Anon: 1313.4 MB, File: 503.0 MB, Shmem: 3310.5 MB)
+10-19 17:28:57.976 12354 12379 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 1368.3 MB, compr: 297.1 MB (4.61x), used: 306.9 MB | SwapFree: 6823.1 MB / 8192.0 MB
+10-19 17:28:57.976 12354 12379 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:28:57.976 12354 12379 I EdenMemoryBudget:   - Guest Heap (Touched)    :  2113.0 MB / target:  3584.0 MB
+10-19 17:28:57.976 12354 12379 I EdenMemoryBudget:   - Texture Cache           :  1615.6 MB / target:  1024.0 MB | 133.7 evictions/s
+10-19 17:28:57.976 12354 12379 I EdenMemoryBudget:   - Buffer Cache            :  1615.6 MB / target:   512.0 MB |   3.6 evictions/s
+10-19 17:28:57.976 12354 12379 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:28:57.976 12354 12379 I EdenMemoryBudget:   - Staging Pool            :   266.0 MB / target:   128.0 MB
+10-19 17:28:57.976 12354 12379 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:28:57.976 12354 12379 I EdenMemoryBudget:   - Command Pool            :     9.9 MB / target:    32.0 MB
+10-19 17:28:57.976 12354 12379 I EdenMemoryBudget:   - Pipeline Cache          :   209.6 MB / target:   128.0 MB
+10-19 17:28:57.976 12354 12379 I EdenMemoryBudget:   - IR Object Pools         :    15.0 MB / target:    64.0 MB
+10-19 17:28:57.976 12354 12379 I EdenMemoryBudget:   - Disk Cache Blob         :    13.7 MB / target:    32.0
+10-19 17:28:57.976 12354 12379 I HW_Memory: MemoryBudget [F: 3241, 176.5s]: RSS: 5126.9 MB, Avail: 133.0 MB, Reg: 5858.7 MB, PSI: 0.00
+10-19 17:29:01.497 12354 12852 I EdenMemoryBudget: SNAP: |      3 |   180s |     5038 |           139 |           0.14 | 30.1 |           2020 |          1615 |          1615 |            209 |          267 |             0 |
+10-19 17:29:01.497 12354 12852 I HW_Memory: SNAP: |      3 |   180s |     5038 |           139 |           0.14 | 30.1 |           2020 |          1615 |          1615 |            209 |          267 |             0 |
+10-19 17:29:01.920 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Buffer Cache (1615.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:29:01.920 12354 12852 W EdenMemoryBudget: -- WARN: Buffer Cache (1615.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:29:01.920 12354 12852 W HW_Memory: -- WARN: Buffer Cache (1615.6 MB) exceeds twice its target (512.0 MB)!
+10-19 17:29:01.923 12354 12852 W YuzuNative: HW.Memory common/memory_budget.cpp:609:GenerateReport: -- WARN: Staging Pool (267.8 MB) exceeds twice its target (128.0 MB)!
+10-19 17:29:01.923 12354 12852 W EdenMemoryBudget: -- WARN: Staging Pool (267.8 MB) exceeds twice its target (128.0 MB)!
+10-19 17:29:01.923 12354 12852 W HW_Memory: -- WARN: Staging Pool (267.8 MB) exceeds twice its target (128.0 MB)!
+10-19 17:29:01.925 12354 12852 I YuzuNative: HW.Memory common/memory_budget.cpp:622:GenerateReport: MemoryBudget [F: 3360, 180.4s]: RSS: 5039.0 MB, Avail: 140.3 MB, Reg: 5768.7 MB, PSI: 0.14
+10-19 17:29:01.925 12354 12852 I EdenMemoryBudget: ===== MemoryBudget Report [Frame: 3360, Time: 180.4s, FPS: 30.1] =====
+10-19 17:29:01.925 12354 12852 I EdenMemoryBudget: System RAM: 7700.2 MB total, 140.3 MB available | PSI full avg10: 0.14 (some avg10: 0.58)
+10-19 17:29:01.925 12354 12852 I EdenMemoryBudget: Process RSS: 5039.0 MB (Anon: 1313.7 MB, File: 548.8 MB, Shmem: 3176.5 MB)
+10-19 17:29:01.925 12354 12852 I EdenMemoryBudget: Swap / ZRAM: zram0 orig: 1466.8 MB, compr: 318.9 MB (4.60x), used: 329.6 MB | SwapFree: 6724.6 MB / 8192.0 MB
+10-19 17:29:01.925 12354 12852 I EdenMemoryBudget: Subsystem Breakdown:
+10-19 17:29:01.925 12354 12852 I EdenMemoryBudget:   - Guest Heap (Touched)    :  2020.9 MB / target:  3584.0 MB
+10-19 17:29:01.925 12354 12852 I EdenMemoryBudget:   - Texture Cache           :  1615.6 MB / target:  1024.0 MB |   8.8 evictions/s
+10-19 17:29:01.925 12354 12852 I EdenMemoryBudget:   - Buffer Cache            :  1615.6 MB / target:   512.0 MB |   0.0 evictions/s
+10-19 17:29:01.925 12354 12852 I EdenMemoryBudget:   - Descriptor Ring         :     0.0 MB / target:    64.0 MB
+10-19 17:29:01.925 12354 12852 I EdenMemoryBudget:   - Staging Pool            :   267.8 MB / target:   128.0 MB
+10-19 17:29:01.925 12354 12852 I EdenMemoryBudget:   - Query Cache             :     0.1 MB / target:    32.0 MB
+10-19 17:29:01.925 12354 12852 I EdenMemoryBudget:   - Command Pool            :     9.9 MB / target:    32.0 MB
+10-19 17:29:01.925 12354 12852 I EdenMemoryBudget:   - Pipeline Cache          :   210.0 MB / target:   128.0 MB
+10-19 17:29:01.925 12354 12852 I EdenMemoryBudget:   - IR Object Pools         :    15.0 MB / target:    64.0 MB
+10-19 17:29:01.925 12354 12852 I EdenMemoryBudget:   - Disk Cache Blob         :    13.7 MB / target:    32.0
+10-19 17:29:01.925 12354 12852 I HW_Memory: MemoryBudget [F: 3360, 180.4s]: RSS: 5039.0 MB, Avail: 140.3 MB, Reg: 5768.7 MB, PSI: 0.14

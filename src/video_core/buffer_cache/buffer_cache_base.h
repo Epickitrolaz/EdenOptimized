@@ -233,6 +233,8 @@ public:
         return evictions_count;
     }
 
+    u64 ShrinkTo(u64 target_bytes, std::chrono::microseconds max_time_budget);
+
     bool BindMultiRangeStorage(const Binding& binding, bool is_written,
                                std::span<const MultiRangeSegment> pool);
 

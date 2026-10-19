@@ -13,6 +13,7 @@
 #include <boost/container/small_vector.hpp>
 
 #include "common/alignment.h"
+#include "common/memory_governor.h"
 #include "common/settings.h"
 #include "common/slot_vector.h"
 #include "video_core/control/channel_state.h"
@@ -119,13 +120,24 @@ void TextureCache<P>::RunGarbageCollector() {
     bool aggressive_mode = false;
     u64 ticks_to_destroy = 0;
     size_t num_iterations = 0;
+
+    u64 effective_expected = expected_memory;
+    u64 effective_critical = critical_memory;
+    if (Common::MemoryGovernor::Instance().IsEnabled()) {
+        const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::TextureCache);
+        if (gov_target > 0) {
+            effective_expected = std::min(expected_memory, (gov_target * 8) / 10);
+            effective_critical = std::min(critical_memory, gov_target);
+        }
+    }
+
     const auto Configure = [&](bool allow_aggressive) {
-        high_priority_mode = total_used_memory >= expected_memory;
-        aggressive_mode = allow_aggressive && total_used_memory >= critical_memory;
+        high_priority_mode = total_used_memory >= effective_expected;
+        aggressive_mode = allow_aggressive && total_used_memory >= effective_critical;
         ticks_to_destroy = aggressive_mode ? 10ULL : high_priority_mode ? 25ULL : 50ULL;
         num_iterations = aggressive_mode ? 40 : (high_priority_mode ? 20 : 10);
     };
-    const auto Cleanup = [this, &num_iterations, &high_priority_mode, &aggressive_mode](ImageId image_id) {
+    const auto Cleanup = [this, &num_iterations, &high_priority_mode, &aggressive_mode, effective_expected, effective_critical](ImageId image_id) {
         if (num_iterations == 0) {
             return true;
         }
@@ -151,10 +163,10 @@ void TextureCache<P>::RunGarbageCollector() {
         UnregisterImage(image_id);
         DeleteImage(image_id, image.scale_tick > frame_tick + 5);
         ++evictions_count;
-        if (aggressive_mode && total_used_memory < critical_memory) {
+        if (aggressive_mode && total_used_memory < effective_critical) {
             num_iterations >>= 2;
             aggressive_mode = false;
-        } else if (high_priority_mode && total_used_memory < expected_memory) {
+        } else if (high_priority_mode && total_used_memory < effective_expected) {
             num_iterations >>= 1;
             high_priority_mode = false;
         }
@@ -162,7 +174,7 @@ void TextureCache<P>::RunGarbageCollector() {
     };
     Configure(false);
     lru_cache.ForEachItemBelow(frame_tick - ticks_to_destroy, Cleanup);
-    if (total_used_memory >= critical_memory) {
+    if (total_used_memory >= effective_critical) {
         Configure(true);
         lru_cache.ForEachItemBelow(frame_tick - ticks_to_destroy, Cleanup);
     }
@@ -170,11 +182,23 @@ void TextureCache<P>::RunGarbageCollector() {
 
 template <class P>
 void TextureCache<P>::TickFrame() {
-    // If we can obtain the memory info, use it instead of the estimate.
-    if (runtime.CanReportMemoryUsage()) {
+    // If consult_own_usage is active, drive GC from texture cache's own tracked usage.
+    // Otherwise keep upstream behavior (consulting process-wide device memory usage).
+    const bool consult_own_usage = Settings::values.texture_cache_gc_isolated.GetValue() ||
+                                   Common::MemoryGovernor::Instance().IsEnabled();
+    if (!consult_own_usage && runtime.CanReportMemoryUsage()) {
         total_used_memory = runtime.GetDeviceMemoryUsage();
     }
-    if (total_used_memory > minimum_memory) {
+
+    u64 effective_expected = expected_memory;
+    if (Common::MemoryGovernor::Instance().IsEnabled()) {
+        const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::TextureCache);
+        if (gov_target > 0) {
+            effective_expected = std::min(expected_memory, (gov_target * 8) / 10);
+        }
+    }
+
+    if (total_used_memory > minimum_memory || (Common::MemoryGovernor::Instance().IsEnabled() && total_used_memory >= effective_expected)) {
         RunGarbageCollector();
     }
     sentenced_images.Tick();
@@ -192,6 +216,24 @@ void TextureCache<P>::TickFrame() {
         }
         async_buffers_death_ring.clear();
     }
+}
+
+template <class P>
+u64 TextureCache<P>::ShrinkTo(u64 target_bytes, std::chrono::microseconds max_time_budget) {
+    if (total_used_memory <= target_bytes) {
+        return total_used_memory;
+    }
+    const auto start = std::chrono::steady_clock::now();
+    size_t iterations = 0;
+    while (total_used_memory > target_bytes && iterations < 120) {
+        const auto now = std::chrono::steady_clock::now();
+        if (now - start >= max_time_budget) {
+            break;
+        }
+        RunGarbageCollector();
+        iterations += 40;
+    }
+    return total_used_memory;
 }
 
 template <class P>

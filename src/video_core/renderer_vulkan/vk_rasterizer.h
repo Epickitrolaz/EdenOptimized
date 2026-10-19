@@ -11,6 +11,7 @@
 #include <boost/container/static_vector.hpp>
 
 #include "common/common_types.h"
+#include "common/memory_governor.h"
 #include "video_core/control/channel_state_cache.h"
 #include "video_core/engines/maxwell_dma.h"
 #include "video_core/host1x/gpu_device_memory_manager.h"
@@ -229,6 +230,7 @@ private:
     boost::container::static_vector<VkSampler, MAX_TEXTURES> sampler_handles;
 
     u32 draw_counter = 0;
+    std::vector<std::unique_ptr<Common::IMemoryClient>> memory_clients;
 };
 
 } // namespace Vulkan

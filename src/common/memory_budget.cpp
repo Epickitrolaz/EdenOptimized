@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "common/memory_budget.h"
+#include "common/memory_governor.h"
 
 #include <algorithm>
 #include <cstdio>
@@ -149,6 +150,7 @@ void MemoryBudget::WatchdogLoop(std::stop_token stop_token) {
         if (stop_token.stop_requested() || !enabled) {
             continue;
         }
+        MemoryGovernor::Instance().TickWatchdog();
         const auto now = std::chrono::steady_clock::now();
         const auto since_last_report = std::chrono::duration_cast<std::chrono::seconds>(now - last_report_time).count();
         if (since_last_report >= 5) {

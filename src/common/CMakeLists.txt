@@ -81,6 +81,8 @@ add_library(
     memory_budget.h
     memory_detect.cpp
     memory_detect.h
+    memory_governor.cpp
+    memory_governor.h
     multi_level_page_table.cpp
     multi_level_page_table.h
     overflow.h

@@ -537,6 +537,13 @@ struct Values {
                                                            "vram_usage_mode",
                                                            Category::RendererAdvanced};
 
+    // Eden-Bounded Memory Governor settings
+    SwitchableSetting<bool> use_memory_governor{linkage, false, "use_memory_governor", Category::System};
+    SwitchableSetting<u32> memory_governor_budget{linkage, 0, "memory_governor_budget", Category::System}; // in MB, 0 = Auto
+    SwitchableSetting<u32> memory_governor_safety_reserve{linkage, 640, "memory_governor_safety_reserve", Category::System}; // in MB
+    SwitchableSetting<u32> memory_governor_driver_baseline{linkage, 768, "memory_governor_driver_baseline", Category::System}; // in MB
+    SwitchableSetting<bool> texture_cache_gc_isolated{linkage, false, "texture_cache_gc_isolated", Category::RendererAdvanced};
+
     SwitchableSetting<NvdecEmulation> nvdec_emulation{linkage, NvdecEmulation::Cpu,
                                                       "nvdec_emulation", Category::RendererAdvanced};
 

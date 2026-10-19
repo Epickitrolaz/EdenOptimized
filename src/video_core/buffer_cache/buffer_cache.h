@@ -10,6 +10,7 @@
 #include <memory>
 #include <numeric>
 
+#include "common/memory_governor.h"
 #include "common/range_sets.inc"
 #include "video_core/buffer_cache/buffer_cache_base.h"
 #include "video_core/guest_memory.h"
@@ -98,10 +99,12 @@ void BufferCache<P>::TickFrame() {
     channel_state->uniform_buffer_skip_cache_size = skip_preferred ? DEFAULT_SKIP_CACHE_SIZE : 0;
 
     // If we can obtain the memory info, use it instead of the estimate.
-    if (runtime.CanReportMemoryUsage()) {
+    const bool consult_own_usage = Settings::values.texture_cache_gc_isolated.GetValue() ||
+                                   Common::MemoryGovernor::Instance().IsEnabled();
+    if (!consult_own_usage && runtime.CanReportMemoryUsage()) {
         total_used_memory = runtime.GetDeviceMemoryUsage();
     }
-    if (total_used_memory >= minimum_memory) {
+    if (total_used_memory >= minimum_memory || (Common::MemoryGovernor::Instance().IsEnabled() && total_used_memory >= critical_memory)) {
         RunGarbageCollector();
     }
     ++frame_tick;
@@ -111,6 +114,24 @@ void BufferCache<P>::TickFrame() {
         runtime.FreeDeferredStagingBuffer(buffer);
     }
     async_buffers_death_ring.clear();
+}
+
+template <class P>
+u64 BufferCache<P>::ShrinkTo(u64 target_bytes, std::chrono::microseconds max_time_budget) {
+    if (total_used_memory <= target_bytes) {
+        return total_used_memory;
+    }
+    const auto start = std::chrono::steady_clock::now();
+    size_t iterations = 0;
+    while (total_used_memory > target_bytes && iterations < 128) {
+        const auto now = std::chrono::steady_clock::now();
+        if (now - start >= max_time_budget) {
+            break;
+        }
+        RunGarbageCollector();
+        iterations += 32;
+    }
+    return total_used_memory;
 }
 
 template <class P>

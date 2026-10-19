@@ -163,6 +163,8 @@ public:
         return evictions_count;
     }
 
+    u64 ShrinkTo(u64 target_bytes, std::chrono::microseconds max_time_budget);
+
     /// Return a constant reference to the given image view id
     [[nodiscard]] const ImageView& GetImageView(ImageViewId id) const noexcept;
 

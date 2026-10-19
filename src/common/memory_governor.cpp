@@ -1,0 +1,226 @@
+// SPDX-FileCopyrightText: Copyright 2026 Eden-Bounded Emulator Project
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+#include "common/memory_governor.h"
+
+#include <algorithm>
+#include <chrono>
+
+#include "common/logging.h"
+#include "common/memory_budget.h"
+#include "common/settings.h"
+
+namespace Common {
+
+MemoryGovernor& MemoryGovernor::Instance() {
+    static MemoryGovernor instance;
+    return instance;
+}
+
+MemoryGovernor::MemoryGovernor() {
+    Reset();
+}
+
+MemoryGovernor::~MemoryGovernor() = default;
+
+void MemoryGovernor::Reset() {
+    std::scoped_lock lock{clients_mutex};
+    enabled.store(false, std::memory_order_relaxed);
+    throttle_requested.store(false, std::memory_order_relaxed);
+    manual_budget.store(0, std::memory_order_relaxed);
+    safety_reserve.store(640ULL * 1024 * 1024, std::memory_order_relaxed);
+    driver_baseline.store(768ULL * 1024 * 1024, std::memory_order_relaxed);
+    current_budget.store(0, std::memory_order_relaxed);
+    current_deficit.store(0, std::memory_order_relaxed);
+    carried_deficit.store(0, std::memory_order_relaxed);
+    persistent_deficit_frames.store(0, std::memory_order_relaxed);
+    clients.clear();
+}
+
+void MemoryGovernor::RegisterClient(IMemoryClient* client) {
+    if (!client) {
+        return;
+    }
+    std::scoped_lock lock{clients_mutex};
+    auto it = std::find(clients.begin(), clients.end(), client);
+    if (it == clients.end()) {
+        clients.push_back(client);
+        LOG_INFO(HW_Memory, "MemoryGovernor: registered client '{}' (priority {}, target {:.1f} MB)",
+                 client->Name(), static_cast<u32>(client->Priority()),
+                 static_cast<double>(client->TargetBytes()) / (1024.0 * 1024.0));
+    }
+}
+
+void MemoryGovernor::UnregisterClient(IMemoryClient* client) {
+    if (!client) {
+        return;
+    }
+    std::scoped_lock lock{clients_mutex};
+    clients.erase(std::remove(clients.begin(), clients.end(), client), clients.end());
+}
+
+bool MemoryGovernor::IsEnabled() const noexcept {
+    if (enabled.load(std::memory_order_relaxed)) {
+        return true;
+    }
+    return Settings::values.use_memory_governor.GetValue();
+}
+
+u64 MemoryGovernor::GetTotalRegisteredBytes() const {
+    std::scoped_lock lock{clients_mutex};
+    u64 total = 0;
+    for (const auto* client : clients) {
+        if (client) {
+            total += client->SizeBytes();
+        }
+    }
+    return total;
+}
+
+u64 MemoryGovernor::GetClientTarget(MemoryClientPriority priority) const {
+    std::scoped_lock lock{clients_mutex};
+    for (const auto* client : clients) {
+        if (client && client->Priority() == priority) {
+            return client->TargetBytes();
+        }
+    }
+    return 0;
+}
+
+u64 MemoryGovernor::ComputeBudget(u64 mem_available) const {
+    const u64 manual = manual_budget.load(std::memory_order_relaxed);
+    if (manual > 0) {
+        return manual;
+    }
+    const u32 setting_manual_mb = Settings::values.memory_governor_budget.GetValue();
+    if (setting_manual_mb > 0) {
+        return static_cast<u64>(setting_manual_mb) * 1024ULL * 1024ULL;
+    }
+
+    const u64 reserve = safety_reserve.load(std::memory_order_relaxed);
+    const u64 baseline = driver_baseline.load(std::memory_order_relaxed);
+    const u64 total_registered = GetTotalRegisteredBytes();
+
+    // Headroom calculation:
+    // If MemAvailable exceeds our reserve + baseline margin, we have room to expand.
+    // If MemAvailable falls below reserve + baseline, we have a waterline deficit that must be cut.
+    if (mem_available >= reserve + baseline) {
+        const u64 headroom = mem_available - (reserve + baseline);
+        return total_registered + headroom;
+    } else {
+        const u64 shortfall = (reserve + baseline) - mem_available;
+        constexpr u64 MIN_PROCESS_BUDGET = 256ULL * 1024 * 1024; // 256 MB safety floor
+        if (total_registered > shortfall) {
+            return std::max(MIN_PROCESS_BUDGET, total_registered - shortfall);
+        }
+        return MIN_PROCESS_BUDGET;
+    }
+}
+
+bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
+    if (!IsEnabled()) {
+        current_deficit.store(0, std::memory_order_relaxed);
+        carried_deficit.store(0, std::memory_order_relaxed);
+        persistent_deficit_frames.store(0, std::memory_order_relaxed);
+        throttle_requested.store(false, std::memory_order_relaxed);
+        return false;
+    }
+
+    const auto sys_info = MemoryBudget::Instance().ReadSystemMemoryInfo();
+    const u64 budget = ComputeBudget(sys_info.available_ram);
+    current_budget.store(budget, std::memory_order_relaxed);
+
+    const u64 total_registered = GetTotalRegisteredBytes();
+
+    if (total_registered > budget) {
+        s64 deficit = static_cast<s64>(total_registered - budget) + carried_deficit.load(std::memory_order_relaxed);
+        current_deficit.store(deficit, std::memory_order_relaxed);
+
+        const u32 deficit_frames = persistent_deficit_frames.fetch_add(1, std::memory_order_relaxed) + 1;
+        if (deficit_frames >= persistent_deficit_threshold) {
+            if (!throttle_requested.load(std::memory_order_relaxed)) {
+                throttle_requested.store(true, std::memory_order_relaxed);
+                LOG_WARNING(HW_Memory,
+                            "MemoryGovernor: Deficit persisted for {} frames ({:.1f} MB over budget). Throttling signaled.",
+                            deficit_frames, static_cast<double>(deficit) / (1024.0 * 1024.0));
+            }
+        }
+
+        // Bounded synchronous shrink phase
+        const auto start_time = std::chrono::steady_clock::now();
+        std::vector<IMemoryClient*> sorted_clients;
+        {
+            std::scoped_lock lock{clients_mutex};
+            sorted_clients = clients;
+        }
+
+        // Sort ascending by priority: lowest priority clients shrink FIRST
+        std::sort(sorted_clients.begin(), sorted_clients.end(),
+                  [](const IMemoryClient* a, const IMemoryClient* b) {
+                      return static_cast<u32>(a->Priority()) < static_cast<u32>(b->Priority());
+                  });
+
+        for (auto* client : sorted_clients) {
+            if (deficit <= 0) {
+                break;
+            }
+            const auto now = std::chrono::steady_clock::now();
+            const auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - start_time);
+            if (elapsed >= max_shrink_time_per_frame) {
+                break; // Time budget exhausted for this frame
+            }
+            const auto remaining_time = max_shrink_time_per_frame - elapsed;
+
+            const u64 client_size = client->SizeBytes();
+            if (client_size == 0) {
+                continue;
+            }
+            const u64 client_target = client->TargetBytes();
+
+            // Desired shrink: if above target, bring down to target; if still deficit, shrink further
+            u64 shrink_goal = 0;
+            if (client_size > client_target) {
+                shrink_goal = client_target;
+            } else if (deficit > 0) {
+                const u64 deficit_u64 = static_cast<u64>(deficit);
+                shrink_goal = (client_size > deficit_u64) ? (client_size - deficit_u64) : (client_size / 2);
+            }
+
+            const u64 new_size = client->ShrinkTo(shrink_goal, remaining_time);
+            const u64 reclaimed = (client_size > new_size) ? (client_size - new_size) : 0;
+            deficit -= static_cast<s64>(reclaimed);
+        }
+
+        // Carry leftover deficit to the next frame
+        carried_deficit.store(std::max<s64>(0, deficit), std::memory_order_relaxed);
+    } else {
+        // Under budget: clear deficit and reset persistent frame counter
+        current_deficit.store(0, std::memory_order_relaxed);
+        carried_deficit.store(0, std::memory_order_relaxed);
+        persistent_deficit_frames.store(0, std::memory_order_relaxed);
+        throttle_requested.store(false, std::memory_order_relaxed);
+    }
+
+    return throttle_requested.load(std::memory_order_relaxed);
+}
+
+void MemoryGovernor::TickWatchdog() {
+    if (!IsEnabled()) {
+        return;
+    }
+    const auto sys_info = MemoryBudget::Instance().ReadSystemMemoryInfo();
+    const u64 budget = ComputeBudget(sys_info.available_ram);
+    current_budget.store(budget, std::memory_order_relaxed);
+    const u64 total_registered = GetTotalRegisteredBytes();
+
+    if (total_registered > budget) {
+        LOG_WARNING(HW_Memory,
+                    "MemoryGovernor (Watchdog): Over budget by {:.1f} MB (Budget: {:.1f} MB, Registered: {:.1f} MB, MemAvailable: {:.1f} MB)",
+                    static_cast<double>(total_registered - budget) / (1024.0 * 1024.0),
+                    static_cast<double>(budget) / (1024.0 * 1024.0),
+                    static_cast<double>(total_registered) / (1024.0 * 1024.0),
+                    static_cast<double>(sys_info.available_ram) / (1024.0 * 1024.0));
+    }
+}
+
+} // namespace Common

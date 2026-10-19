@@ -265,9 +265,81 @@ RasterizerVulkan::RasterizerVulkan(Core::Frontend::EmuWindow& emu_window_, Tegra
     mb.RegisterSubsystem(Common::MemorySubsystem::DiskCacheBlob, "Disk Cache Blob",
                          [this]() -> u64 { return pipeline_cache.GetSerializationBlobSize(); },
                          32ULL * 1024 * 1024);
+
+    struct GenericMemoryClient : public Common::IMemoryClient {
+        std::string name;
+        std::function<u64()> size_fn;
+        u64 target;
+        Common::MemoryClientPriority priority;
+        std::function<u64(u64, std::chrono::microseconds)> shrink_fn;
+
+        GenericMemoryClient(std::string_view name_, std::function<u64()> size_fn_, u64 target_,
+                            Common::MemoryClientPriority priority_,
+                            std::function<u64(u64, std::chrono::microseconds)> shrink_fn_ = nullptr)
+            : name{name_}, size_fn{std::move(size_fn_)}, target{target_}, priority{priority_},
+              shrink_fn{std::move(shrink_fn_)} {}
+
+        std::string_view Name() const override { return name; }
+        u64 SizeBytes() const override { return size_fn ? size_fn() : 0; }
+        u64 TargetBytes() const override { return target; }
+        Common::MemoryClientPriority Priority() const override { return priority; }
+        u64 ShrinkTo(u64 target_bytes, std::chrono::microseconds max_time) override {
+            if (shrink_fn) {
+                return shrink_fn(target_bytes, max_time);
+            }
+            return SizeBytes();
+        }
+    };
+
+    auto& mg = Common::MemoryGovernor::Instance();
+    memory_clients.push_back(std::make_unique<GenericMemoryClient>(
+        "Staging Pool", [this] { return staging_pool.GetTotalMemory(); },
+        128ULL * 1024 * 1024, Common::MemoryClientPriority::StagingPool,
+        [this](u64 t, std::chrono::microseconds b) { return staging_pool.ShrinkTo(t, b); }));
+
+    memory_clients.push_back(std::make_unique<GenericMemoryClient>(
+        "Query Cache", [this] { return query_cache_runtime.GetTotalMemory(); },
+        32ULL * 1024 * 1024, Common::MemoryClientPriority::QueryCache));
+
+    memory_clients.push_back(std::make_unique<GenericMemoryClient>(
+        "Command Pool", [this] { return scheduler.GetCommandPoolMemory(); },
+        32ULL * 1024 * 1024, Common::MemoryClientPriority::CommandPool));
+
+    memory_clients.push_back(std::make_unique<GenericMemoryClient>(
+        "IR Object Pools", [this] { return pipeline_cache.GetMainPoolsMemory(); },
+        64ULL * 1024 * 1024, Common::MemoryClientPriority::ObjectPools));
+
+    memory_clients.push_back(std::make_unique<GenericMemoryClient>(
+        "Pipeline Cache", [this] { return pipeline_cache.GetTotalMemory(); },
+        128ULL * 1024 * 1024, Common::MemoryClientPriority::PipelineCache));
+
+    memory_clients.push_back(std::make_unique<GenericMemoryClient>(
+        "Buffer Cache", [this] { return buffer_cache.GetTotalUsedMemory(); },
+        512ULL * 1024 * 1024, Common::MemoryClientPriority::BufferCache,
+        [this](u64 t, std::chrono::microseconds b) {
+            std::scoped_lock lk{buffer_cache.mutex};
+            return buffer_cache.ShrinkTo(t, b);
+        }));
+
+    memory_clients.push_back(std::make_unique<GenericMemoryClient>(
+        "Texture Cache", [this] { return texture_cache.GetTotalUsedMemory(); },
+        1024ULL * 1024 * 1024, Common::MemoryClientPriority::TextureCache,
+        [this](u64 t, std::chrono::microseconds b) {
+            std::scoped_lock lk{texture_cache.mutex};
+            return texture_cache.ShrinkTo(t, b);
+        }));
+
+    for (const auto& client : memory_clients) {
+        mg.RegisterClient(client.get());
+    }
 }
 
 RasterizerVulkan::~RasterizerVulkan() {
+    auto& mg = Common::MemoryGovernor::Instance();
+    for (const auto& client : memory_clients) {
+        mg.UnregisterClient(client.get());
+    }
+
     auto& mb = Common::MemoryBudget::Instance();
     mb.UnregisterSubsystem(Common::MemorySubsystem::TextureCache);
     mb.UnregisterSubsystem(Common::MemorySubsystem::BufferCache);
@@ -956,6 +1028,7 @@ void RasterizerVulkan::TickFrame() {
         std::scoped_lock lock{buffer_cache.mutex};
         buffer_cache.TickFrame();
     }
+    Common::MemoryGovernor::Instance().TickFrame();
     Common::MemoryBudget::Instance().TickFrame();
 }
 
