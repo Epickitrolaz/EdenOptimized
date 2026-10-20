@@ -115,7 +115,7 @@ TextureCache<P>::TextureCache(Runtime& runtime_, Tegra::MaxwellDeviceMemoryManag
 }
 
 template <class P>
-void TextureCache<P>::RunGarbageCollector(u64 shrink_target) {
+void TextureCache<P>::RunGarbageCollector() {
     bool high_priority_mode = false;
     bool aggressive_mode = false;
     u64 ticks_to_destroy = 0;
@@ -123,10 +123,7 @@ void TextureCache<P>::RunGarbageCollector(u64 shrink_target) {
 
     u64 effective_expected = expected_memory;
     u64 effective_critical = critical_memory;
-    if (shrink_target > 0) {
-        effective_expected = (shrink_target * 8) / 10;
-        effective_critical = shrink_target;
-    } else if (Common::MemoryGovernor::Instance().IsEnabled()) {
+    if (Common::MemoryGovernor::Instance().IsEnabled()) {
         const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::TextureCache);
         if (gov_target > 0) {
             effective_expected = std::min(expected_memory, (gov_target * 8) / 10);
@@ -137,7 +134,7 @@ void TextureCache<P>::RunGarbageCollector(u64 shrink_target) {
     const auto Configure = [&](bool allow_aggressive) {
         high_priority_mode = total_used_memory >= effective_expected;
         aggressive_mode = allow_aggressive && total_used_memory >= effective_critical;
-        ticks_to_destroy = (shrink_target > 0) ? 30ULL : (aggressive_mode ? 15ULL : high_priority_mode ? 30ULL : 60ULL);
+        ticks_to_destroy = aggressive_mode ? 20ULL : high_priority_mode ? 40ULL : 60ULL;
         num_iterations = aggressive_mode ? 40 : (high_priority_mode ? 20 : 10);
     };
     const auto Cleanup = [this, &num_iterations, &high_priority_mode, &aggressive_mode, effective_expected, effective_critical](ImageId image_id) {
@@ -234,7 +231,7 @@ u64 TextureCache<P>::ShrinkTo(u64 target_bytes, std::chrono::microseconds max_ti
         if (now - start >= max_time_budget) {
             break;
         }
-        RunGarbageCollector(target_bytes);
+        RunGarbageCollector();
         iterations += 40;
     }
     sentenced_images.Tick();

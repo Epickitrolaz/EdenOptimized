@@ -63,10 +63,9 @@ void BufferCache<P>::RunGarbageCollector() {
     if (Common::MemoryGovernor::Instance().IsEnabled()) {
         const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::BufferCache);
         const bool over_target = (gov_target > 0 && total_used_memory >= gov_target);
-        const bool has_deficit = Common::MemoryGovernor::Instance().GetCurrentDeficit() > 0;
-        if (over_target || has_deficit) {
+        if (over_target) {
             aggressive_gc = true;
-            ticks_to_destroy = 20;
+            ticks_to_destroy = 60;
             num_iterations = 64;
         }
     }

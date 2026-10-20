@@ -180,7 +180,7 @@ TEST_CASE("MemoryGovernor: Deficit Does Not Accumulate Runaway", "[common][memor
     governor.Reset();
     governor.SetEnabled(true);
 
-    MockMemoryClient client("Fixed", 1000 * 1024 * 1024, 1000 * 1024 * 1024, MemoryClientPriority::Lowest);
+    MockMemoryClient client("Fixed", 1000 * 1024 * 1024, 800 * 1024 * 1024, MemoryClientPriority::Lowest);
     client.max_shrinkable_bytes = 0; // Unshrinkable
 
     governor.RegisterClient(&client);
