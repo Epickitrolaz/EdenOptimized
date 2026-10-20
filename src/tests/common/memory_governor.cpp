@@ -219,9 +219,23 @@ TEST_CASE("MemoryGovernor: ObjectPool Reset Reclaims Memory", "[common][memory_g
 
 TEST_CASE("MemoryGovernor: HostMemory ReleaseBackingRegion Validated", "[common][memory_governor]") {
     HostMemory host_mem(0x10000, 0x100000);
-    // Clearing and releasing valid region should succeed
-    host_mem.ClearBackingRegion(0, 0x1000, 0);
+    REQUIRE(host_mem.BackingBasePointer() != nullptr);
+
+    // Dirty the backing memory
+    std::memset(host_mem.BackingBasePointer(), 0xAA, 0x1000);
+    REQUIRE(host_mem.BackingBasePointer()[0] == 0xAA);
+
+    // Releasing the backing region via fallocate hole-punch and madvise
     host_mem.ReleaseBackingRegion(0, 0x1000);
+    // Any newly faulted read from released backing region must be zero
+    REQUIRE(host_mem.BackingBasePointer()[0] == 0);
+
+    // Clearing backing region with 0 must also zero out dirty regions
+    std::memset(host_mem.BackingBasePointer(), 0xBB, 0x1000);
+    REQUIRE(host_mem.BackingBasePointer()[0] == 0xBB);
+    host_mem.ClearBackingRegion(0, 0x1000, 0);
+    REQUIRE(host_mem.BackingBasePointer()[0] == 0);
+
     REQUIRE(host_mem.GetBackingTotalBytes() == 0x10000);
 }
 
