@@ -105,7 +105,8 @@ void KMemoryManager::Initialize(KVirtualAddress management_region, size_t manage
         ASSERT(m_num_managers <= m_managers.size());
 
         const size_t cur_size = manager->Initialize(region_address, region_size, management_region,
-                                                    management_region_end, region_pool);
+                                                    management_region_end, region_pool,
+                                                    std::addressof(m_system.DeviceMemory().buffer));
         management_region += cur_size;
         ASSERT(management_region <= management_region_end);
 
@@ -435,7 +436,8 @@ Result KMemoryManager::AllocateForProcess(KPageGroup* out, size_t num_pages, u32
 
 size_t KMemoryManager::Impl::Initialize(KPhysicalAddress address, size_t size,
                                         KVirtualAddress management, KVirtualAddress management_end,
-                                        Pool p) {
+                                        Pool p, Common::HostMemory* host_memory) {
+    m_host_memory = host_memory;
     // Calculate management sizes.
     const size_t ref_count_size = (size / PageSize) * sizeof(u16);
     const size_t optimize_map_size = CalculateOptimizedProcessOverheadSize(size);
@@ -457,6 +459,14 @@ size_t KMemoryManager::Impl::Initialize(KPhysicalAddress address, size_t size,
     m_heap.Initialize(address, size, management + manager_size, page_heap_size);
 
     return total_management_size;
+}
+
+void KMemoryManager::Impl::Free(KPhysicalAddress addr, size_t num_pages) {
+    m_heap.Free(addr, num_pages);
+    if (m_host_memory && GetInteger(addr) >= Core::DramMemoryMap::Base) {
+        const u64 physical_offset = GetInteger(addr) - Core::DramMemoryMap::Base;
+        m_host_memory->ReleaseBackingRegion(physical_offset, num_pages * PageSize);
+    }
 }
 
 void KMemoryManager::Impl::InitializeOptimizedMemory(KernelCore& kernel) {

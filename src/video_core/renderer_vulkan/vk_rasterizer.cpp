@@ -332,7 +332,7 @@ RasterizerVulkan::RasterizerVulkan(Core::Frontend::EmuWindow& emu_window_, Tegra
 
     memory_clients.push_back(std::make_unique<GenericMemoryClient>(
         "Texture Cache", [this] { return texture_cache.GetTotalUsedMemory(); },
-        1024ULL * 1024 * 1024, Common::MemoryClientPriority::TextureCache,
+        768ULL * 1024 * 1024, Common::MemoryClientPriority::TextureCache,
         [this](u64 t, std::chrono::microseconds b) {
             std::scoped_lock lk{texture_cache.mutex};
             return texture_cache.ShrinkTo(t, b);

@@ -809,8 +809,8 @@ u64 PipelineCache::ShrinkTo(u64 target_bytes, std::chrono::microseconds max_time
     }
 
     // 2. Evict older graphics pipelines that are not in-flight on the GPU
-    // Keep at least the last 1800 frames of pipelines (60 seconds of active gameplay)
-    constexpr u64 SAFE_TICK_MARGIN = 1800;
+    // Keep at least the last 600 frames of pipelines (20 seconds of active gameplay)
+    constexpr u64 SAFE_TICK_MARGIN = 600;
     const u64 threshold_tick = (frame_tick > SAFE_TICK_MARGIN) ? (frame_tick - SAFE_TICK_MARGIN) : 0;
     if (threshold_tick == 0) {
         return GetTotalMemory();

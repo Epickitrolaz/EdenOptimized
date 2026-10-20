@@ -16,6 +16,10 @@
 #include "core/hle/kernel/k_typed_address.h"
 #include "core/hle/result.h"
 
+namespace Common {
+class HostMemory;
+}
+
 namespace Core {
 class System;
 }
@@ -203,7 +207,7 @@ private:
         Impl() = default;
 
         size_t Initialize(KPhysicalAddress address, size_t size, KVirtualAddress management,
-                          KVirtualAddress management_end, Pool p);
+                          KVirtualAddress management_end, Pool p, Common::HostMemory* host_memory = nullptr);
 
         KPhysicalAddress AllocateBlock(s32 index, bool random) {
             return m_heap.AllocateBlock(index, random);
@@ -211,9 +215,7 @@ private:
         KPhysicalAddress AllocateAligned(s32 index, size_t num_pages, size_t align_pages) {
             return m_heap.AllocateAligned(index, num_pages, align_pages);
         }
-        void Free(KPhysicalAddress addr, size_t num_pages) {
-            m_heap.Free(addr, num_pages);
-        }
+        void Free(KPhysicalAddress addr, size_t num_pages);
 
         void SetInitialUsedHeapSize(size_t reserved_size) {
             m_heap.SetInitialUsedSize(reserved_size);
@@ -330,6 +332,7 @@ private:
         Pool m_pool{};
         Impl* m_next{};
         Impl* m_prev{};
+        Common::HostMemory* m_host_memory{nullptr};
     };
 
 private:

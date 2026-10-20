@@ -28,7 +28,7 @@ void MemoryGovernor::Reset() {
     enabled.store(false, std::memory_order_relaxed);
     throttle_requested.store(false, std::memory_order_relaxed);
     manual_budget.store(0, std::memory_order_relaxed);
-    safety_reserve.store(450ULL * 1024 * 1024, std::memory_order_relaxed); // 450 MB default
+    safety_reserve.store(500ULL * 1024 * 1024, std::memory_order_relaxed); // 500 MB default
     driver_baseline.store(0, std::memory_order_relaxed);
     current_budget.store(0, std::memory_order_relaxed);
     current_deficit.store(0, std::memory_order_relaxed);
