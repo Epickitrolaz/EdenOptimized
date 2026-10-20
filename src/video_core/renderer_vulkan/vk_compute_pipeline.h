@@ -64,6 +64,10 @@ public:
         return last_tick;
     }
 
+    [[nodiscard]] bool IsBuilt() const noexcept {
+        return is_built.load(std::memory_order_relaxed);
+    }
+
 private:
     const Device& device;
     vk::PipelineCache& pipeline_cache;

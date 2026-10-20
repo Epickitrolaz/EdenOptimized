@@ -144,9 +144,7 @@ public:
         return GetHostMemoryUsage() + GetDriverEstimatedMemory();
     }
 
-    void TickFrame() noexcept {
-        ++frame_tick;
-    }
+    void TickFrame();
 
     u64 ShrinkTo(u64 target_bytes, std::chrono::microseconds max_time);
 

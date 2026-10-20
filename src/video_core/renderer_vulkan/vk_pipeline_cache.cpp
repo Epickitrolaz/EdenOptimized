@@ -792,6 +792,17 @@ GraphicsPipeline* PipelineCache::CurrentGraphicsPipelineSlowPath() {
     return BuiltPipeline(current_pipeline);
 }
 
+void PipelineCache::TickFrame() {
+    ++frame_tick;
+
+    if (Common::MemoryGovernor::Instance().IsEnabled() && (frame_tick % 120 == 0)) {
+        const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::PipelineCache);
+        if (gov_target > 0 && GetTotalMemory() > gov_target) {
+            ShrinkTo(gov_target, std::chrono::microseconds(2000));
+        }
+    }
+}
+
 u64 PipelineCache::ShrinkTo(u64 target_bytes, std::chrono::microseconds max_time) {
     if (GetTotalMemory() <= target_bytes) {
         return GetTotalMemory();
@@ -826,7 +837,7 @@ u64 PipelineCache::ShrinkTo(u64 target_bytes, std::chrono::microseconds max_time
             break;
         }
         auto* pl = it->second.get();
-        if (pl && pl != current_pipeline && pl->LastTick() < threshold_tick && scheduler.IsFree(pl->LastTick())) {
+        if (pl && pl != current_pipeline && pl->IsBuilt() && pl->LastTick() < threshold_tick) {
             it = graphics_cache.erase(it);
             evicted_any = true;
         } else {
@@ -836,6 +847,7 @@ u64 PipelineCache::ShrinkTo(u64 target_bytes, std::chrono::microseconds max_time
 
     if (evicted_any) {
         current_pipeline = nullptr;
+        scheduler.UpdateGraphicsPipeline(nullptr);
         for (auto& [key, pl] : graphics_cache) {
             if (pl) {
                 pl->ClearTransitions();
@@ -854,7 +866,7 @@ u64 PipelineCache::ShrinkTo(u64 target_bytes, std::chrono::microseconds max_time
                 break;
             }
             auto* pl = it->second.get();
-            if (pl && pl->LastTick() < threshold_tick && scheduler.IsFree(pl->LastTick())) {
+            if (pl && pl->IsBuilt() && pl->LastTick() < threshold_tick) {
                 it = compute_cache.erase(it);
             } else {
                 ++it;
