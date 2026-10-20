@@ -24,13 +24,6 @@
 #include "common/scope_exit.h"
 
 #if defined(__linux__)
-#include <linux/falloc.h>
-#ifndef FALLOC_FL_KEEP_SIZE
-#define FALLOC_FL_KEEP_SIZE 0x01
-#endif
-#ifndef FALLOC_FL_PUNCH_HOLE
-#define FALLOC_FL_PUNCH_HOLE 0x02
-#endif
 #include <sys/random.h>
 #elif defined(__APPLE__)
 #include <sys/types.h>
@@ -669,10 +662,6 @@ public:
         virtual_base = nullptr;
     }
 
-    int GetFd() const {
-        return fd;
-    }
-
     const size_t backing_size; ///< Size of the backing memory in bytes
     const size_t virtual_size; ///< Size of the virtual address placeholder in bytes
 
@@ -820,11 +809,7 @@ void HostMemory::ClearBackingRegion(size_t physical_offset, size_t length, u32 f
             const size_t aligned_start = (physical_offset + PAGE_MASK) & ~PAGE_MASK;
             const size_t aligned_end = (physical_offset + length) & ~PAGE_MASK;
             if (aligned_end > aligned_start) {
-                const size_t aligned_len = aligned_end - aligned_start;
-                if (impl && impl->GetFd() > 0) {
-                    fallocate(impl->GetFd(), FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE, aligned_start, aligned_len);
-                }
-                madvise(backing_base + aligned_start, aligned_len, MADV_DONTNEED);
+                madvise(backing_base + aligned_start, aligned_end - aligned_start, MADV_DONTNEED);
             }
             if (aligned_start > physical_offset) {
                 std::memset(backing_base + physical_offset, 0, aligned_start - physical_offset);
@@ -846,11 +831,7 @@ void HostMemory::ReleaseBackingRegion(size_t physical_offset, size_t length) {
         const size_t aligned_start = (physical_offset + PAGE_MASK) & ~PAGE_MASK;
         const size_t aligned_end = (physical_offset + length) & ~PAGE_MASK;
         if (aligned_end > aligned_start) {
-            const size_t aligned_len = aligned_end - aligned_start;
-            if (impl && impl->GetFd() > 0) {
-                fallocate(impl->GetFd(), FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE, aligned_start, aligned_len);
-            }
-            madvise(backing_base + aligned_start, aligned_len, MADV_DONTNEED);
+            madvise(backing_base + aligned_start, aligned_end - aligned_start, MADV_DONTNEED);
         }
     }
 #endif

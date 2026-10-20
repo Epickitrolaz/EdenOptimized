@@ -126,7 +126,7 @@ void TextureCache<P>::RunGarbageCollector() {
     if (Common::MemoryGovernor::Instance().IsEnabled()) {
         const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::TextureCache);
         if (gov_target > 0) {
-            effective_expected = std::min(expected_memory, (gov_target * 8) / 10);
+            effective_expected = std::min(expected_memory, (gov_target * 85) / 100);
             effective_critical = std::min(critical_memory, gov_target);
         }
     }
