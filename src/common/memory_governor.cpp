@@ -28,7 +28,7 @@ void MemoryGovernor::Reset() {
     enabled.store(false, std::memory_order_relaxed);
     throttle_requested.store(false, std::memory_order_relaxed);
     manual_budget.store(0, std::memory_order_relaxed);
-    safety_reserve.store(350ULL * 1024 * 1024, std::memory_order_relaxed); // 350 MB default
+    safety_reserve.store(200ULL * 1024 * 1024, std::memory_order_relaxed); // 200 MB default
     driver_baseline.store(0, std::memory_order_relaxed);
     current_budget.store(0, std::memory_order_relaxed);
     current_deficit.store(0, std::memory_order_relaxed);
@@ -161,6 +161,7 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
                       return static_cast<u32>(a->Priority()) < static_cast<u32>(b->Priority());
                   });
 
+        // Pass 1: Bring any client exceeding its normal target down to target
         for (auto* client : sorted_clients) {
             if (deficit <= 0) {
                 break;
@@ -175,12 +176,9 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
             const u64 client_size = client->SizeBytes();
             const u64 client_target = client->TargetBytes();
             if (client_size == 0 || client_size <= client_target) {
-                // Client is already operating within its target budget!
-                // Never cannibalize active working set below target!
                 continue;
             }
 
-            // Only shrink the portion of this client that exceeds its target
             const u64 overage = client_size - client_target;
             const u64 shrink_amount = std::min<u64>(overage, static_cast<u64>(deficit));
             const u64 shrink_goal = client_size - shrink_amount;
@@ -188,6 +186,37 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
             const u64 new_size = client->ShrinkTo(shrink_goal, remaining_time);
             const u64 reclaimed = (client_size > new_size) ? (client_size - new_size) : 0;
             deficit -= static_cast<s64>(reclaimed);
+        }
+
+        // Pass 2: If still in deficit under severe pressure, allow clients to compress
+        // down to their minimum viable floor, NEVER cannibalizing working set below floor!
+        if (deficit > 0) {
+            for (auto* client : sorted_clients) {
+                if (deficit <= 0) {
+                    break;
+                }
+                const auto now = std::chrono::steady_clock::now();
+                const auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - start_time);
+                if (elapsed >= max_shrink_time_per_frame) {
+                    break;
+                }
+                const auto remaining_time = max_shrink_time_per_frame - elapsed;
+
+                const u64 client_size = client->SizeBytes();
+                const u64 client_target = client->TargetBytes();
+                const u64 client_floor = client->FloorBytes();
+                if (client_size == 0 || client_size > client_target || client_size <= client_floor) {
+                    continue;
+                }
+
+                const u64 compressible = client_size - client_floor;
+                const u64 shrink_amount = std::min<u64>(compressible, static_cast<u64>(deficit));
+                const u64 shrink_goal = client_size - shrink_amount;
+
+                const u64 new_size = client->ShrinkTo(shrink_goal, remaining_time);
+                const u64 reclaimed = (client_size > new_size) ? (client_size - new_size) : 0;
+                deficit -= static_cast<s64>(reclaimed);
+            }
         }
 
         // Carry leftover deficit to the next frame

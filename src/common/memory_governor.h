@@ -35,6 +35,7 @@ public:
     [[nodiscard]] virtual std::string_view Name() const = 0;
     [[nodiscard]] virtual u64 SizeBytes() const = 0;
     [[nodiscard]] virtual u64 TargetBytes() const = 0;
+    [[nodiscard]] virtual u64 FloorBytes() const { return TargetBytes() / 2; }
     [[nodiscard]] virtual MemoryClientPriority Priority() const = 0;
 
     /// Shrink this client's memory footprint towards target_bytes.

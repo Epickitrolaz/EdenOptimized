@@ -229,10 +229,14 @@ RasterizerVulkan::RasterizerVulkan(Core::Frontend::EmuWindow& emu_window_, Tegra
 
     auto& mb = Common::MemoryBudget::Instance();
     const bool gov_enabled = Settings::values.use_memory_governor.GetValue();
-    const u64 texture_target = gov_enabled ? (512ULL * 1024 * 1024) : (1024ULL * 1024 * 1024);
-    const u64 buffer_target = gov_enabled ? (256ULL * 1024 * 1024) : (512ULL * 1024 * 1024);
+    const u64 texture_target = gov_enabled ? (384ULL * 1024 * 1024) : (1024ULL * 1024 * 1024);
+    const u64 texture_floor = gov_enabled ? (256ULL * 1024 * 1024) : (512ULL * 1024 * 1024);
+    const u64 buffer_target = gov_enabled ? (192ULL * 1024 * 1024) : (512ULL * 1024 * 1024);
+    const u64 buffer_floor = gov_enabled ? (128ULL * 1024 * 1024) : (256ULL * 1024 * 1024);
     const u64 pipeline_target = gov_enabled ? (32ULL * 1024 * 1024) : (128ULL * 1024 * 1024);
+    const u64 pipeline_floor = gov_enabled ? (16ULL * 1024 * 1024) : (64ULL * 1024 * 1024);
     const u64 staging_target = gov_enabled ? (96ULL * 1024 * 1024) : (128ULL * 1024 * 1024);
+    const u64 staging_floor = gov_enabled ? (64ULL * 1024 * 1024) : (64ULL * 1024 * 1024);
     const u64 query_target = gov_enabled ? (16ULL * 1024 * 1024) : (32ULL * 1024 * 1024);
     const u64 command_target = gov_enabled ? (16ULL * 1024 * 1024) : (32ULL * 1024 * 1024);
     const u64 objpools_target = gov_enabled ? (16ULL * 1024 * 1024) : (64ULL * 1024 * 1024);
@@ -279,18 +283,22 @@ RasterizerVulkan::RasterizerVulkan(Core::Frontend::EmuWindow& emu_window_, Tegra
         std::string name;
         std::function<u64()> size_fn;
         u64 target;
+        u64 floor;
         Common::MemoryClientPriority priority;
         std::function<u64(u64, std::chrono::microseconds)> shrink_fn;
 
         GenericMemoryClient(std::string_view name_, std::function<u64()> size_fn_, u64 target_,
                             Common::MemoryClientPriority priority_,
-                            std::function<u64(u64, std::chrono::microseconds)> shrink_fn_ = nullptr)
-            : name{name_}, size_fn{std::move(size_fn_)}, target{target_}, priority{priority_},
+                            std::function<u64(u64, std::chrono::microseconds)> shrink_fn_ = nullptr,
+                            u64 floor_ = 0)
+            : name{name_}, size_fn{std::move(size_fn_)}, target{target_},
+              floor{floor_ == 0 ? target_ / 2 : floor_}, priority{priority_},
               shrink_fn{std::move(shrink_fn_)} {}
 
         std::string_view Name() const override { return name; }
         u64 SizeBytes() const override { return size_fn ? size_fn() : 0; }
         u64 TargetBytes() const override { return target; }
+        u64 FloorBytes() const override { return floor; }
         Common::MemoryClientPriority Priority() const override { return priority; }
         u64 ShrinkTo(u64 target_bytes, std::chrono::microseconds max_time) override {
             if (shrink_fn) {
@@ -304,7 +312,8 @@ RasterizerVulkan::RasterizerVulkan(Core::Frontend::EmuWindow& emu_window_, Tegra
     memory_clients.push_back(std::make_unique<GenericMemoryClient>(
         "Staging Pool", [this] { return staging_pool.GetTotalMemory(); },
         staging_target, Common::MemoryClientPriority::StagingPool,
-        [this](u64 t, std::chrono::microseconds b) { return staging_pool.ShrinkTo(t, b); }));
+        [this](u64 t, std::chrono::microseconds b) { return staging_pool.ShrinkTo(t, b); },
+        staging_floor));
 
     memory_clients.push_back(std::make_unique<GenericMemoryClient>(
         "Query Cache", [this] { return query_cache_runtime.GetTotalMemory(); },
@@ -329,7 +338,8 @@ RasterizerVulkan::RasterizerVulkan(Core::Frontend::EmuWindow& emu_window_, Tegra
         pipeline_target, Common::MemoryClientPriority::PipelineCache,
         [this](u64 t, std::chrono::microseconds b) {
             return pipeline_cache.ShrinkTo(t, b);
-        }));
+        },
+        pipeline_floor));
 
     memory_clients.push_back(std::make_unique<GenericMemoryClient>(
         "Buffer Cache", [this] { return buffer_cache.GetTotalUsedMemory(); },
@@ -337,7 +347,8 @@ RasterizerVulkan::RasterizerVulkan(Core::Frontend::EmuWindow& emu_window_, Tegra
         [this](u64 t, std::chrono::microseconds b) {
             std::scoped_lock lk{buffer_cache.mutex};
             return buffer_cache.ShrinkTo(t, b);
-        }));
+        },
+        buffer_floor));
 
     memory_clients.push_back(std::make_unique<GenericMemoryClient>(
         "Texture Cache", [this] { return texture_cache.GetTotalUsedMemory(); },
@@ -345,7 +356,8 @@ RasterizerVulkan::RasterizerVulkan(Core::Frontend::EmuWindow& emu_window_, Tegra
         [this](u64 t, std::chrono::microseconds b) {
             std::scoped_lock lk{texture_cache.mutex};
             return texture_cache.ShrinkTo(t, b);
-        }));
+        },
+        texture_floor));
 
     for (const auto& client : memory_clients) {
         mg.RegisterClient(client.get());
