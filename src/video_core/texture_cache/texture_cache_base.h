@@ -502,10 +502,10 @@ private:
     };
     Common::LeastRecentlyUsedCache<LRUItemParams> lru_cache;
 
- #ifdef YUZU_LEGACY
+#ifdef YUZU_LEGACY
     static constexpr size_t TICKS_TO_DESTROY = 6;
- #else
-    static constexpr size_t TICKS_TO_DESTROY = 8;
+#else
+    static constexpr size_t TICKS_TO_DESTROY = 16;
 #endif
     DelayedDestructionRing<Image, TICKS_TO_DESTROY> sentenced_images;
     DelayedDestructionRing<ImageView, TICKS_TO_DESTROY> sentenced_image_view;

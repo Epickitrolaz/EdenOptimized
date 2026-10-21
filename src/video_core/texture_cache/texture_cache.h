@@ -126,8 +126,8 @@ void TextureCache<P>::RunGarbageCollector() {
     if (Common::MemoryGovernor::Instance().IsEnabled()) {
         const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::TextureCache);
         if (gov_target > 0) {
-            effective_expected = std::min(expected_memory, (gov_target * 85) / 100);
-            effective_critical = std::min(critical_memory, gov_target);
+            effective_expected = gov_target;
+            effective_critical = (gov_target * 12) / 10;
         }
     }
 
@@ -195,11 +195,11 @@ void TextureCache<P>::TickFrame() {
     if (Common::MemoryGovernor::Instance().IsEnabled()) {
         const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::TextureCache);
         if (gov_target > 0) {
-            effective_expected = std::min(expected_memory, (gov_target * 85) / 100);
+            effective_expected = gov_target;
         }
     }
 
-    if (total_used_memory > minimum_memory || (Common::MemoryGovernor::Instance().IsEnabled() && total_used_memory >= effective_expected)) {
+    if (total_used_memory >= effective_expected) {
         RunGarbageCollector();
     }
     sentenced_images.Tick();
