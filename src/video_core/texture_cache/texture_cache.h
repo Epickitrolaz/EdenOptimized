@@ -147,7 +147,7 @@ void TextureCache<P>::RunGarbageCollector() {
             return false;
         }
         const bool must_download = IsDownloadable(image) && False(image.flags & ImageFlagBits::BadOverlap);
-        const bool skip_costly = !aggressive_mode && True(image.flags & ImageFlagBits::CostlyLoad);
+        const bool skip_costly = True(image.flags & ImageFlagBits::CostlyLoad);
         if (skip_costly || (!high_priority_mode && must_download)) {
             return false;
         }
