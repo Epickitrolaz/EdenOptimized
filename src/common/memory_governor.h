@@ -83,7 +83,8 @@ public:
     }
 
     [[nodiscard]] u64 GetTotalRegisteredBytes() const;
-
+    [[nodiscard]] u64 GetTotalTargetBytes() const;
+    [[nodiscard]] u64 GetTotalFloorBytes() const;
     [[nodiscard]] u64 GetClientTarget(MemoryClientPriority priority) const;
 
     void SetEnabled(bool enabled_) noexcept {
@@ -139,7 +140,7 @@ private:
     std::atomic<bool> enabled{false};
     std::atomic<bool> throttle_requested{false};
     std::atomic<u64> manual_budget{0};
-    std::atomic<u64> safety_reserve{640ULL * 1024 * 1024};    // 640 MB default
+    std::atomic<u64> safety_reserve{200ULL * 1024 * 1024};    // 200 MB default
     std::atomic<u64> driver_baseline{768ULL * 1024 * 1024};   // 768 MB Android/GPU baseline
     std::atomic<u64> current_budget{0};
     std::atomic<s64> current_deficit{0};

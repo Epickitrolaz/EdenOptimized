@@ -225,4 +225,38 @@ TEST_CASE("MemoryGovernor: HostMemory ReleaseBackingRegion Validated", "[common]
     REQUIRE(host_mem.GetBackingTotalBytes() == 0x10000);
 }
 
+TEST_CASE("MemoryGovernor: Target-Anchored ComputeBudget and Headroom", "[common][memory_governor]") {
+    auto& governor = MemoryGovernor::Instance();
+    governor.Reset();
+    governor.SetEnabled(true);
+    governor.SetSafetyReserve(200ULL * 1024 * 1024);
+
+    MockMemoryClient texture("Texture", 400 * 1024 * 1024, 500 * 1024 * 1024, MemoryClientPriority::TextureCache);
+    MockMemoryClient buffer("Buffer", 120 * 1024 * 1024, 250 * 1024 * 1024, MemoryClientPriority::BufferCache);
+
+    governor.RegisterClient(&texture);
+    governor.RegisterClient(&buffer);
+
+    REQUIRE(governor.GetTotalTargetBytes() == 750ULL * 1024 * 1024);
+    REQUIRE(governor.GetTotalRegisteredBytes() == 520ULL * 1024 * 1024);
+
+    // Case 1: Healthy available memory (250 MB >= 200 MB reserve). Headroom = 50 MB.
+    const u64 budget_healthy = governor.ComputeBudget(250ULL * 1024 * 1024);
+    REQUIRE(budget_healthy == (750ULL + 50ULL) * 1024 * 1024);
+    REQUIRE(governor.GetTotalRegisteredBytes() < budget_healthy);
+
+    // Case 2: Moderate pressure (150 MB < 200 MB reserve). Shortfall = 50 MB.
+    const u64 budget_pressure = governor.ComputeBudget(150ULL * 1024 * 1024);
+    REQUIRE(budget_pressure == (750ULL - 50ULL) * 1024 * 1024);
+    // Registered (520 MB) is still under reduced budget (700 MB) because clients are already lean!
+    REQUIRE(governor.GetTotalRegisteredBytes() < budget_pressure);
+
+    // Case 3: Severe pressure (10 MB). Budget must not drop below floor baseline.
+    const u64 budget_severe = governor.ComputeBudget(10ULL * 1024 * 1024);
+    REQUIRE(budget_severe >= governor.GetTotalFloorBytes());
+
+    governor.UnregisterClient(&texture);
+    governor.UnregisterClient(&buffer);
+}
+
 } // namespace Common
