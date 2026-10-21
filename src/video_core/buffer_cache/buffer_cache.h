@@ -56,19 +56,9 @@ BufferCache<P>::~BufferCache() = default;
 
 template <class P>
 void BufferCache<P>::RunGarbageCollector() {
-    bool aggressive_gc = total_used_memory >= critical_memory;
-    u64 ticks_to_destroy = aggressive_gc ? 60 : 120;
+    const bool aggressive_gc = total_used_memory >= critical_memory;
+    const u64 ticks_to_destroy = aggressive_gc ? 60 : 120;
     int num_iterations = aggressive_gc ? 64 : 32;
-
-    if (Common::MemoryGovernor::Instance().IsEnabled()) {
-        const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::BufferCache);
-        const bool over_target = (gov_target > 0 && total_used_memory >= gov_target);
-        if (over_target) {
-            aggressive_gc = true;
-            ticks_to_destroy = 60;
-            num_iterations = 64;
-        }
-    }
 
     const auto clean_up = [this, &num_iterations](BufferId buffer_id) {
         if (num_iterations == 0) {
@@ -115,14 +105,7 @@ void BufferCache<P>::TickFrame() {
     if (!consult_own_usage && runtime.CanReportMemoryUsage()) {
         total_used_memory = runtime.GetDeviceMemoryUsage();
     }
-    u64 effective_expected = minimum_memory;
-    if (Common::MemoryGovernor::Instance().IsEnabled()) {
-        const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::BufferCache);
-        if (gov_target > 0) {
-            effective_expected = std::min(minimum_memory, (gov_target * 85) / 100);
-        }
-    }
-    if (total_used_memory >= effective_expected) {
+    if (total_used_memory >= minimum_memory) {
         RunGarbageCollector();
     }
     ++frame_tick;

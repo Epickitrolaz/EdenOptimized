@@ -134,7 +134,7 @@ void TextureCache<P>::RunGarbageCollector() {
     const auto Configure = [&](bool allow_aggressive) {
         high_priority_mode = total_used_memory >= effective_expected;
         aggressive_mode = allow_aggressive && total_used_memory >= effective_critical;
-        ticks_to_destroy = aggressive_mode ? 30ULL : high_priority_mode ? 60ULL : 120ULL;
+        ticks_to_destroy = aggressive_mode ? 60ULL : high_priority_mode ? 120ULL : 180ULL;
         num_iterations = aggressive_mode ? 40 : (high_priority_mode ? 20 : 10);
     };
     const auto Cleanup = [this, &num_iterations, &high_priority_mode, &aggressive_mode, effective_expected, effective_critical](ImageId image_id) {
@@ -195,7 +195,7 @@ void TextureCache<P>::TickFrame() {
     if (Common::MemoryGovernor::Instance().IsEnabled()) {
         const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::TextureCache);
         if (gov_target > 0) {
-            effective_expected = std::min(expected_memory, (gov_target * 8) / 10);
+            effective_expected = std::min(expected_memory, (gov_target * 85) / 100);
         }
     }
 

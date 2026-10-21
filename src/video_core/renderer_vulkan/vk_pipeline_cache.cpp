@@ -794,10 +794,6 @@ GraphicsPipeline* PipelineCache::CurrentGraphicsPipelineSlowPath() {
 
 void PipelineCache::TickFrame() {
     ++frame_tick;
-
-    if (frame_tick % 120 == 0 && main_pools.TotalBytes() > 16ULL * 1024 * 1024) {
-        main_pools.Reset();
-    }
 }
 
 u64 PipelineCache::ShrinkTo([[maybe_unused]] u64 target_bytes, [[maybe_unused]] std::chrono::microseconds max_time) {

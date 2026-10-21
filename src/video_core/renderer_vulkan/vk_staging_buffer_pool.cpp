@@ -134,7 +134,7 @@ void StagingBufferPool::TickFrame() {
         const bool over_target = (gov_target > 0 && GetTotalMemory() > gov_target);
         const bool has_deficit = Common::MemoryGovernor::Instance().GetCurrentDeficit() > 0;
         if (over_target || has_deficit) {
-            ShrinkTo(gov_target > 0 ? gov_target : 64ULL * 1024 * 1024, std::chrono::microseconds(2000));
+            ShrinkTo(gov_target > 0 ? gov_target : 96ULL * 1024 * 1024, std::chrono::microseconds(2000));
         }
     }
 }
