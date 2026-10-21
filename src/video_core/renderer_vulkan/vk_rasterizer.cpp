@@ -1064,11 +1064,10 @@ void RasterizerVulkan::TickFrame() {
 
     // Phase 3: Pressure Pacing
     // When the memory governor signals persistent deficit (throttle_requested),
-    // pace the CPU draw thread and ensure worker work is flushed to allow memory reclamation.
+    // gently pace the CPU draw thread to allow the GPU and memory reclamation to catch up.
     if (Common::MemoryGovernor::Instance().IsEnabled() &&
         Common::MemoryGovernor::Instance().ShouldThrottle() &&
         Settings::values.memory_governor_pacing.GetValue()) {
-        scheduler.WaitWorker();
         const int pacing_ms = Settings::values.memory_governor_pacing_ms.GetValue();
         if (pacing_ms > 0) {
             std::this_thread::sleep_for(std::chrono::milliseconds(pacing_ms));

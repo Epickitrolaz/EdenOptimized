@@ -105,7 +105,14 @@ void BufferCache<P>::TickFrame() {
     if (!consult_own_usage && runtime.CanReportMemoryUsage()) {
         total_used_memory = runtime.GetDeviceMemoryUsage();
     }
-    if (total_used_memory >= minimum_memory) {
+    u64 effective_expected = minimum_memory;
+    if (Common::MemoryGovernor::Instance().IsEnabled()) {
+        const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::BufferCache);
+        if (gov_target > 0) {
+            effective_expected = std::min(minimum_memory, gov_target);
+        }
+    }
+    if (total_used_memory >= effective_expected) {
         RunGarbageCollector();
     }
     ++frame_tick;
