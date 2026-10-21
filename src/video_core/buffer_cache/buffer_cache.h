@@ -125,20 +125,7 @@ void BufferCache<P>::TickFrame() {
 }
 
 template <class P>
-u64 BufferCache<P>::ShrinkTo(u64 target_bytes, std::chrono::microseconds max_time_budget) {
-    if (total_used_memory <= target_bytes) {
-        return total_used_memory;
-    }
-    const auto start = std::chrono::steady_clock::now();
-    size_t iterations = 0;
-    while (total_used_memory > target_bytes && iterations < 128) {
-        const auto now = std::chrono::steady_clock::now();
-        if (now - start >= max_time_budget) {
-            break;
-        }
-        RunGarbageCollector();
-        iterations += 32;
-    }
+u64 BufferCache<P>::ShrinkTo([[maybe_unused]] u64 target_bytes, [[maybe_unused]] std::chrono::microseconds max_time_budget) {
     for (auto& buffer : async_buffers_death_ring) {
         runtime.FreeDeferredStagingBuffer(buffer);
     }
