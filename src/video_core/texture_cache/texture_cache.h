@@ -147,7 +147,13 @@ void TextureCache<P>::RunGarbageCollector() {
             return false;
         }
         const bool must_download = IsDownloadable(image) && False(image.flags & ImageFlagBits::BadOverlap);
-        const bool skip_costly = True(image.flags & ImageFlagBits::CostlyLoad);
+        bool skip_costly = false;
+        if (True(image.flags & ImageFlagBits::CostlyLoad)) {
+            const u64 last_touch = lru_cache.GetItemTick(image.lru_index);
+            constexpr u64 COSTLY_PROTECT_FRAMES = 300ULL; // 10 seconds at 30 fps
+            const u64 age = (frame_tick >= last_touch) ? (frame_tick - last_touch) : 0;
+            skip_costly = age < COSTLY_PROTECT_FRAMES;
+        }
         if (skip_costly || (!high_priority_mode && must_download)) {
             return false;
         }

@@ -60,6 +60,10 @@ public:
         free_items.push_back(id);
     }
 
+    [[nodiscard]] TickType GetItemTick(size_t id) const noexcept {
+        return item_pool[id].tick;
+    }
+
     template <typename Func>
     void ForEachItemBelow(TickType tick, Func&& func) {
         static constexpr bool RETURNS_BOOL =
