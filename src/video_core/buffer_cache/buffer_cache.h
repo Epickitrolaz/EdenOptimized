@@ -139,7 +139,6 @@ u64 BufferCache<P>::ShrinkTo(u64 target_bytes, std::chrono::microseconds max_tim
         RunGarbageCollector();
         iterations += 32;
     }
-    delayed_destruction_ring.Tick();
     for (auto& buffer : async_buffers_death_ring) {
         runtime.FreeDeferredStagingBuffer(buffer);
     }

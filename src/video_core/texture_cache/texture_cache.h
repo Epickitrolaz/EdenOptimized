@@ -234,9 +234,6 @@ u64 TextureCache<P>::ShrinkTo(u64 target_bytes, std::chrono::microseconds max_ti
         RunGarbageCollector();
         iterations += 40;
     }
-    sentenced_images.Tick();
-    sentenced_framebuffers.Tick();
-    sentenced_image_view.Tick();
     if constexpr (IMPLEMENTS_ASYNC_DOWNLOADS) {
         for (auto& buffer : async_buffers_death_ring) {
             runtime.FreeDeferredStagingBuffer(buffer);

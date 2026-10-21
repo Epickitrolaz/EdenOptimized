@@ -507,7 +507,7 @@ private:
 #ifdef YUZU_LEGACY
     static constexpr size_t TICKS_TO_DESTROY = 6;
 #else
-    static constexpr size_t TICKS_TO_DESTROY = 8;
+    static constexpr size_t TICKS_TO_DESTROY = 16;
 #endif
     DelayedDestructionRing<Buffer, TICKS_TO_DESTROY> delayed_destruction_ring;
 
