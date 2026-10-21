@@ -795,85 +795,15 @@ GraphicsPipeline* PipelineCache::CurrentGraphicsPipelineSlowPath() {
 void PipelineCache::TickFrame() {
     ++frame_tick;
 
-    if (Common::MemoryGovernor::Instance().IsEnabled() && (frame_tick % 120 == 0)) {
-        const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::PipelineCache);
-        if (gov_target > 0 && GetTotalMemory() > gov_target) {
-            ShrinkTo(gov_target, std::chrono::microseconds(2000));
-        }
+    if (frame_tick % 120 == 0 && main_pools.TotalBytes() > 16ULL * 1024 * 1024) {
+        main_pools.Reset();
     }
 }
 
-u64 PipelineCache::ShrinkTo(u64 target_bytes, std::chrono::microseconds max_time) {
-    if (GetTotalMemory() <= target_bytes) {
-        return GetTotalMemory();
-    }
-
-    const auto start = std::chrono::steady_clock::now();
-
-    // 1. Reset IR object pools if bloated
-    if (main_pools.TotalBytes() > 16ULL * 1024 * 1024) {
+u64 PipelineCache::ShrinkTo([[maybe_unused]] u64 target_bytes, [[maybe_unused]] std::chrono::microseconds max_time) {
+    if (main_pools.TotalBytes() > 0) {
         main_pools.Reset();
     }
-
-    if (GetTotalMemory() <= target_bytes) {
-        return GetTotalMemory();
-    }
-
-    // 2. Evict older graphics pipelines that are not in-flight on the GPU
-    // Keep at least the last 600 frames of pipelines (20 seconds of active gameplay)
-    constexpr u64 SAFE_TICK_MARGIN = 600;
-    const u64 threshold_tick = (frame_tick > SAFE_TICK_MARGIN) ? (frame_tick - SAFE_TICK_MARGIN) : 0;
-    if (threshold_tick == 0) {
-        return GetTotalMemory();
-    }
-
-    bool evicted_any = false;
-    for (auto it = graphics_cache.begin(); it != graphics_cache.end();) {
-        if (GetTotalMemory() <= target_bytes) {
-            break;
-        }
-        const auto now = std::chrono::steady_clock::now();
-        if (std::chrono::duration_cast<std::chrono::microseconds>(now - start) >= max_time) {
-            break;
-        }
-        auto* pl = it->second.get();
-        if (pl && pl != current_pipeline && pl->IsBuilt() && pl->LastTick() < threshold_tick) {
-            it = graphics_cache.erase(it);
-            evicted_any = true;
-        } else {
-            ++it;
-        }
-    }
-
-    if (evicted_any) {
-        current_pipeline = nullptr;
-        scheduler.UpdateGraphicsPipeline(nullptr);
-        for (auto& [key, pl] : graphics_cache) {
-            if (pl) {
-                pl->ClearTransitions();
-            }
-        }
-    }
-
-    // 3. Evict older compute pipelines if still over target
-    if (GetTotalMemory() > target_bytes) {
-        for (auto it = compute_cache.begin(); it != compute_cache.end();) {
-            if (GetTotalMemory() <= target_bytes) {
-                break;
-            }
-            const auto now = std::chrono::steady_clock::now();
-            if (std::chrono::duration_cast<std::chrono::microseconds>(now - start) >= max_time) {
-                break;
-            }
-            auto* pl = it->second.get();
-            if (pl && pl->IsBuilt() && pl->LastTick() < threshold_tick) {
-                it = compute_cache.erase(it);
-            } else {
-                ++it;
-            }
-        }
-    }
-
     return GetTotalMemory();
 }
 

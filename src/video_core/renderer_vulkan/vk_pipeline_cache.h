@@ -137,11 +137,11 @@ public:
     }
 
     [[nodiscard]] u64 GetDriverEstimatedMemory() const noexcept {
-        return static_cast<u64>(graphics_cache.size() + compute_cache.size()) * (48ULL * 1024);
+        return 0;
     }
 
     [[nodiscard]] u64 GetTotalMemory() const noexcept {
-        return GetHostMemoryUsage() + GetDriverEstimatedMemory();
+        return GetHostMemoryUsage() + GetMainPoolsMemory();
     }
 
     void TickFrame();
