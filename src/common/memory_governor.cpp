@@ -28,7 +28,7 @@ void MemoryGovernor::Reset() {
     enabled.store(false, std::memory_order_relaxed);
     throttle_requested.store(false, std::memory_order_relaxed);
     manual_budget.store(0, std::memory_order_relaxed);
-    safety_reserve.store(350ULL * 1024 * 1024, std::memory_order_relaxed); // 350 MB default
+    safety_reserve.store(250ULL * 1024 * 1024, std::memory_order_relaxed); // 250 MB default
     driver_baseline.store(0, std::memory_order_relaxed);
     current_budget.store(0, std::memory_order_relaxed);
     current_deficit.store(0, std::memory_order_relaxed);
@@ -137,14 +137,23 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
         s64 deficit = static_cast<s64>(total_registered - budget);
         current_deficit.store(deficit, std::memory_order_relaxed);
 
+        const bool is_manual = manual_budget.load(std::memory_order_relaxed) > 0 ||
+                               Settings::values.memory_governor_budget.GetValue() > 0;
+        const bool critical_watermark = is_manual ||
+                                        (sys_info.available_ram < 220ULL * 1024 * 1024) ||
+                                        (sys_info.psi_some_avg10 > 0.25);
+
         const u32 deficit_frames = persistent_deficit_frames.fetch_add(1, std::memory_order_relaxed) + 1;
-        if (deficit_frames >= persistent_deficit_threshold) {
+        if (deficit_frames >= persistent_deficit_threshold && critical_watermark) {
             if (!throttle_requested.load(std::memory_order_relaxed)) {
                 throttle_requested.store(true, std::memory_order_relaxed);
                 LOG_WARNING(HW_Memory,
-                            "MemoryGovernor: Deficit persisted for {} frames ({:.1f} MB over budget). Throttling signaled.",
-                            deficit_frames, static_cast<double>(deficit) / (1024.0 * 1024.0));
+                            "MemoryGovernor: Deficit persisted for {} frames ({:.1f} MB over budget, Avail: {:.1f} MB). Throttling signaled.",
+                            deficit_frames, static_cast<double>(deficit) / (1024.0 * 1024.0),
+                            static_cast<double>(sys_info.available_ram) / (1024.0 * 1024.0));
             }
+        } else if (!critical_watermark) {
+            throttle_requested.store(false, std::memory_order_relaxed);
         }
 
         // Bounded synchronous shrink phase
@@ -241,7 +250,7 @@ void MemoryGovernor::TickWatchdog() {
     current_budget.store(budget, std::memory_order_relaxed);
     const u64 total_registered = GetTotalRegisteredBytes();
 
-    if (total_registered > budget) {
+    if (total_registered > budget && sys_info.available_ram < 250ULL * 1024 * 1024) {
         LOG_WARNING(HW_Memory,
                     "MemoryGovernor (Watchdog): Over budget by {:.1f} MB (Budget: {:.1f} MB, Registered: {:.1f} MB, MemAvailable: {:.1f} MB)",
                     static_cast<double>(total_registered - budget) / (1024.0 * 1024.0),
