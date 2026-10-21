@@ -28,7 +28,7 @@ void MemoryGovernor::Reset() {
     enabled.store(false, std::memory_order_relaxed);
     throttle_requested.store(false, std::memory_order_relaxed);
     manual_budget.store(0, std::memory_order_relaxed);
-    safety_reserve.store(200ULL * 1024 * 1024, std::memory_order_relaxed); // 200 MB default
+    safety_reserve.store(180ULL * 1024 * 1024, std::memory_order_relaxed); // 180 MB default
     driver_baseline.store(0, std::memory_order_relaxed);
     current_budget.store(0, std::memory_order_relaxed);
     current_deficit.store(0, std::memory_order_relaxed);
@@ -122,21 +122,20 @@ u64 MemoryGovernor::ComputeBudget(u64 mem_available) const {
     const u64 reserve = safety_reserve.load(std::memory_order_relaxed);
     const u64 baseline = driver_baseline.load(std::memory_order_relaxed);
     const u64 total_reserve = reserve + baseline;
-    const u64 total_target = GetTotalTargetBytes();
+    const u64 total_registered = GetTotalRegisteredBytes();
     const u64 total_floor = GetTotalFloorBytes();
-    const u64 nominal_target = (total_target > 0) ? total_target : GetTotalRegisteredBytes();
     const u64 floor_baseline = (total_floor > 0) ? total_floor : (256ULL * 1024 * 1024);
 
     // Headroom calculation:
     // If MemAvailable exceeds our reserve margin, we have room to expand.
-    // If MemAvailable falls below reserve margin, we compress down towards the floor.
+    // If MemAvailable falls below reserve margin, we have a shortfall deficit that must be reclaimed.
     if (mem_available >= total_reserve) {
         const u64 headroom = mem_available - total_reserve;
-        return nominal_target + headroom;
+        return total_registered + headroom;
     } else {
         const u64 shortfall = total_reserve - mem_available;
-        if (nominal_target > shortfall) {
-            return std::max(floor_baseline, nominal_target - shortfall);
+        if (total_registered > shortfall) {
+            return std::max(floor_baseline, total_registered - shortfall);
         }
         return floor_baseline;
     }
@@ -164,7 +163,7 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
         const bool is_manual = manual_budget.load(std::memory_order_relaxed) > 0 ||
                                Settings::values.memory_governor_budget.GetValue() > 0;
         const bool critical_watermark = is_manual ||
-                                        (sys_info.available_ram < 180ULL * 1024 * 1024) ||
+                                        (sys_info.available_ram < 150ULL * 1024 * 1024) ||
                                         (sys_info.psi_some_avg10 > 0.50);
 
         const u32 deficit_frames = persistent_deficit_frames.fetch_add(1, std::memory_order_relaxed) + 1;
