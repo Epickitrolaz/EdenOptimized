@@ -56,17 +56,11 @@ The emulator is capable of running commercial Switch games at full speed, provid
 - **Target Device:** Retroid Pocket 5 (Snapdragon 865 / Adreno 650, 8 GB RAM)
 - **Hardware Profile:** GPU overclocked to **905 MHz** (via handheld performance mode / governor)
 - **Graphics Driver:** Mesa Turnip (e.g. Turnip 24.2.99 / 24.3 rev 9)
-- **Recommended Engine & Graphics Settings:**
-  - **Memory Governor:** Enabled (`use_memory_governor = true`)
-  - **Safety Reserve Margin:** 140 MB
-  - **Isolate Texture Cache GC:** Enabled (`texture_cache_gc_isolated = true`)
-  - **VRAM Usage Mode:** Conservative
-  - **Async Presentation:** Enabled
-  - **Enable Compute Pipelines:** Enabled
-  - **Vulkan Driver Pipeline Cache:** Enabled
-  - **Barrier Feedback Loops:** Enabled
-  - **Optimized Vertex Buffers:** Disabled (requires Mesa Turnip 26.0+)
-  - **Force Maximum Clocks:** Disabled (hardware GPU is already overclocked to 905 MHz)
+- **Settings Changed from Default:**
+  - **Enable Memory Governor:** Enabled (`use_memory_governor = true` [default: disabled])
+  - **Isolate Texture Cache GC:** Enabled (`texture_cache_gc_isolated = true` [default: disabled])
+  - **Enable Compute Pipelines:** Enabled (`enable_compute_pipelines = true` [default: disabled])
+  *(All other settings remain at their default values: Safety Reserve at 140 MB, VRAM Usage Mode on Conservative, Driver Pipeline Cache enabled, Barrier Feedback Loops enabled, Async Presentation enabled, Optimized Vertex Buffers disabled, and Force Maximum Clocks disabled).*
 - **Verified Telemetry & Performance:**
   - **Framerate:** Stable **30.0 FPS** native; brief dips to ~20 FPS during shader building or memory trim passes
   - **Texture Cache:** Settles naturally at **~1,000 MB** (avg: 1,001.1 MB, peak: 1,375.7 MB) with 0.0 unmanaged ballooning
