@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- General application strings -->
-    <string name="app_name" translatable="false">Eden</string>
+    <string name="app_name" translatable="false">Eden Optimized</string>
     <string name="app_disclaimer">This software will run games for the Nintendo Switch game console. No game titles or keys are included.&lt;br /&gt;&lt;br /&gt;Before you begin, please locate your <![CDATA[<b> prod.keys </b>]]> file on your device storage.&lt;br /&gt;&lt;br /&gt;<![CDATA[<a href=\"https://git.eden-emu.dev/eden-emu/eden/src/branch/master/docs/user/QuickStart.md\">Learn more</a>]]></string>
     <string name="notice_notification_channel_name">Notices and errors</string>
     <string name="notice_notification_channel_id" translatable="false">noticesAndErrors</string>
@@ -546,6 +546,8 @@
     <string name="memory_governor_budget">Governor Budget Target</string>
     <string name="memory_governor_budget_description">Target process memory budget in MB. Auto calculates safe budget dynamically based on available system RAM and safety reserves.</string>
     <string name="memory_governor_budget_auto">Auto (Dynamic Headroom)</string>
+    <string name="memory_governor_safety_reserve">Safety Reserve Margin</string>
+    <string name="memory_governor_safety_reserve_description">Safety headroom maintained between available physical RAM and Android LMKD termination. Lower margins maximize cache sizes on lightweight games; higher margins safeguard against sudden allocation spikes.</string>
     <string name="memory_governor_pacing">Governor Pressure Pacing</string>
     <string name="memory_governor_pacing_description">Drain in-flight GPU queues and briefly pace draw thread when deficit persists, giving zram and direct-reclaim time to free pages.</string>
     <string name="memory_governor_thp">Transparent Huge Pages (THP)</string>
@@ -585,9 +587,21 @@
     <string name="vram_usage_mode_description">Control how aggressively the emulator allocates and frees GPU memory.</string>
     <string name="accelerate_astc">ASTC Decoding Method</string>
     <string name="accelerate_astc_description">Pick how ASTC-compressed textures are decoded for rendering: CPU (slow, safe), GPU (fast, recommended), or CPU Async (no stutters, may cause issues)</string>
+    <string name="astc_recompression">ASTC Texture Recompression</string>
+    <string name="astc_recompression_description">Recompresses decoded ASTC textures into BCn in VRAM. Greatly reduces memory footprint and prevents VRAM out-of-memory crashes on memory-heavy games.</string>
 
     <string name="sync_memory_operations">Sync Memory Operations</string>
     <string name="sync_memory_operations_description">Ensures data consistency between compute and memory operations. This option should fix issues in some games, but may also reduce performance in some cases. Unreal Engine 4 games often see the most significant changes thereof.</string>
+    <string name="enable_compute_pipelines">Enable Compute Pipelines</string>
+    <string name="enable_compute_pipelines_description">Enables asynchronous compute pipeline execution on supported Vulkan drivers. Improves performance and shader compiling in games that use compute shaders.</string>
+    <string name="async_presentation">Asynchronous Presentation</string>
+    <string name="async_presentation_description">Presents rendered frames to the display surface on a dedicated thread to decouple presentation from rendering and reduce frame pacing jitter.</string>
+    <string name="use_vulkan_driver_pipeline_cache">Driver Pipeline Cache</string>
+    <string name="use_vulkan_driver_pipeline_cache_description">Saves and restores native Vulkan driver pipeline cache blobs across sessions to reduce shader compilation stutter on game launch.</string>
+    <string name="barrier_feedback_loops">Barrier Feedback Loops</string>
+    <string name="barrier_feedback_loops_description">Uses fine-grained Vulkan memory barriers for render target feedback loops instead of full execution pipeline stalls.</string>
+    <string name="use_video_framerate">Lock Video Framerate</string>
+    <string name="use_video_framerate_description">Locks pre-rendered video cutscene playback to the video stream\'s native framerate to avoid audio and video desynchronization.</string>
     <string name="use_disk_shader_cache">Disk shader cache</string>
     <string name="use_disk_shader_cache_description">Reduces stuttering by locally storing and loading generated shaders.</string>
     <string name="renderer_force_max_clock">Force maximum clocks (Adreno only)</string>
@@ -613,6 +627,8 @@
     <string name="fix_bloom_effects_description">Reduces bloom blur in LA/EOW (Adreno A6XX - A7XX/ Turnip), removes bloom in Burnout. Warning: may cause graphical artifacts in other games.</string>
     <string name="emulate_bgr565">Emulate BGR565</string>
     <string name="emulate_bgr565_description">Fixes problems with inverted colors in games or strange artifacts or strange shadows.</string>
+    <string name="disable_shader_loop_safety_checks">Disable Shader Loop Safety Checks</string>
+    <string name="disable_shader_loop_safety_checks_description">Disables safety wrapping on dynamic loops in SPIR-V shaders for higher shader execution throughput. May cause glitches or driver crashes on misbehaving shaders.</string>
     <string name="rescale_hack">Enable Legacy Rescale Pass</string>
     <string name="rescale_hack_description">Enables a legacy handling for the rescale configuration pass for games by using a quick rescale path</string>
     <string name="renderer_asynchronous_shaders">Use asynchronous shaders</string>

@@ -715,4 +715,34 @@
         <item>4608</item>
         <item>5120</item>
     </integer-array>
+
+    <string-array name="governorSafetyReserveEntries">
+        <item>100 MB (Aggressive)</item>
+        <item>120 MB (LMKD Line)</item>
+        <item>140 MB (Default - Recommended)</item>
+        <item>160 MB (Safe)</item>
+        <item>180 MB (Conservative)</item>
+        <item>200 MB (High Margin)</item>
+    </string-array>
+
+    <integer-array name="governorSafetyReserveValues">
+        <item>100</item>
+        <item>120</item>
+        <item>140</item>
+        <item>160</item>
+        <item>180</item>
+        <item>200</item>
+    </integer-array>
+
+    <string-array name="astcRecompressionEntries">
+        <item>Uncompressed (Original Quality)</item>
+        <item>BC1 (Low VRAM, 75% Reduction)</item>
+        <item>BC3 (Balanced, 50% Reduction)</item>
+    </string-array>
+
+    <integer-array name="astcRecompressionValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </integer-array>
 </resources>

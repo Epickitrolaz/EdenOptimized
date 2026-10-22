@@ -48,6 +48,12 @@ enum class BooleanSetting(override val key: String) : AbstractBooleanSetting {
     MEMORY_GOVERNOR_THP("memory_governor_thp"),
     MEMORY_GOVERNOR_PACING("memory_governor_pacing"),
     TEXTURE_CACHE_GC_ISOLATED("texture_cache_gc_isolated"),
+    ENABLE_COMPUTE_PIPELINES("enable_compute_pipelines"),
+    ASYNC_PRESENTATION("async_presentation"),
+    USE_VULKAN_DRIVER_PIPELINE_CACHE("use_vulkan_driver_pipeline_cache"),
+    BARRIER_FEEDBACK_LOOPS("barrier_feedback_loops"),
+    USE_VIDEO_FRAMERATE("use_video_framerate"),
+    DISABLE_SHADER_LOOP_SAFETY_CHECKS("disable_shader_loop_safety_checks"),
     INVERT_CONFIRM_BACK_CONTROLLER_BUTTONS("invert_confirm_back_controller_buttons"),
 
     ENABLE_FOLDER_BUTTON("enable_folder_button"),

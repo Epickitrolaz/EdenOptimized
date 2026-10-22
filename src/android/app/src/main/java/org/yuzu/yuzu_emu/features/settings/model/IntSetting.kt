@@ -47,6 +47,8 @@ enum class IntSetting(override val key: String) : AbstractIntSetting {
     SOC_OVERLAY_POSITION("soc_overlay_position"),
     MEMORY_LAYOUT("memory_layout_mode"),
     MEMORY_GOVERNOR_BUDGET("memory_governor_budget"),
+    MEMORY_GOVERNOR_SAFETY_RESERVE("memory_governor_safety_reserve"),
+    RENDERER_ASTC_RECOMPRESSION("astc_recompression"),
     FSR_SHARPENING_SLIDER("fsr_sharpening_slider"),
     RENDERER_SAMPLE_SHADING("sample_shading_fraction"),
     FAST_CPU_TIME("fast_cpu_time"),

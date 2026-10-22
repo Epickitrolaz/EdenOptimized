@@ -326,6 +326,15 @@ abstract class SettingsItem(
                 )
             )
             put(
+                SingleChoiceSetting(
+                    IntSetting.MEMORY_GOVERNOR_SAFETY_RESERVE,
+                    titleId = R.string.memory_governor_safety_reserve,
+                    descriptionId = R.string.memory_governor_safety_reserve_description,
+                    choicesId = R.array.governorSafetyReserveEntries,
+                    valuesId = R.array.governorSafetyReserveValues
+                )
+            )
+            put(
                 SwitchSetting(
                     BooleanSetting.MEMORY_GOVERNOR_PACING,
                     titleId = R.string.memory_governor_pacing,
@@ -425,6 +434,57 @@ abstract class SettingsItem(
                     descriptionId = R.string.accelerate_astc_description,
                     choicesId = R.array.astcDecodingMethodNames,
                     valuesId = R.array.astcDecodingMethodValues
+                )
+            )
+            put(
+                SingleChoiceSetting(
+                    IntSetting.RENDERER_ASTC_RECOMPRESSION,
+                    titleId = R.string.astc_recompression,
+                    descriptionId = R.string.astc_recompression_description,
+                    choicesId = R.array.astcRecompressionEntries,
+                    valuesId = R.array.astcRecompressionValues
+                )
+            )
+            put(
+                SwitchSetting(
+                    BooleanSetting.ENABLE_COMPUTE_PIPELINES,
+                    titleId = R.string.enable_compute_pipelines,
+                    descriptionId = R.string.enable_compute_pipelines_description
+                )
+            )
+            put(
+                SwitchSetting(
+                    BooleanSetting.ASYNC_PRESENTATION,
+                    titleId = R.string.async_presentation,
+                    descriptionId = R.string.async_presentation_description
+                )
+            )
+            put(
+                SwitchSetting(
+                    BooleanSetting.USE_VULKAN_DRIVER_PIPELINE_CACHE,
+                    titleId = R.string.use_vulkan_driver_pipeline_cache,
+                    descriptionId = R.string.use_vulkan_driver_pipeline_cache_description
+                )
+            )
+            put(
+                SwitchSetting(
+                    BooleanSetting.BARRIER_FEEDBACK_LOOPS,
+                    titleId = R.string.barrier_feedback_loops,
+                    descriptionId = R.string.barrier_feedback_loops_description
+                )
+            )
+            put(
+                SwitchSetting(
+                    BooleanSetting.USE_VIDEO_FRAMERATE,
+                    titleId = R.string.use_video_framerate,
+                    descriptionId = R.string.use_video_framerate_description
+                )
+            )
+            put(
+                SwitchSetting(
+                    BooleanSetting.DISABLE_SHADER_LOOP_SAFETY_CHECKS,
+                    titleId = R.string.disable_shader_loop_safety_checks,
+                    descriptionId = R.string.disable_shader_loop_safety_checks_description
                 )
             )
             put(

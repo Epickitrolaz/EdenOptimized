@@ -721,8 +721,8 @@ struct Values {
                                            Category::RendererDebug};
     Setting<bool> enable_nsight_aftermath{linkage, false, "nsight_aftermath",
                                           Category::RendererDebug};
-    Setting<bool> disable_shader_loop_safety_checks{
-                                                    linkage, false, "disable_shader_loop_safety_checks", Category::RendererDebug};
+    SwitchableSetting<bool> disable_shader_loop_safety_checks{
+        linkage, false, "disable_shader_loop_safety_checks", Category::RendererDebug};
     Setting<bool> enable_renderdoc_hotkey{linkage, false, "renderdoc_hotkey",
                                           Category::RendererDebug};
 #if defined(__ANDROID__) && defined(ARCHITECTURE_arm64)
