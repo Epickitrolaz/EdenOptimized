@@ -387,7 +387,9 @@ SamplerId TextureCache<P>::GetSamplerId(u32 index, bool compute) {
     auto const map_index = index | (compute ? Common::SlotId::TAGGED_VALUE : 0);
     auto const [descriptor, is_new] = table.Read(*gpu_memory, index);
     auto const it = channel_state->sampler_ids.find(map_index);
-    const bool is_corrupt = (it == channel_state->sampler_ids.end()) || (it->second == CORRUPT_ID);
+    const bool is_corrupt = (it == channel_state->sampler_ids.end()) ||
+                            (it->second == CORRUPT_ID) ||
+                            !slot_samplers.contains(it->second);
     if (is_new || is_corrupt) {
         auto const id = FindSampler(descriptor, compute);
         channel_state->sampler_ids.insert_or_assign(map_index, id);
@@ -622,12 +624,13 @@ ImageViewId TextureCache<P>::VisitImageView(u32 index, bool compute) {
     auto const it = channel_state->image_view_ids.find(map_index);
     const bool is_corrupt = (it == channel_state->image_view_ids.end()) ||
                             (it->second == CORRUPT_ID) ||
-                            (it->second == NULL_IMAGE_VIEW_ID && is_new);
+                            (it->second == NULL_IMAGE_VIEW_ID && is_new) ||
+                            !slot_image_views.contains(it->second);
     if (is_new || is_corrupt) {
         if (IsValidEntry(*gpu_memory, descriptor)) {
             // Is new (registered view) on the texture cache side?
             const auto [pair, is_new_tc] = channel_state->image_views.try_emplace(descriptor);
-            if (is_new_tc || pair->second == CORRUPT_ID || pair->second == NULL_IMAGE_VIEW_ID) {
+            if (is_new_tc || pair->second == CORRUPT_ID || pair->second == NULL_IMAGE_VIEW_ID || !slot_image_views.contains(pair->second)) {
                 pair->second = CreateImageView(descriptor);
             }
             PrepareImageView(pair->second, false, false);
@@ -637,7 +640,7 @@ ImageViewId TextureCache<P>::VisitImageView(u32 index, bool compute) {
         channel_state->image_view_ids.insert_or_assign(map_index, NULL_IMAGE_VIEW_ID);
         return NULL_IMAGE_VIEW_ID;
     }
-    if (it->second != NULL_IMAGE_VIEW_ID && it->second != CORRUPT_ID) {
+    if (it->second != NULL_IMAGE_VIEW_ID && it->second != CORRUPT_ID && slot_image_views.contains(it->second)) {
         PrepareImageView(it->second, false, false);
         return it->second;
     }
@@ -2607,11 +2610,14 @@ void TextureCache<P>::PrepareImage(ImageId image_id, bool is_modification, bool 
 template <class P>
 void TextureCache<P>::PrepareImageView(ImageViewId image_view_id, bool is_modification,
                                        bool invalidate) {
-    if (!image_view_id) {
+    if (!image_view_id || !slot_image_views.contains(image_view_id)) {
         return;
     }
     const ImageViewBase& image_view = slot_image_views[image_view_id];
     if (image_view.IsBuffer()) {
+        return;
+    }
+    if (!slot_images.contains(image_view.image_id)) {
         return;
     }
     PrepareImage(image_view.image_id, is_modification, invalidate);
