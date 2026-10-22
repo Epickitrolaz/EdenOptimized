@@ -229,8 +229,8 @@ RasterizerVulkan::RasterizerVulkan(Core::Frontend::EmuWindow& emu_window_, Tegra
 
     auto& mb = Common::MemoryBudget::Instance();
     const bool gov_enabled = Settings::values.use_memory_governor.GetValue();
-    const u64 texture_target = gov_enabled ? (512ULL * 1024 * 1024) : (1024ULL * 1024 * 1024);
-    const u64 texture_floor = gov_enabled ? (384ULL * 1024 * 1024) : (512ULL * 1024 * 1024);
+    const u64 texture_target = gov_enabled ? (768ULL * 1024 * 1024) : (1024ULL * 1024 * 1024);
+    const u64 texture_floor = gov_enabled ? (512ULL * 1024 * 1024) : (512ULL * 1024 * 1024);
     const u64 buffer_target = gov_enabled ? (320ULL * 1024 * 1024) : (512ULL * 1024 * 1024);
     const u64 buffer_floor = gov_enabled ? (256ULL * 1024 * 1024) : (256ULL * 1024 * 1024);
     const u64 pipeline_target = gov_enabled ? (32ULL * 1024 * 1024) : (128ULL * 1024 * 1024);

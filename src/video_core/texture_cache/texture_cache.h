@@ -134,7 +134,7 @@ void TextureCache<P>::RunGarbageCollector() {
     const auto Configure = [&](bool allow_aggressive) {
         high_priority_mode = total_used_memory >= effective_expected;
         aggressive_mode = allow_aggressive && total_used_memory >= effective_critical;
-        ticks_to_destroy = aggressive_mode ? 60ULL : high_priority_mode ? 120ULL : 180ULL;
+        ticks_to_destroy = aggressive_mode ? 300ULL : high_priority_mode ? 600ULL : 1800ULL;
         num_iterations = aggressive_mode ? 40 : (high_priority_mode ? 20 : 10);
     };
     const auto Cleanup = [this, &num_iterations, &high_priority_mode, &aggressive_mode, effective_expected, effective_critical](ImageId image_id) {
@@ -153,7 +153,7 @@ void TextureCache<P>::RunGarbageCollector() {
                 skip_costly = true;
             } else {
                 const u64 last_touch = lru_cache.GetItemTick(image.lru_index);
-                constexpr u64 RECENT_COSTLY_PROTECT_FRAMES = 150ULL; // 5 seconds at 30 fps
+                constexpr u64 RECENT_COSTLY_PROTECT_FRAMES = 450ULL; // 15 seconds at 30 fps
                 const u64 age = (frame_tick >= last_touch) ? (frame_tick - last_touch) : 0;
                 skip_costly = age < RECENT_COSTLY_PROTECT_FRAMES;
             }
@@ -202,14 +202,17 @@ void TextureCache<P>::TickFrame() {
     }
 
     u64 effective_expected = expected_memory;
+    u64 effective_critical = critical_memory;
     if (Common::MemoryGovernor::Instance().IsEnabled()) {
         const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::TextureCache);
         if (gov_target > 0) {
             effective_expected = gov_target;
+            effective_critical = (gov_target * 12) / 10;
         }
     }
 
-    if (total_used_memory >= effective_expected) {
+    if (total_used_memory >= effective_critical ||
+        (total_used_memory >= effective_expected && (frame_tick % 15 == 0))) {
         RunGarbageCollector();
     }
     sentenced_images.Tick();
@@ -241,8 +244,12 @@ u64 TextureCache<P>::ShrinkTo(u64 target_bytes, std::chrono::microseconds max_ti
         if (now - start >= max_time_budget) {
             break;
         }
+        const u64 mem_before = total_used_memory;
         RunGarbageCollector();
         iterations += 40;
+        if (total_used_memory >= mem_before) {
+            break;
+        }
     }
     if constexpr (IMPLEMENTS_ASYNC_DOWNLOADS) {
         for (auto& buffer : async_buffers_death_ring) {

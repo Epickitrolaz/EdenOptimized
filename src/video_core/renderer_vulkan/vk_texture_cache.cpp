@@ -1879,24 +1879,31 @@ Image::Image(TextureCacheRuntime& runtime_, const ImageInfo& info_, GPUVAddr gpu
       original_image(MakeImage(runtime_.device, runtime_.memory_allocator, info,
                                runtime->ViewFormats(info.format))),
       aspect_mask(ImageAspectMask(info.format)) {
-    if (IsPixelFormatASTC(info.format) && !runtime->device.IsOptimalAstcSupported()) {
-        switch (Settings::values.accelerate_astc.GetValue()) {
-        case Settings::AstcDecodeMode::Gpu:
-            if (WillUseAcceleratedAstcDecode(runtime->device, info)) {
-                flags |= VideoCommon::ImageFlagBits::AcceleratedUpload;
+    if (IsPixelFormatASTC(info.format)) {
+        if (!runtime->device.IsOptimalAstcSupported()) {
+            switch (Settings::values.accelerate_astc.GetValue()) {
+            case Settings::AstcDecodeMode::Gpu:
+                if (WillUseAcceleratedAstcDecode(runtime->device, info)) {
+                    flags |= VideoCommon::ImageFlagBits::AcceleratedUpload;
+                }
+                break;
+            case Settings::AstcDecodeMode::CpuAsynchronous:
+                flags |= VideoCommon::ImageFlagBits::AsynchronousDecode;
+                break;
+            default:
+                break;
             }
-            break;
-        case Settings::AstcDecodeMode::CpuAsynchronous:
-            flags |= VideoCommon::ImageFlagBits::AsynchronousDecode;
-            break;
-        default:
-            break;
+            flags |= VideoCommon::ImageFlagBits::Converted;
         }
-        flags |= VideoCommon::ImageFlagBits::Converted;
         flags |= VideoCommon::ImageFlagBits::CostlyLoad;
     }
-    if (IsPixelFormatBCn(info.format) && !runtime->device.IsOptimalBcnSupported()) {
-        flags |= VideoCommon::ImageFlagBits::Converted;
+    if (IsPixelFormatBCn(info.format)) {
+        if (!runtime->device.IsOptimalBcnSupported()) {
+            flags |= VideoCommon::ImageFlagBits::Converted;
+        }
+        flags |= VideoCommon::ImageFlagBits::CostlyLoad;
+    }
+    if (IsPixelFormatETC2(info.format)) {
         flags |= VideoCommon::ImageFlagBits::CostlyLoad;
     }
     if (runtime->device.HasDebuggingToolAttached()) {
