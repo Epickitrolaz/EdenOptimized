@@ -229,7 +229,7 @@ TEST_CASE("MemoryGovernor: ComputeBudget Headroom and Shortfall Scaling", "[comm
     auto& governor = MemoryGovernor::Instance();
     governor.Reset();
     governor.SetEnabled(true);
-    governor.SetSafetyReserve(180ULL * 1024 * 1024);
+    governor.SetSafetyReserve(140ULL * 1024 * 1024);
 
     MockMemoryClient texture("Texture", 400 * 1024 * 1024, 500 * 1024 * 1024, MemoryClientPriority::TextureCache);
     MockMemoryClient buffer("Buffer", 120 * 1024 * 1024, 250 * 1024 * 1024, MemoryClientPriority::BufferCache);
@@ -240,13 +240,13 @@ TEST_CASE("MemoryGovernor: ComputeBudget Headroom and Shortfall Scaling", "[comm
     REQUIRE(governor.GetTotalTargetBytes() == 750ULL * 1024 * 1024);
     REQUIRE(governor.GetTotalRegisteredBytes() == 520ULL * 1024 * 1024);
 
-    // Case 1: Healthy available memory (230 MB >= 180 MB reserve). Headroom = 50 MB.
-    const u64 budget_healthy = governor.ComputeBudget(230ULL * 1024 * 1024);
+    // Case 1: Healthy available memory (190 MB >= 140 MB reserve). Headroom = 50 MB.
+    const u64 budget_healthy = governor.ComputeBudget(190ULL * 1024 * 1024);
     REQUIRE(budget_healthy == (520ULL + 50ULL) * 1024 * 1024);
     REQUIRE(governor.GetTotalRegisteredBytes() < budget_healthy);
 
-    // Case 2: Memory pressure (130 MB < 180 MB reserve). Shortfall = 50 MB.
-    const u64 budget_pressure = governor.ComputeBudget(130ULL * 1024 * 1024);
+    // Case 2: Memory pressure (90 MB < 140 MB reserve). Shortfall = 50 MB.
+    const u64 budget_pressure = governor.ComputeBudget(90ULL * 1024 * 1024);
     REQUIRE(budget_pressure == (520ULL - 50ULL) * 1024 * 1024);
     REQUIRE(governor.GetTotalRegisteredBytes() > budget_pressure);
 
