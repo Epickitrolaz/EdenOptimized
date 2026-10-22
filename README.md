@@ -43,9 +43,36 @@ Written in C++, with builds for Windows, Linux, macOS, Android, FreeBSD and more
 
 ## Compatibility
 
-The emulator is capable of running most commercial games at full speed, provided you meet the necessary hardware requirements.
+The emulator is capable of running commercial Switch games at full speed, provided your device meets the necessary hardware requirements.
 
-A list of supported games will be available in future. Please be patient.
+### Handheld Compatibility List (8 GB Devices)
+
+| Game Title | Title ID | Tested Device | Status | Target FPS | Notes |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Xenoblade Chronicles 3** | `010074F013262000` | Retroid Pocket 5 (8 GB RAM, Snapdragon 865) | **Playable / Stable** | 30 FPS | Solid 30 fps in open world; momentary dips to ~20 fps only during shader compilation or memory reclamation. Tested 46+ min continuous play without crashes. **GPU overclocked to 905 MHz**. |
+
+#### Xenoblade Chronicles 3 Recommended Configuration
+
+- **Target Device:** Retroid Pocket 5 (Snapdragon 865 / Adreno 650, 8 GB RAM)
+- **Hardware Profile:** GPU overclocked to **905 MHz** (via handheld performance mode / governor)
+- **Graphics Driver:** Mesa Turnip (e.g. Turnip 24.2.99 / 24.3 rev 9)
+- **Recommended Engine & Graphics Settings:**
+  - **Memory Governor:** Enabled (`use_memory_governor = true`)
+  - **Safety Reserve Margin:** 140 MB
+  - **Isolate Texture Cache GC:** Enabled (`texture_cache_gc_isolated = true`)
+  - **VRAM Usage Mode:** Conservative
+  - **Async Presentation:** Enabled
+  - **Enable Compute Pipelines:** Enabled
+  - **Vulkan Driver Pipeline Cache:** Enabled
+  - **Barrier Feedback Loops:** Enabled
+  - **Optimized Vertex Buffers:** Disabled (requires Mesa Turnip 26.0+)
+  - **Force Maximum Clocks:** Disabled (hardware GPU is already overclocked to 905 MHz)
+- **Verified Telemetry & Performance:**
+  - **Framerate:** Stable **30.0 FPS** native; brief dips to ~20 FPS during shader building or memory trim passes
+  - **Texture Cache:** Settles naturally at **~1,000 MB** (avg: 1,001.1 MB, peak: 1,375.7 MB) with 0.0 unmanaged ballooning
+  - **Buffer Cache:** ~**315 MB**
+  - **Memory Headroom:** Available RAM averages **~116 MB**; safe, controlled dips to ~40 MB handled cleanly by the memory governor without LMKD kills or kernel panics
+  - **Session Stability:** 46.5+ minutes continuous play session verified (77,520+ frames rendered) with zero crashes
 
 Check out our [website](https://eden-emu.dev) for the latest news on exciting features, monthly progress reports, and more!
 
