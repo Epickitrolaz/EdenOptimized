@@ -131,36 +131,34 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
         }
     }
 
+    size_t max_scan = 512;
     const auto Configure = [&](bool allow_aggressive) {
         high_priority_mode = total_used_memory >= effective_expected || force_aggressive;
         aggressive_mode = allow_aggressive && (total_used_memory >= effective_critical || force_aggressive);
-        ticks_to_destroy = aggressive_mode ? 1800ULL : high_priority_mode ? 2400ULL : 3600ULL;
+        ticks_to_destroy = aggressive_mode ? 30ULL : high_priority_mode ? 60ULL : 180ULL;
         num_iterations = aggressive_mode ? 40 : (high_priority_mode ? 20 : 10);
+        max_scan = 512;
     };
-    const auto Cleanup = [this, &num_iterations, &high_priority_mode, &aggressive_mode, effective_expected, effective_critical](ImageId image_id) {
-        if (num_iterations == 0) {
+    const auto Cleanup = [this, &num_iterations, &max_scan, &high_priority_mode, &aggressive_mode, effective_expected, effective_critical](ImageId image_id) {
+        if (num_iterations == 0 || max_scan == 0) {
             return true;
         }
-        --num_iterations;
+        --max_scan;
         auto& image = slot_images[image_id];
         if (True(image.flags & ImageFlagBits::IsDecoding)) {
             return false;
         }
         const bool must_download = IsDownloadable(image) && False(image.flags & ImageFlagBits::BadOverlap);
-        bool skip_costly = false;
-        if (True(image.flags & ImageFlagBits::CostlyLoad)) {
-            if (!aggressive_mode) {
-                skip_costly = true;
-            } else {
-                const u64 last_touch = lru_cache.GetItemTick(image.lru_index);
-                constexpr u64 RECENT_COSTLY_PROTECT_FRAMES = 1800ULL; // 60 seconds at 30 fps
-                const u64 age = (frame_tick >= last_touch) ? (frame_tick - last_touch) : 0;
-                skip_costly = age < RECENT_COSTLY_PROTECT_FRAMES;
-            }
-        }
+        const bool is_remapped = True(image.flags & ImageFlagBits::Remapped);
+        // Active game art (CostlyLoad) that is NOT remapped is 100% IMMUNE from LRU eviction.
+        // Evicting active CostlyLoad textures causes Qualcomm SMMU GPU context faults when drawn.
+        // Remapped textures (unmapped by the guest engine on zone transitions / fast travel)
+        // are dead assets and safe to reclaim.
+        const bool skip_costly = !is_remapped && True(image.flags & ImageFlagBits::CostlyLoad);
         if (skip_costly || (!high_priority_mode && must_download)) {
             return false;
         }
+        --num_iterations;
         if (must_download) {
             auto map = runtime.DownloadStagingBuffer(image.unswizzled_size_bytes);
             const auto copies = FullDownloadCopies(image.info);
