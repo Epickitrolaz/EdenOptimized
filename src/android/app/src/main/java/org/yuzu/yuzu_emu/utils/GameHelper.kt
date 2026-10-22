@@ -260,9 +260,30 @@ object GameHelper {
         addedToLibrary: Boolean,
         registerFilesystemProvider: Boolean = true
     ): Game? {
-        val filePath = uri.toString()
-        if (!GameMetadata.getIsValid(filePath)) {
-            return null
+        val filePath = when (uri.scheme) {
+            "file" -> uri.path ?: uri.toString()
+            else -> uri.toString()
+        }
+        val isValid = GameMetadata.getIsValid(filePath)
+        if (!isValid) {
+            val ext = FileUtil.getExtension(uri)
+            if (!Game.extensions.contains(ext)) {
+                return null
+            }
+            val filename = FileUtil.getFilename(uri)
+            val name = if (filename.contains(".")) {
+                filename.substring(0, filename.lastIndexOf("."))
+            } else {
+                filename.ifEmpty { "Switch Game" }
+            }
+            return Game(
+                name,
+                filePath,
+                "0000000000000000",
+                "",
+                "",
+                false
+            )
         }
 
         if (registerFilesystemProvider) {
@@ -293,6 +314,9 @@ object GameHelper {
         )
 
         if (addedToLibrary) {
+            if (!::preferences.isInitialized) {
+                preferences = PreferenceManager.getDefaultSharedPreferences(YuzuApplication.appContext)
+            }
             val addedTime = preferences.getLong(newGame.keyAddedToLibraryTime, 0L)
             if (addedTime == 0L) {
                 preferences.edit()

@@ -239,11 +239,8 @@ class EmulationFragment : Fragment(), SurfaceHolder.Callback {
             handleEmuReadyIntent(intent)
             return
         } else if (intentUri != null) {
-            intentGame = if (Game.extensions.contains(FileUtil.getExtension(intentUri))) {
-                GameHelper.getGame(requireActivity().intent.data!!, false)
-            } else {
-                null
-            }
+            NativeLibrary.reloadKeys()
+            intentGame = GameHelper.getGame(intentUri, false)
         }
 
         if (emulationViewModel.isEmulationStopping.value) {

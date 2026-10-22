@@ -214,12 +214,26 @@ object FileUtil {
         var c: Cursor? = null
         try {
             c = resolver.query(uri, columns, null, null, null)
-            c!!.moveToNext()
-            filename = c.getString(0)
+            if (c != null && c.moveToFirst()) {
+                filename = c.getString(0) ?: ""
+            }
         } catch (e: Exception) {
-            Log.error("[FileUtil]: Cannot get file size, error: " + e.message)
+            Log.error("[FileUtil]: Cannot get file name, error: " + e.message)
         } finally {
             closeQuietly(c)
+        }
+        if (filename.isEmpty()) {
+            val segment = uri.lastPathSegment
+            if (segment != null) {
+                filename = try {
+                    Uri.decode(segment)
+                } catch (_: Exception) {
+                    segment
+                }
+                if (filename.contains("/")) {
+                    filename = filename.substringAfterLast("/")
+                }
+            }
         }
         return filename
     }
@@ -484,9 +498,26 @@ object FileUtil {
     }
 
     fun getExtension(uri: Uri): String {
-        val fileName = getFilename(uri)
-        return fileName.substring(fileName.lastIndexOf(".") + 1)
-            .lowercase()
+        val fileName = try {
+            getFilename(uri)
+        } catch (_: Exception) {
+            ""
+        }
+        val cleanName = if (fileName.isNotEmpty() && fileName.contains(".")) {
+            fileName
+        } else {
+            val fallback = uri.lastPathSegment ?: uri.path ?: uri.toString()
+            try {
+                Uri.decode(fallback)
+            } catch (_: Exception) {
+                fallback
+            }
+        }
+        return if (cleanName.contains(".")) {
+            cleanName.substring(cleanName.lastIndexOf(".") + 1).lowercase()
+        } else {
+            ""
+        }
     }
 
     fun isTreeUriValid(uri: Uri): Boolean {
