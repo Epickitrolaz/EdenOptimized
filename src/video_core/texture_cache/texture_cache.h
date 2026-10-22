@@ -135,7 +135,7 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
     const auto Configure = [&](bool allow_aggressive) {
         high_priority_mode = total_used_memory >= effective_expected || force_aggressive;
         aggressive_mode = allow_aggressive && (total_used_memory >= effective_critical || force_aggressive);
-        ticks_to_destroy = aggressive_mode ? 30ULL : high_priority_mode ? 60ULL : 180ULL;
+        ticks_to_destroy = aggressive_mode ? 1800ULL : high_priority_mode ? 2400ULL : 3600ULL;
         num_iterations = aggressive_mode ? 40 : (high_priority_mode ? 20 : 10);
         max_scan = 512;
     };
@@ -150,11 +150,17 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
         }
         const bool must_download = IsDownloadable(image) && False(image.flags & ImageFlagBits::BadOverlap);
         const bool is_remapped = True(image.flags & ImageFlagBits::Remapped);
-        // Active game art (CostlyLoad) that is NOT remapped is 100% IMMUNE from LRU eviction.
-        // Evicting active CostlyLoad textures causes Qualcomm SMMU GPU context faults when drawn.
-        // Remapped textures (unmapped by the guest engine on zone transitions / fast travel)
-        // are dead assets and safe to reclaim.
-        const bool skip_costly = !is_remapped && True(image.flags & ImageFlagBits::CostlyLoad);
+        bool skip_costly = false;
+        if (True(image.flags & ImageFlagBits::CostlyLoad) && !is_remapped) {
+            if (!aggressive_mode) {
+                skip_costly = true;
+            } else {
+                const u64 last_touch = lru_cache.GetItemTick(image.lru_index);
+                constexpr u64 RECENT_COSTLY_PROTECT_FRAMES = 1800ULL; // 60 seconds at 30 fps
+                const u64 age = (frame_tick >= last_touch) ? (frame_tick - last_touch) : 0;
+                skip_costly = age < RECENT_COSTLY_PROTECT_FRAMES;
+            }
+        }
         if (skip_costly || (!high_priority_mode && must_download)) {
             return false;
         }
@@ -380,12 +386,14 @@ SamplerId TextureCache<P>::GetSamplerId(u32 index, bool compute) {
     }
     auto const map_index = index | (compute ? Common::SlotId::TAGGED_VALUE : 0);
     auto const [descriptor, is_new] = table.Read(*gpu_memory, index);
-    if (is_new) {
+    auto const it = channel_state->sampler_ids.find(map_index);
+    const bool is_corrupt = (it == channel_state->sampler_ids.end()) || (it->second == CORRUPT_ID);
+    if (is_new || is_corrupt) {
         auto const id = FindSampler(descriptor, compute);
         channel_state->sampler_ids.insert_or_assign(map_index, id);
         return id;
     }
-    return channel_state->sampler_ids.find(map_index)->second;
+    return it->second;
 }
 
 template <class P>
@@ -611,12 +619,17 @@ ImageViewId TextureCache<P>::VisitImageView(u32 index, bool compute) {
     auto const map_index = index | (compute ? Common::SlotId::TAGGED_VALUE : 0);
     // Is new (on the tegra engine side)?
     auto const [descriptor, is_new] = table.Read(*gpu_memory, index);
-    if (is_new) {
+    auto const it = channel_state->image_view_ids.find(map_index);
+    const bool is_corrupt = (it == channel_state->image_view_ids.end()) ||
+                            (it->second == CORRUPT_ID) ||
+                            (it->second == NULL_IMAGE_VIEW_ID && is_new);
+    if (is_new || is_corrupt) {
         if (IsValidEntry(*gpu_memory, descriptor)) {
             // Is new (registered view) on the texture cache side?
             const auto [pair, is_new_tc] = channel_state->image_views.try_emplace(descriptor);
-            if (is_new_tc)
+            if (is_new_tc || pair->second == CORRUPT_ID || pair->second == NULL_IMAGE_VIEW_ID) {
                 pair->second = CreateImageView(descriptor);
+            }
             PrepareImageView(pair->second, false, false);
             channel_state->image_view_ids.insert_or_assign(map_index, pair->second);
             return pair->second;
@@ -624,10 +637,11 @@ ImageViewId TextureCache<P>::VisitImageView(u32 index, bool compute) {
         channel_state->image_view_ids.insert_or_assign(map_index, NULL_IMAGE_VIEW_ID);
         return NULL_IMAGE_VIEW_ID;
     }
-    auto const it = channel_state->image_view_ids.find(map_index);
-    if (it->second != NULL_IMAGE_VIEW_ID)
+    if (it->second != NULL_IMAGE_VIEW_ID && it->second != CORRUPT_ID) {
         PrepareImageView(it->second, false, false);
-    return it->second;
+        return it->second;
+    }
+    return NULL_IMAGE_VIEW_ID;
 }
 
 template <class P>
@@ -2481,6 +2495,11 @@ void TextureCache<P>::RemoveImageViewReferences(std::span<const ImageViewId> rem
                 it = channel_info.image_views.erase(it);
             } else {
                 ++it;
+            }
+        }
+        for (auto& entry : channel_info.image_view_ids) {
+            if (std::ranges::find(removed_views, entry.second) != removed_views.end()) {
+                entry.second = CORRUPT_ID;
             }
         }
     }
