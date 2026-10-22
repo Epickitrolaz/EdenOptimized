@@ -115,7 +115,7 @@ TextureCache<P>::TextureCache(Runtime& runtime_, Tegra::MaxwellDeviceMemoryManag
 }
 
 template <class P>
-void TextureCache<P>::RunGarbageCollector() {
+void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
     bool high_priority_mode = false;
     bool aggressive_mode = false;
     u64 ticks_to_destroy = 0;
@@ -132,8 +132,8 @@ void TextureCache<P>::RunGarbageCollector() {
     }
 
     const auto Configure = [&](bool allow_aggressive) {
-        high_priority_mode = total_used_memory >= effective_expected;
-        aggressive_mode = allow_aggressive && total_used_memory >= effective_critical;
+        high_priority_mode = total_used_memory >= effective_expected || force_aggressive;
+        aggressive_mode = allow_aggressive && (total_used_memory >= effective_critical || force_aggressive);
         ticks_to_destroy = aggressive_mode ? 300ULL : high_priority_mode ? 600ULL : 1800ULL;
         num_iterations = aggressive_mode ? 40 : (high_priority_mode ? 20 : 10);
     };
@@ -185,7 +185,7 @@ void TextureCache<P>::RunGarbageCollector() {
     };
     Configure(false);
     lru_cache.ForEachItemBelow(frame_tick - ticks_to_destroy, Cleanup);
-    if (total_used_memory >= effective_critical) {
+    if (total_used_memory >= effective_critical || force_aggressive) {
         Configure(true);
         lru_cache.ForEachItemBelow(frame_tick - ticks_to_destroy, Cleanup);
     }
@@ -245,7 +245,7 @@ u64 TextureCache<P>::ShrinkTo(u64 target_bytes, std::chrono::microseconds max_ti
             break;
         }
         const u64 mem_before = total_used_memory;
-        RunGarbageCollector();
+        RunGarbageCollector(true);
         iterations += 40;
         if (total_used_memory >= mem_before) {
             break;
