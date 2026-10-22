@@ -1,121 +1,102 @@
 <!--
-# SPDX-FileCopyrightText: Copyright 2025 Eden Emulator Project
+# SPDX-FileCopyrightText: Copyright 2026 Eden Emulator Project
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # SPDX-FileCopyrightText: 2018 yuzu Emulator Project
 # SPDX-License-Identifier: GPL-2.0-or-later
 -->
-<!-- lang: en-GB -->
 
 <h1 align="center">
   <br>
-  <a href="https://git.eden-emu.dev/eden-emu/eden"><img src="./dist/qt_themes/default/icons/256x256/eden.png" alt="Eden" width="200"></a>
+  <img src="./dist/qt_themes/default/icons/256x256/eden.png" alt="Eden Optimized" width="160">
   <br>
-  <b>Eden</b>
+  <b>Eden Optimized</b>
   <br>
 </h1>
 
-<h4 align="center"><b>Eden</b> is a free and open-source (FOSS) Switch 1 emulator started by developer Camille LaVey.
-<br>
-Written in C++, with builds for Windows, Linux, macOS, Android, FreeBSD and more.
+<h4 align="center">
+A performance and memory-governed fork of the <a href="https://git.eden-emu.dev/eden-emu/eden">Eden Nintendo Switch emulator</a>, engineered for stability and native 30 fps gameplay on 8 GB Android handhelds.
 </h4>
 
-<p align="center">
-    </a>
-    <a href="https://discord.gg/HstXbPch7X">
-        <img src="https://img.shields.io/discord/1367654015269339267?color=5865F2&label=Eden&logo=discord&logoColor=white"
-            alt="Discord">
-    </a>
-    <a href="https://stt.gg/qKgFEAbH">
-        <img src="https://img.shields.io/revolt/invite/qKgFEAbH?color=d61f3a&label=Stoat"
-            alt="Stoat">
-    </a>
-</p>
+---
 
-<p align="center">
-  <a href="#compatibility">Compatibility</a> |
-  <a href="#development">Development</a> |
-  <a href="#building">Building</a> |
-  <a href="#download">Download</a> |
-  <a href="#support">Support</a> |
-  <a href="#license">License</a>
-</p>
+## Overview
 
-## Compatibility
+On 8 GB Android handheld gaming devices (such as the Retroid Pocket 5 and Odin 2), memory-intensive open-world Switch titles (like *Xenoblade Chronicles 3* and *The Legend of Zelda: Tears of the Kingdom*) frequently trigger Android Low Memory Killer (LMKD) kills, SMMU GPU context faults, or full kernel reboots due to unmanaged VRAM accumulation and aggressive texture eviction bugs.
 
-The emulator is capable of running commercial Switch games at full speed, provided your device meets the necessary hardware requirements.
+**Eden Optimized** addresses these limitations by introducing a real-time **Memory Governor**, calibrated cache working sets, fault-free texture eviction rings, and low-level engine tuning options to ensure long, crash-free play sessions with consistent framerates.
 
-### Handheld Compatibility List (8 GB Devices)
+---
+
+## Key Enhancements
+
+* **Active Memory Governor:** Dynamically monitors real-time Linux available RAM (`/proc/meminfo`) and orders proactive cache shrinkage before available memory approaches Android's low-memory killer thresholds.
+* **Fault-Free Texture Eviction:** Combines a 64-frame Vulkan destruction ring cushion with descriptor auto-recovery (`SlotVector::contains()`), guaranteeing that texture pruning never passes stale handles to the GPU or causes hardware context faults.
+* **Calibrated Working Sets:** Replaces unmanaged growth with targeted cache floors (1,024 MB Texture Cache target, 320 MB Buffer Cache target) that prevent memory ballooning while keeping active 3D world art stutter-free.
+* **Granular Engine Controls:** Exposes low-level settings directly in the Android UI, including Safety Reserve Margin, Texture Cache Isolation, Compute Pipelines, Barrier Feedback Loops, Async Presentation, and Driver Pipeline Cache.
+* **Handheld Frontend Integration:** Out-of-the-box launcher compatibility with **iiSU**, **Daijishō**, and **Beacon** using standard Switch emulator package registration (`dev.eden.eden_emulator`).
+
+---
+
+## Handheld Compatibility & Recommended Profiles
+
+### Verified 8 GB Handheld Results
 
 | Game Title | Title ID | Tested Device | Status | Target FPS | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Xenoblade Chronicles 3** | `010074F013262000` | Retroid Pocket 5 (8 GB RAM, Snapdragon 865) | **Playable / Stable** | 30 FPS | Solid 30 fps in open world; momentary dips to ~20 fps only during shader compilation or memory reclamation. Tested 46+ min continuous play without crashes. **GPU overclocked to 905 MHz**. |
 
-#### Xenoblade Chronicles 3 Recommended Configuration
+### Xenoblade Chronicles 3 Configuration Profile
 
-- **Target Device:** Retroid Pocket 5 (Snapdragon 865 / Adreno 650, 8 GB RAM)
-- **Hardware Profile:** GPU overclocked to **905 MHz** (via handheld performance mode / governor)
-- **Graphics Driver:** Mesa Turnip (e.g. Turnip 24.2.99 / 24.3 rev 9)
-- **Settings Changed from Default:**
-  - **Enable Memory Governor:** Enabled (`use_memory_governor = true` [default: disabled])
-  - **Isolate Texture Cache GC:** Enabled (`texture_cache_gc_isolated = true` [default: disabled])
-  - **Enable Compute Pipelines:** Enabled (`enable_compute_pipelines = true` [default: disabled])
-  *(All other settings remain at their default values: Safety Reserve at 140 MB, VRAM Usage Mode on Conservative, Driver Pipeline Cache enabled, Barrier Feedback Loops enabled, Async Presentation enabled, Optimized Vertex Buffers disabled, and Force Maximum Clocks disabled).*
-- **Verified Telemetry & Performance:**
-  - **Framerate:** Stable **30.0 FPS** native; brief dips to ~20 FPS during shader building or memory trim passes
-  - **Texture Cache:** Settles naturally at **~1,000 MB** (avg: 1,001.1 MB, peak: 1,375.7 MB) with 0.0 unmanaged ballooning
-  - **Buffer Cache:** ~**315 MB**
-  - **Memory Headroom:** Available RAM averages **~116 MB**; safe, controlled dips to ~40 MB handled cleanly by the memory governor without LMKD kills or kernel panics
-  - **Session Stability:** 46.5+ minutes continuous play session verified (77,520+ frames rendered) with zero crashes
+* **Target Device:** Retroid Pocket 5 (Snapdragon 865 / Adreno 650, 8 GB RAM)
+* **Hardware Note:** GPU overclocked to **905 MHz** (via handheld performance mode / governor)
+* **Graphics Driver:** Mesa Turnip (e.g. Turnip 24.2.99 / 24.3 rev 9)
+* **Settings Changed from Default:**
+  * **Enable Memory Governor:** Enabled (`use_memory_governor = true` [default: disabled])
+  * **Isolate Texture Cache GC:** Enabled (`texture_cache_gc_isolated = true` [default: disabled])
+  * **Enable Compute Pipelines:** Enabled (`enable_compute_pipelines = true` [default: disabled])
+  *(All other settings can remain at their defaults: Safety Reserve at 140 MB, VRAM Usage Mode on Conservative, Driver Pipeline Cache enabled, Barrier Feedback Loops enabled, Async Presentation enabled, Optimized Vertex Buffers disabled, and Force Maximum Clocks disabled).*
+* **Verified Session Telemetry:**
+  * **Framerate:** Locked **30.0 FPS** native (session average: 28.7 FPS including zone loads)
+  * **Texture Cache:** Settles naturally at **~1,000 MB** (session average: 1,001.1 MB, peak: 1,375.7 MB) with 0.0 unmanaged ballooning
+  * **Buffer Cache:** ~**315 MB**
+  * **Memory Headroom:** Available RAM averages **~116 MB**; safe, controlled dips to ~40 MB handled cleanly by the memory governor without LMKD kills or kernel panics
+  * **Session Stability:** 46.5+ minutes continuous play session verified (77,520+ frames rendered) with zero crashes
 
-Check out our [website](https://eden-emu.dev) for the latest news on exciting features, monthly progress reports, and more!
+---
 
-[![Packaging status](https://repology.org/badge/vertical-allrepos/eden-emulator.svg)](https://repology.org/project/eden-emulator/versions)
+## Building from Source
 
-## Contribute
+### Android Build (APK)
 
-To contribute to Eden; be it financially, code, bug reports, or otherwise, see our [Contributing guidelines](./CONTRIBUTING.md).
+```bash
+cd src/android
+./gradlew assembleMainlineRelWithDebInfo
+```
 
-## Documentation
+The compiled APK will be located at:
+`src/android/app/build/outputs/apk/mainline/relWithDebInfo/app-mainline-relWithDebInfo.apk`
 
-We have a user manual! See our [User Handbook](./docs/user/README.md).
+### Running Unit Tests (Linux / Host)
 
-## Building
+```bash
+cmake -B build-test -GNinja -DCMAKE_BUILD_TYPE=Release
+ninja -C build-test tests
+./build-test/bin/tests [memory_governor],[memory_budget]
+```
 
-See the [General Build Guide](docs/Build.md)
+---
 
-For information on provided development tooling, see the [Tools directory](./tools)
+## Upstream Provenance & Attribution
 
-## Download
+**Eden Optimized** is a fork of the [Eden Nintendo Switch emulator](https://git.eden-emu.dev/eden-emu/eden) (`eden-emu/eden`), distributed under the GNU General Public License v3.0 or later (GPL-3.0-or-later).
 
-You can download the latest releases from [our release page](https://git.eden-emu.dev/eden-emu/eden/releases).
+* **Upstream Project:** [Eden Emulator](https://git.eden-emu.dev/eden-emu/eden)
+* **Upstream Base Commit:** `de7e6e01d43e8cf2ec193d74fa053b0d7949955f` (recorded in `UPSTREAM_BASE.txt`)
+* **License:** GNU General Public License v3.0 or later (see [LICENSE.txt](./LICENSE.txt))
 
-Save us some bandwidth! We have [mirrors available](./docs/user/ThirdParty.md#mirrors) as well.
+### Credits & Acknowledgments
 
-## License
-
-Eden is licensed under the GPLv3 (or any later version). Refer to the [LICENSE.txt](https://git.eden-emu.dev/eden-emu/eden/src/branch/master/LICENSE.txt) file.
-
-## Eden-Bounded Fork & Upstream Provenance
-
-**Eden-Bounded** is a fork of the [Eden Nintendo Switch emulator](https://git.eden-emu.dev/eden-emu/eden) (`eden-emu/eden`, GPLv3), with the single mission of running memory-hungry Switch titles (such as *Xenoblade Chronicles 3*) reliably on 8 GB Android handhelds without being terminated by OS low-memory killers (LMKD/OOM).
-
-- **Upstream Repository:** `https://git.eden-emu.dev/eden-emu/eden` (GitHub mirror: `https://github.com/eden-emulator/eden`)
-- **Upstream Base Commit:** `de7e6e01d43e8cf2ec193d74fa053b0d7949955f` (recorded in `UPSTREAM_BASE.txt`)
-- **License:** GNU General Public License v3.0 or later (GPL-3.0-or-later).
-- **Core Strategy:** Replace implicit "grow until driver crashes" memory allocations with an explicit process-wide memory governor and bounded cache policies.
-- **Diagnostics Build:** Phase 0 observability subsystem (`v0.1-memdiag`) exposes fine-grained per-subsystem telemetry and Android `dumpsys`/overlay reporting.
-
-## Special thanks
-
-Super special thanks to Cloudflare for preventing the git server from blowing up.
-
-- Yuzu
-- Ryujinx
-- Sudachi
-- Citron
-- Torzu
-- Suyu
-- Ryubing
-
-And everyone who continues or had contributed to the project! <3
+* **The Eden Emulator Project & Developers** (Camille LaVey, crueter, MaranBr, lizzie, and contributors) for the modern, multi-platform Switch emulation codebase, driver innovations, and active development.
+* **The Yuzu Emulator Project & Developers** for establishing the foundational open-source Nintendo Switch emulation architecture, reverse-engineering work, and core subsystems.
+* **The Emulation Community & Predecessors** (Ryujinx, Sudachi, Citron, Torzu) for shared research and hardware documentation.
