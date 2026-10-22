@@ -164,7 +164,14 @@ android {
             manifestPlaceholders += mapOf("appNameSuffix" to "")
 
             versionNameSuffix = "-relWithDebInfo"
-            applicationIdSuffix = ".relWithDebInfo"
+            val customSuffix = providers.gradleProperty("appIdSuffix").orNull
+            if (customSuffix != null) {
+                applicationIdSuffix = customSuffix
+            } else if (isNightly) {
+                applicationIdSuffix = ".nightly"
+            } else {
+                applicationIdSuffix = ""
+            }
             isJniDebuggable = true
         }
 
