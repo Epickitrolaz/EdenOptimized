@@ -155,6 +155,18 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
             return true;
         }
         --max_scan;
+        // Never evict active display framebuffer or currently bound render targets!
+        if (image_id == last_display_image_id) {
+            return false;
+        }
+        for (const ImageId active_rt : rt_image_id) {
+            if (active_rt && image_id == active_rt) {
+                return false;
+            }
+        }
+        if (rt_depth_image_id && image_id == rt_depth_image_id) {
+            return false;
+        }
         auto& image = slot_images[image_id];
         if (True(image.flags & ImageFlagBits::IsDecoding)) {
             return false;
@@ -932,6 +944,9 @@ std::pair<typename P::ImageView*, bool> TextureCache<P>::TryFindFramebufferImage
     boost::container::small_vector<ImageId, 4> valid_image_ids;
     for (const ImageMapId map_id : image_map_ids) {
         const ImageMapView& map = slot_map_views[map_id];
+        if (!map.image_id || !slot_images.contains(map.image_id)) {
+            continue;
+        }
         const ImageBase& image = slot_images[map.image_id];
         if (image.cpu_addr != cpu_addr) {
             continue;
@@ -960,6 +975,10 @@ std::pair<typename P::ImageView*, bool> TextureCache<P>::TryFindFramebufferImage
             info.y_source = static_cast<u8>(SwizzleSource::G);
             info.z_source = static_cast<u8>(SwizzleSource::B);
             info.w_source = static_cast<u8>(SwizzleSource::OneFloat);
+        }
+        last_display_image_id = image_id;
+        if (slot_images.contains(image_id)) {
+            lru_cache.Touch(slot_images[image_id].lru_index, frame_tick);
         }
         return std::make_pair(&slot_image_views[FindOrEmplaceImageView(image_id, info)],
                               slot_images[image_id].IsRescaled());
