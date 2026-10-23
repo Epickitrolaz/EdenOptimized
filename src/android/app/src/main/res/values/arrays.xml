@@ -745,4 +745,107 @@
         <item>1</item>
         <item>2</item>
     </integer-array>
+
+    <!-- Subsystem Memory Limits Arrays -->
+    <string-array name="maxTextureCacheEntries">
+        <item>Auto (Default: 1024 MB)</item>
+        <item>512 MB (Aggressive Low VRAM)</item>
+        <item>768 MB (Low VRAM)</item>
+        <item>1024 MB (1.0 GB - Standard Handheld)</item>
+        <item>1280 MB (1.25 GB)</item>
+        <item>1536 MB (1.5 GB)</item>
+        <item>2048 MB (2.0 GB - High End)</item>
+        <item>2560 MB (2.5 GB)</item>
+        <item>3072 MB (3.0 GB)</item>
+        <item>4096 MB (4.0 GB)</item>
+    </string-array>
+
+    <integer-array name="maxTextureCacheValues">
+        <item>0</item>
+        <item>512</item>
+        <item>768</item>
+        <item>1024</item>
+        <item>1280</item>
+        <item>1536</item>
+        <item>2048</item>
+        <item>2560</item>
+        <item>3072</item>
+        <item>4096</item>
+    </integer-array>
+
+    <string-array name="maxBufferCacheEntries">
+        <item>Auto (Default: 320 MB)</item>
+        <item>192 MB (Low VRAM)</item>
+        <item>256 MB (Conservative)</item>
+        <item>320 MB (320 MB - Standard Handheld)</item>
+        <item>384 MB (Balanced)</item>
+        <item>512 MB (512 MB - Standard)</item>
+        <item>768 MB (High)</item>
+        <item>1024 MB (1.0 GB)</item>
+    </string-array>
+
+    <integer-array name="maxBufferCacheValues">
+        <item>0</item>
+        <item>192</item>
+        <item>256</item>
+        <item>320</item>
+        <item>384</item>
+        <item>512</item>
+        <item>768</item>
+        <item>1024</item>
+    </integer-array>
+
+    <string-array name="maxStagingPoolEntries">
+        <item>Auto (Default: 96 MB)</item>
+        <item>48 MB (Conservative)</item>
+        <item>64 MB (Low VRAM)</item>
+        <item>96 MB (96 MB - Standard Handheld)</item>
+        <item>128 MB (128 MB - Standard)</item>
+        <item>192 MB (High)</item>
+        <item>256 MB (Extra Large)</item>
+    </string-array>
+
+    <integer-array name="maxStagingPoolValues">
+        <item>0</item>
+        <item>48</item>
+        <item>64</item>
+        <item>96</item>
+        <item>128</item>
+        <item>192</item>
+        <item>256</item>
+    </integer-array>
+
+    <string-array name="maxPipelineCacheEntries">
+        <item>Auto (Default: 32 MB)</item>
+        <item>16 MB (Low VRAM)</item>
+        <item>32 MB (32 MB - Standard Handheld)</item>
+        <item>64 MB (64 MB - Moderate)</item>
+        <item>128 MB (128 MB - Standard)</item>
+        <item>256 MB (Extra Large)</item>
+    </string-array>
+
+    <integer-array name="maxPipelineCacheValues">
+        <item>0</item>
+        <item>16</item>
+        <item>32</item>
+        <item>64</item>
+        <item>128</item>
+        <item>256</item>
+    </integer-array>
+
+    <string-array name="maxQueryCacheEntries">
+        <item>Auto (Default: 16 MB)</item>
+        <item>8 MB (Low VRAM)</item>
+        <item>16 MB (16 MB - Standard)</item>
+        <item>32 MB (32 MB - High)</item>
+        <item>64 MB (Extra Large)</item>
+    </string-array>
+
+    <integer-array name="maxQueryCacheValues">
+        <item>0</item>
+        <item>8</item>
+        <item>16</item>
+        <item>32</item>
+        <item>64</item>
+    </integer-array>
 </resources>

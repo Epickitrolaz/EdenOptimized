@@ -356,6 +356,51 @@ abstract class SettingsItem(
                 )
             )
             put(
+                SingleChoiceSetting(
+                    IntSetting.MAX_TEXTURE_CACHE_SIZE,
+                    titleId = R.string.max_texture_cache_size,
+                    descriptionId = R.string.max_texture_cache_size_description,
+                    choicesId = R.array.maxTextureCacheEntries,
+                    valuesId = R.array.maxTextureCacheValues
+                )
+            )
+            put(
+                SingleChoiceSetting(
+                    IntSetting.MAX_BUFFER_CACHE_SIZE,
+                    titleId = R.string.max_buffer_cache_size,
+                    descriptionId = R.string.max_buffer_cache_size_description,
+                    choicesId = R.array.maxBufferCacheEntries,
+                    valuesId = R.array.maxBufferCacheValues
+                )
+            )
+            put(
+                SingleChoiceSetting(
+                    IntSetting.MAX_STAGING_POOL_SIZE,
+                    titleId = R.string.max_staging_pool_size,
+                    descriptionId = R.string.max_staging_pool_size_description,
+                    choicesId = R.array.maxStagingPoolEntries,
+                    valuesId = R.array.maxStagingPoolValues
+                )
+            )
+            put(
+                SingleChoiceSetting(
+                    IntSetting.MAX_PIPELINE_CACHE_SIZE,
+                    titleId = R.string.max_pipeline_cache_size,
+                    descriptionId = R.string.max_pipeline_cache_size_description,
+                    choicesId = R.array.maxPipelineCacheEntries,
+                    valuesId = R.array.maxPipelineCacheValues
+                )
+            )
+            put(
+                SingleChoiceSetting(
+                    IntSetting.MAX_QUERY_CACHE_SIZE,
+                    titleId = R.string.max_query_cache_size,
+                    descriptionId = R.string.max_query_cache_size_description,
+                    choicesId = R.array.maxQueryCacheEntries,
+                    valuesId = R.array.maxQueryCacheValues
+                )
+            )
+            put(
                 SwitchSetting(
                     BooleanSetting.CORE_SYNC_CORE_SPEED,
                     titleId = R.string.use_sync_core,

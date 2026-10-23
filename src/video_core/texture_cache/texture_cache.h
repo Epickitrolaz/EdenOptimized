@@ -78,6 +78,13 @@ TextureCache<P>::TextureCache(Runtime& runtime_, Tegra::MaxwellDeviceMemoryManag
         minimum_memory = 0;
     }
 
+    const int custom_tc = Settings::values.max_texture_cache_size.GetValue();
+    if (custom_tc > 0) {
+        expected_memory = static_cast<u64>(custom_tc) * 1024 * 1024;
+        critical_memory = (expected_memory * 12) / 10;
+        minimum_memory = (expected_memory * 3) / 4;
+    }
+
     const bool gpu_unswizzle_enabled = Settings::values.gpu_unswizzle_enabled.GetValue();
 
     if (gpu_unswizzle_enabled) {
@@ -123,7 +130,11 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
 
     u64 effective_expected = expected_memory;
     u64 effective_critical = critical_memory;
-    if (Common::MemoryGovernor::Instance().IsEnabled()) {
+    const int custom_tc = Settings::values.max_texture_cache_size.GetValue();
+    if (custom_tc > 0) {
+        effective_expected = static_cast<u64>(custom_tc) * 1024 * 1024;
+        effective_critical = (effective_expected * 12) / 10;
+    } else if (Common::MemoryGovernor::Instance().IsEnabled()) {
         const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::TextureCache);
         if (gov_target > 0) {
             effective_expected = gov_target;
@@ -207,7 +218,11 @@ void TextureCache<P>::TickFrame() {
 
     u64 effective_expected = expected_memory;
     u64 effective_critical = critical_memory;
-    if (Common::MemoryGovernor::Instance().IsEnabled()) {
+    const int custom_tc = Settings::values.max_texture_cache_size.GetValue();
+    if (custom_tc > 0) {
+        effective_expected = static_cast<u64>(custom_tc) * 1024 * 1024;
+        effective_critical = (effective_expected * 12) / 10;
+    } else if (Common::MemoryGovernor::Instance().IsEnabled()) {
         const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::TextureCache);
         if (gov_target > 0) {
             effective_expected = gov_target;

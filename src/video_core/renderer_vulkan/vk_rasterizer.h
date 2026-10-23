@@ -230,7 +230,18 @@ private:
     boost::container::static_vector<VkSampler, MAX_TEXTURES> sampler_handles;
 
     u32 draw_counter = 0;
+    u64 frame_counter = 0;
     std::vector<std::unique_ptr<Common::IMemoryClient>> memory_clients;
+
+    [[nodiscard]] u64 GetTextureTarget() const;
+    [[nodiscard]] u64 GetTextureFloor() const;
+    [[nodiscard]] u64 GetBufferTarget() const;
+    [[nodiscard]] u64 GetBufferFloor() const;
+    [[nodiscard]] u64 GetStagingTarget() const;
+    [[nodiscard]] u64 GetStagingFloor() const;
+    [[nodiscard]] u64 GetPipelineTarget() const;
+    [[nodiscard]] u64 GetPipelineFloor() const;
+    [[nodiscard]] u64 GetQueryTarget() const;
 };
 
 } // namespace Vulkan

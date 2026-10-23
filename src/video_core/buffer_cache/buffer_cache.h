@@ -49,6 +49,12 @@ BufferCache<P>::BufferCache(Tegra::MaxwellDeviceMemoryManager& device_memory_, R
     critical_memory = static_cast<u64>(
         (std::max)((std::min)(device_local_memory - min_vacancy_critical, min_spacing_critical),
                  DEFAULT_CRITICAL_MEMORY));
+
+    const int custom_bc = Settings::values.max_buffer_cache_size.GetValue();
+    if (custom_bc > 0) {
+        minimum_memory = static_cast<u64>(custom_bc) * 1024 * 1024;
+        critical_memory = (minimum_memory * 12) / 10;
+    }
 }
 
 template <class P>
@@ -56,7 +62,9 @@ BufferCache<P>::~BufferCache() = default;
 
 template <class P>
 void BufferCache<P>::RunGarbageCollector() {
-    const bool aggressive_gc = total_used_memory >= critical_memory;
+    const int custom_bc = Settings::values.max_buffer_cache_size.GetValue();
+    const u64 eff_critical = (custom_bc > 0) ? ((static_cast<u64>(custom_bc) * 1024 * 1024 * 12) / 10) : critical_memory;
+    const bool aggressive_gc = total_used_memory >= eff_critical;
     const u64 ticks_to_destroy = aggressive_gc ? 60 : 120;
     int num_iterations = aggressive_gc ? 64 : 32;
 
@@ -106,7 +114,10 @@ void BufferCache<P>::TickFrame() {
         total_used_memory = runtime.GetDeviceMemoryUsage();
     }
     u64 effective_expected = minimum_memory;
-    if (Common::MemoryGovernor::Instance().IsEnabled()) {
+    const int custom_bc = Settings::values.max_buffer_cache_size.GetValue();
+    if (custom_bc > 0) {
+        effective_expected = static_cast<u64>(custom_bc) * 1024 * 1024;
+    } else if (Common::MemoryGovernor::Instance().IsEnabled()) {
         const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::BufferCache);
         if (gov_target > 0) {
             effective_expected = std::min(minimum_memory, gov_target);

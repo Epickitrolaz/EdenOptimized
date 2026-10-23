@@ -555,6 +555,19 @@
     <string name="texture_cache_gc_isolated">Isolate Texture Cache GC</string>
     <string name="texture_cache_gc_isolated_description">Drive texture cache GC directly from its own tracked allocations rather than whole-process Vulkan memory usage.</string>
 
+    <!-- Cache & Memory Limits Strings -->
+    <string name="cache_memory_limits_header">Cache &amp; Memory Limits</string>
+    <string name="max_texture_cache_size">Max Texture Cache Limit</string>
+    <string name="max_texture_cache_size_description">Maximum VRAM limit for 2D/3D textures before garbage collection evicts stale images. Auto defaults to 1024 MB with Memory Governor. Lower values (512–768 MB) reduce RAM; higher values (1536–2048 MB) prevent texture reload stutter on high-RAM devices.</string>
+    <string name="max_buffer_cache_size">Max Buffer Cache Limit</string>
+    <string name="max_buffer_cache_size_description">Maximum VRAM limit for vertex, index, and uniform buffers. Auto defaults to 320 MB with Memory Governor (or 512 MB default). Lower values reduce memory pressure in geometry-heavy scenes.</string>
+    <string name="max_staging_pool_size">Max Staging Pool Limit</string>
+    <string name="max_staging_pool_size_description">Maximum memory limit for CPU-to-GPU staging upload buffers and texture unswizzling. Auto defaults to 96 MB with Memory Governor.</string>
+    <string name="max_pipeline_cache_size">Max Pipeline Cache Limit</string>
+    <string name="max_pipeline_cache_size_description">Maximum in-memory cache limit for compiled Vulkan pipelines and intermediate shader object pools. Auto defaults to 32 MB with Memory Governor.</string>
+    <string name="max_query_cache_size">Max Query Cache Limit</string>
+    <string name="max_query_cache_size_description">Maximum buffer memory for GPU occlusion queries and streaming counters. Auto defaults to 16 MB.</string>
+
     <string name="generate">Generate</string>
 
     <!-- Network settings strings -->

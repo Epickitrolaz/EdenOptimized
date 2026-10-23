@@ -7,6 +7,7 @@
 
 #include "common/host_memory.h"
 #include "common/memory_governor.h"
+#include "common/settings.h"
 #include "shader_recompiler/object_pool.h"
 
 namespace Common {
@@ -256,6 +257,45 @@ TEST_CASE("MemoryGovernor: ComputeBudget Headroom and Shortfall Scaling", "[comm
 
     governor.UnregisterClient(&texture);
     governor.UnregisterClient(&buffer);
+}
+
+TEST_CASE("MemoryGovernor: Subsystem Memory Limit Settings", "[common][memory_governor]") {
+    // Verify default value is 0 (Auto)
+    REQUIRE(Settings::values.max_texture_cache_size.GetValue() == 0);
+    REQUIRE(Settings::values.max_buffer_cache_size.GetValue() == 0);
+    REQUIRE(Settings::values.max_staging_pool_size.GetValue() == 0);
+    REQUIRE(Settings::values.max_pipeline_cache_size.GetValue() == 0);
+    REQUIRE(Settings::values.max_query_cache_size.GetValue() == 0);
+
+    // Verify setting custom limit values
+    Settings::values.max_texture_cache_size.SetValue(1536);
+    Settings::values.max_buffer_cache_size.SetValue(256);
+    Settings::values.max_staging_pool_size.SetValue(64);
+    Settings::values.max_pipeline_cache_size.SetValue(48);
+    Settings::values.max_query_cache_size.SetValue(32);
+
+    REQUIRE(Settings::values.max_texture_cache_size.GetValue() == 1536);
+    REQUIRE(Settings::values.max_buffer_cache_size.GetValue() == 256);
+    REQUIRE(Settings::values.max_staging_pool_size.GetValue() == 64);
+    REQUIRE(Settings::values.max_pipeline_cache_size.GetValue() == 48);
+    REQUIRE(Settings::values.max_query_cache_size.GetValue() == 32);
+
+    // Test per-game custom config switching (SwitchableSetting)
+    Settings::values.max_texture_cache_size.SetGlobal(false);
+    Settings::values.max_texture_cache_size.SetValue(768);
+    REQUIRE(Settings::values.max_texture_cache_size.GetValue() == 768);
+    REQUIRE(Settings::values.max_texture_cache_size.GetValue(true) == 1536);
+
+    // Reset back to global / default
+    Settings::values.max_texture_cache_size.SetGlobal(true);
+    Settings::values.max_texture_cache_size.SetValue(0);
+    Settings::values.max_buffer_cache_size.SetValue(0);
+    Settings::values.max_staging_pool_size.SetValue(0);
+    Settings::values.max_pipeline_cache_size.SetValue(0);
+    Settings::values.max_query_cache_size.SetValue(0);
+
+    REQUIRE(Settings::values.max_texture_cache_size.GetValue() == 0);
+    REQUIRE(Settings::values.max_buffer_cache_size.GetValue() == 0);
 }
 
 } // namespace Common

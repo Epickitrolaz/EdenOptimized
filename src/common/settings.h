@@ -539,13 +539,18 @@ struct Values {
 
     // Eden-Bounded Memory Governor settings
     SwitchableSetting<bool> use_memory_governor{linkage, false, "use_memory_governor", Category::System};
-    SwitchableSetting<int> memory_governor_budget{linkage, 0, "memory_governor_budget", Category::System}; // in MB, 0 = Auto
-    SwitchableSetting<int> memory_governor_safety_reserve{linkage, 140, "memory_governor_safety_reserve", Category::System}; // in MB
-    SwitchableSetting<int> memory_governor_driver_baseline{linkage, 0, "memory_governor_driver_baseline", Category::System}; // in MB
+    SwitchableSetting<int> memory_governor_budget{linkage, 0, "memory_governor_budget", Category::System, Specialization::Default, true, true}; // in MB, 0 = Auto
+    SwitchableSetting<int> memory_governor_safety_reserve{linkage, 140, "memory_governor_safety_reserve", Category::System, Specialization::Default, true, true}; // in MB
+    SwitchableSetting<int> memory_governor_driver_baseline{linkage, 0, "memory_governor_driver_baseline", Category::System, Specialization::Default, true, true}; // in MB
     SwitchableSetting<bool> texture_cache_gc_isolated{linkage, false, "texture_cache_gc_isolated", Category::RendererAdvanced};
     SwitchableSetting<bool> memory_governor_thp{linkage, false, "memory_governor_thp", Category::System};
     SwitchableSetting<bool> memory_governor_pacing{linkage, false, "memory_governor_pacing", Category::System};
-    SwitchableSetting<int> memory_governor_pacing_ms{linkage, 2, "memory_governor_pacing_ms", Category::System}; // in ms
+    SwitchableSetting<int> memory_governor_pacing_ms{linkage, 2, "memory_governor_pacing_ms", Category::System, Specialization::Default, true, true}; // in ms
+    SwitchableSetting<int> max_texture_cache_size{linkage, 0, "max_texture_cache_size", Category::RendererAdvanced, Specialization::Default, true, true}; // in MB, 0 = Auto
+    SwitchableSetting<int> max_buffer_cache_size{linkage, 0, "max_buffer_cache_size", Category::RendererAdvanced, Specialization::Default, true, true}; // in MB, 0 = Auto
+    SwitchableSetting<int> max_staging_pool_size{linkage, 0, "max_staging_pool_size", Category::RendererAdvanced, Specialization::Default, true, true}; // in MB, 0 = Auto
+    SwitchableSetting<int> max_pipeline_cache_size{linkage, 0, "max_pipeline_cache_size", Category::RendererAdvanced, Specialization::Default, true, true}; // in MB, 0 = Auto
+    SwitchableSetting<int> max_query_cache_size{linkage, 0, "max_query_cache_size", Category::RendererAdvanced, Specialization::Default, true, true}; // in MB, 0 = Auto
 
     SwitchableSetting<NvdecEmulation> nvdec_emulation{linkage, NvdecEmulation::Cpu,
                                                       "nvdec_emulation", Category::RendererAdvanced};
