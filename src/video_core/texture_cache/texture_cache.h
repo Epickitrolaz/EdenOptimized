@@ -288,11 +288,17 @@ u64 TextureCache<P>::ShrinkTo(u64 target_bytes, std::chrono::microseconds max_ti
 
 template <class P>
 const typename P::ImageView& TextureCache<P>::GetImageView(ImageViewId id) const noexcept {
+    if (!id || id == CORRUPT_ID || !slot_image_views.contains(id)) {
+        return slot_image_views[NULL_IMAGE_VIEW_ID];
+    }
     return slot_image_views[id];
 }
 
 template <class P>
 typename P::ImageView& TextureCache<P>::GetImageView(ImageViewId id) noexcept {
+    if (!id || id == CORRUPT_ID || !slot_image_views.contains(id)) {
+        return slot_image_views[NULL_IMAGE_VIEW_ID];
+    }
     return slot_image_views[id];
 }
 
@@ -300,11 +306,17 @@ template <class P>
 typename P::ImageView& TextureCache<P>::GetImageView(u32 index) noexcept {
     // Not compute!
     const auto image_view_id = VisitImageView(index, false);
+    if (!image_view_id || image_view_id == CORRUPT_ID || !slot_image_views.contains(image_view_id)) {
+        return slot_image_views[NULL_IMAGE_VIEW_ID];
+    }
     return slot_image_views[image_view_id];
 }
 
 template <class P>
 void TextureCache<P>::MarkModification(ImageId id) noexcept {
+    if (!id || id == CORRUPT_ID || !slot_images.contains(id)) {
+        return;
+    }
     MarkModification(slot_images[id]);
 }
 
@@ -319,11 +331,13 @@ void TextureCache<P>::FillImageViews(std::span<ImageViewInOut> views, bool compu
         for (ImageViewInOut& view : views) {
             view.id = VisitImageView(view.index, compute);
             if (blacklist) {
-                if (view.blacklist && view.id != NULL_IMAGE_VIEW_ID) {
+                if (view.blacklist && view.id != NULL_IMAGE_VIEW_ID && view.id != CORRUPT_ID && slot_image_views.contains(view.id)) {
                     const ImageViewBase& image_view = slot_image_views[view.id];
-                    auto& image = slot_images[image_view.image_id];
-                    has_blacklisted |= ScaleDown(image);
-                    image.scale_rating = 0;
+                    if (image_view.image_id && image_view.image_id != CORRUPT_ID && slot_images.contains(image_view.image_id)) {
+                        auto& image = slot_images[image_view.image_id];
+                        has_blacklisted |= ScaleDown(image);
+                        image.scale_rating = 0;
+                    }
                 }
             }
         }
@@ -370,6 +384,9 @@ void TextureCache<P>::CheckFeedbackLoop(std::span<const ImageViewInOut> views) {
             if (depth_active && view.id == render_targets.depth_buffer_id)
                 continue;
 
+            if (!view.id || view.id == CORRUPT_ID || !slot_image_views.contains(view.id)) {
+                continue;
+            }
             const ImageId view_image_id = slot_image_views[view.id].image_id;
             {
                 bool is_continue = false;
@@ -479,17 +496,21 @@ bool TextureCache<P>::RescaleRenderTargets() {
         bool any_rescaled = false;
         bool can_rescale = true;
         const auto check_rescale = [&](ImageViewId view_id, ImageId& id_save) {
-            if (view_id != NULL_IMAGE_VIEW_ID && view_id != ImageViewId{}) {
+            if (view_id != NULL_IMAGE_VIEW_ID && view_id != ImageViewId{} && view_id != CORRUPT_ID && slot_image_views.contains(view_id)) {
                 const auto& view = slot_image_views[view_id];
                 const auto image_id = view.image_id;
                 id_save = image_id;
-                auto& image = slot_images[image_id];
-                can_rescale &= ImageCanRescale(image);
-                any_rescaled |= True(image.flags & ImageFlagBits::Rescaled) ||
-                                GetFormatType(image.info.format) != SurfaceType::ColorTexture;
-                scale_rating = std::max<u32>(scale_rating, image.scale_tick <= frame_tick
-                                                               ? image.scale_rating + 1U
-                                                               : image.scale_rating);
+                if (image_id && image_id != CORRUPT_ID && slot_images.contains(image_id)) {
+                    auto& image = slot_images[image_id];
+                    can_rescale &= ImageCanRescale(image);
+                    any_rescaled |= True(image.flags & ImageFlagBits::Rescaled) ||
+                                    GetFormatType(image.info.format) != SurfaceType::ColorTexture;
+                    scale_rating = std::max<u32>(scale_rating, image.scale_tick <= frame_tick
+                                                                   ? image.scale_rating + 1U
+                                                                   : image.scale_rating);
+                } else {
+                    id_save = CORRUPT_ID;
+                }
             } else {
                 id_save = CORRUPT_ID;
             }
@@ -511,7 +532,7 @@ bool TextureCache<P>::RescaleRenderTargets() {
         if (can_rescale) {
             rescaled = any_rescaled || scale_rating >= 2;
             const auto scale_up = [this](ImageId image_id) {
-                if (image_id != CORRUPT_ID) {
+                if (image_id && image_id != CORRUPT_ID && slot_images.contains(image_id)) {
                     Image& image = slot_images[image_id];
                     ScaleUp(image);
                 }
@@ -526,7 +547,7 @@ bool TextureCache<P>::RescaleRenderTargets() {
         } else {
             rescaled = false;
             const auto scale_down = [this](ImageId image_id) {
-                if (image_id != CORRUPT_ID) {
+                if (image_id && image_id != CORRUPT_ID && slot_images.contains(image_id)) {
                     Image& image = slot_images[image_id];
                     ScaleDown(image);
                 }
@@ -539,7 +560,7 @@ bool TextureCache<P>::RescaleRenderTargets() {
         }
     } while (has_deleted_images);
     const auto set_rating = [this, scale_rating](ImageId image_id) {
-        if (image_id != CORRUPT_ID) {
+        if (image_id && image_id != CORRUPT_ID && slot_images.contains(image_id)) {
             Image& image = slot_images[image_id];
             image.scale_rating = scale_rating;
             if (image.scale_tick <= frame_tick) {
@@ -588,12 +609,12 @@ void TextureCache<P>::UpdateRenderTargets(bool is_clear) {
     rt_active_mask = 0;
     rt_image_id = {};
     for (size_t i = 0; i < rt_image_id.size(); ++i) {
-        if (ImageViewId const view = render_targets.color_buffer_ids[i]; view) {
+        if (ImageViewId const view = render_targets.color_buffer_ids[i]; view && view != CORRUPT_ID && slot_image_views.contains(view)) {
             rt_active_mask |= 1u << i;
             rt_image_id[i] = slot_image_views[view].image_id;
         }
     }
-    if (depth_buffer_id) {
+    if (depth_buffer_id && depth_buffer_id != CORRUPT_ID && slot_image_views.contains(depth_buffer_id)) {
         rt_active_mask |= (1u << NUM_RT);
         rt_depth_image_id = slot_image_views[depth_buffer_id].image_id;
     } else {
@@ -678,9 +699,9 @@ FramebufferId TextureCache<P>::GetFramebufferId(const RenderTargets& key) {
     }
     std::array<ImageView*, NUM_RT> color_buffers;
     std::ranges::transform(key.color_buffer_ids, color_buffers.begin(), [this](ImageViewId id) {
-        return id ? &slot_image_views[id] : nullptr;
+        return (id && id != CORRUPT_ID && slot_image_views.contains(id)) ? &slot_image_views[id] : nullptr;
     });
-    ImageView* const depth_buffer = key.depth_buffer_id ? &slot_image_views[key.depth_buffer_id] : nullptr;
+    ImageView* const depth_buffer = (key.depth_buffer_id && key.depth_buffer_id != CORRUPT_ID && slot_image_views.contains(key.depth_buffer_id)) ? &slot_image_views[key.depth_buffer_id] : nullptr;
     runtime.FlushDeferredClear();
     framebuffer_id = slot_framebuffers.insert(runtime, color_buffers, depth_buffer, key);
     return framebuffer_id;
@@ -2543,6 +2564,7 @@ void TextureCache<P>::RemoveFramebuffers(std::span<const ImageViewId> removed_vi
                 last_framebuffer_serial = 0;
             }
             sentenced_framebuffers.Push(std::move(slot_framebuffers[framebuffer_id]));
+            slot_framebuffers.erase(framebuffer_id);
             it = framebuffers.erase(it);
         } else {
             ++it;
