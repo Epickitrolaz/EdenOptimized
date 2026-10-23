@@ -45,6 +45,24 @@ On 8 GB Android handheld gaming devices (such as the Retroid Pocket 5 and Odin 2
 | Game Title | Title ID | Tested Device | Status | Target FPS | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Xenoblade Chronicles 3** | `010074F013262000` | Retroid Pocket 5 (8 GB RAM, Snapdragon 865) | **Playable / Stable** | 30 FPS | Solid 30 fps in open world; momentary dips to ~20 fps only during shader compilation or memory reclamation. Tested 46+ min continuous play without crashes. **GPU overclocked to 905 MHz**. |
+| **Xenoblade Chronicles 2** | `0100E95004038000` | Retroid Pocket 5 (8 GB RAM, Snapdragon 865) | **Playable / Stable** | 30 FPS | Locked 30 fps in large titan environments (Gormott, Mor Ardain). Requires **1408 MB (Balanced)** Texture Cache limit to accommodate XC2's ~1.4 GB working set without exceeding 8 GB RAM. Protected against menu black screens and LMKD kills. |
+
+### Xenoblade Chronicles 2 Configuration Profile
+
+* **Target Device:** Retroid Pocket 5 (Snapdragon 865 / Adreno 650, 8 GB RAM)
+* **Graphics Driver:** Mesa Turnip (e.g. Turnip 24.2.99 / 24.3 rev 9)
+* **Settings Changed from Default:**
+  * **Enable Memory Governor:** Enabled (`use_memory_governor = true` [default: disabled])
+  * **Texture Cache Memory Limit:** Set to **1408 MB (1.375 GB - Balanced)** (`texture_cache_memory_limit = 1408`). *XC2's active scene asset set (~1.4 GB) is larger than XC3; setting 1408 MB prevents active asset eviction thrashing while strictly capping cache growth to prevent LMKD kills.*
+  * **Isolate Texture Cache GC:** Enabled (`texture_cache_gc_isolated = true` [default: disabled])
+  * **Enable Compute Pipelines:** Enabled (`enable_compute_pipelines = true` [default: disabled])
+  *(All other settings can remain at default: Safety Reserve at 140 MB, Buffer Cache limit at Auto (320 MB), Barrier Feedback Loops enabled, Async Presentation enabled).*
+* **Verified Session Telemetry:**
+  * **Framerate:** Locked **30.0 FPS** native
+  * **Texture Cache:** Settles cleanly around **~1,200–1,390 MB** without runaway expansion
+  * **Buffer Cache:** ~**317 MB**
+  * **Available RAM:** Maintained safely between **370–450 MB** free
+  * **Stability:** Zero LMKD kills, zero GPU fault reboots, and zero pause-menu black screens (active display framebuffer and render target eviction immunity verified).
 
 ### Xenoblade Chronicles 3 Configuration Profile
 
@@ -62,6 +80,14 @@ On 8 GB Android handheld gaming devices (such as the Retroid Pocket 5 and Odin 2
   * **Buffer Cache:** ~**315 MB**
   * **Memory Headroom:** Available RAM averages **~116 MB**; safe, controlled dips to ~40 MB handled cleanly by the memory governor without LMKD kills or kernel panics
   * **Session Stability:** 46.5+ minutes continuous play session verified (77,520+ frames rendered) with zero crashes
+
+---
+
+### Thermal & Power Characteristics Note
+
+Because **Eden Optimized** continuously runs real-time memory monitoring, periodic LRU texture cache sweeps, ASTC decompressed texture unswizzle/staging evictions, and host memory unmap pruning to prevent Android's Low Memory Killer (LMKD) from terminating games on 8 GB devices, the additional CPU/GPU cache maintenance cycles result in slightly higher SoC temperatures and battery power consumption compared to unconstrained emulators that let RAM balloon freely until a crash.
+
+On handhelds like the Retroid Pocket 5, using active fan cooling (e.g. **Smart** or **Sport** fan mode) is recommended during extended play sessions with memory-heavy titles like *Xenoblade Chronicles 2* and *3*.
 
 ---
 
