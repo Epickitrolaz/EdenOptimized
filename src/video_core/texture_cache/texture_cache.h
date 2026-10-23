@@ -80,9 +80,9 @@ TextureCache<P>::TextureCache(Runtime& runtime_, Tegra::MaxwellDeviceMemoryManag
 
     const int custom_tc = Settings::values.max_texture_cache_size.GetValue();
     if (custom_tc > 0) {
-        expected_memory = static_cast<u64>(custom_tc) * 1024 * 1024;
-        critical_memory = (expected_memory * 12) / 10;
-        minimum_memory = (expected_memory * 3) / 4;
+        critical_memory = static_cast<u64>(custom_tc) * 1024 * 1024;
+        expected_memory = (critical_memory * 85) / 100;
+        minimum_memory = (critical_memory * 70) / 100;
     }
 
     const bool gpu_unswizzle_enabled = Settings::values.gpu_unswizzle_enabled.GetValue();
@@ -132,8 +132,8 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
     u64 effective_critical = critical_memory;
     const int custom_tc = Settings::values.max_texture_cache_size.GetValue();
     if (custom_tc > 0) {
-        effective_expected = static_cast<u64>(custom_tc) * 1024 * 1024;
-        effective_critical = (effective_expected * 12) / 10;
+        effective_critical = static_cast<u64>(custom_tc) * 1024 * 1024;
+        effective_expected = (effective_critical * 85) / 100;
     } else if (Common::MemoryGovernor::Instance().IsEnabled()) {
         const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::TextureCache);
         if (gov_target > 0) {
@@ -227,8 +227,8 @@ void TextureCache<P>::TickFrame() {
     u64 effective_critical = critical_memory;
     const int custom_tc = Settings::values.max_texture_cache_size.GetValue();
     if (custom_tc > 0) {
-        effective_expected = static_cast<u64>(custom_tc) * 1024 * 1024;
-        effective_critical = (effective_expected * 12) / 10;
+        effective_critical = static_cast<u64>(custom_tc) * 1024 * 1024;
+        effective_expected = (effective_critical * 85) / 100;
     } else if (Common::MemoryGovernor::Instance().IsEnabled()) {
         const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::TextureCache);
         if (gov_target > 0) {
@@ -1147,6 +1147,9 @@ bool TextureCache<P>::IsRescaling() const noexcept {
 template <class P>
 bool TextureCache<P>::IsRescaling(const ImageViewBase& image_view) const noexcept {
     if (image_view.type == ImageViewType::Buffer) {
+        return false;
+    }
+    if (!image_view.image_id || image_view.image_id == CORRUPT_ID || !slot_images.contains(image_view.image_id)) {
         return false;
     }
     const ImageBase& image = slot_images[image_view.image_id];
@@ -2760,7 +2763,7 @@ void TextureCache<P>::BindRenderTarget(ImageViewId* old_id, ImageViewId new_id) 
     if (*old_id == new_id) {
         return;
     }
-    if (new_id) {
+    if (new_id && new_id != CORRUPT_ID && slot_image_views.contains(new_id)) {
         const ImageViewBase& old_view = slot_image_views[new_id];
         if (True(old_view.flags & ImageViewFlagBits::PreemtiveDownload)) {
             const PendingDownload new_download{true, 0, old_view.image_id};
@@ -2774,6 +2777,9 @@ template <class P>
 std::pair<FramebufferId, ImageViewId> TextureCache<P>::RenderTargetFromImage(
     ImageId image_id, const ImageViewInfo& view_info) {
     const ImageViewId view_id = FindOrEmplaceImageView(image_id, view_info);
+    if (!image_id || image_id == CORRUPT_ID || !slot_images.contains(image_id)) {
+        return {FramebufferId{}, view_id};
+    }
     const ImageBase& image = slot_images[image_id];
     const bool is_rescaled = True(image.flags & ImageFlagBits::Rescaled);
     const bool is_color = GetFormatType(image.info.format) == SurfaceType::ColorTexture;
@@ -2800,10 +2806,13 @@ std::pair<FramebufferId, ImageViewId> TextureCache<P>::RenderTargetFromImage(
 
 template <class P>
 bool TextureCache<P>::IsFullClear(ImageViewId id) {
-    if (!id) {
+    if (!id || id == CORRUPT_ID || !slot_image_views.contains(id)) {
         return true;
     }
     const ImageViewBase& image_view = slot_image_views[id];
+    if (!image_view.image_id || image_view.image_id == CORRUPT_ID || !slot_images.contains(image_view.image_id)) {
+        return true;
+    }
     const ImageBase& image = slot_images[image_view.image_id];
     const Extent3D size = image_view.size;
     const auto& regs = maxwell3d->regs;

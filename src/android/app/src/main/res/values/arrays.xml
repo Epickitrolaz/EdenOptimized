@@ -753,6 +753,7 @@
         <item>768 MB (Low VRAM)</item>
         <item>1024 MB (1.0 GB - Standard Handheld)</item>
         <item>1280 MB (1.25 GB)</item>
+        <item>1408 MB (1.375 GB - Balanced)</item>
         <item>1536 MB (1.5 GB)</item>
         <item>2048 MB (2.0 GB - High End)</item>
         <item>2560 MB (2.5 GB)</item>
@@ -766,6 +767,7 @@
         <item>768</item>
         <item>1024</item>
         <item>1280</item>
+        <item>1408</item>
         <item>1536</item>
         <item>2048</item>
         <item>2560</item>
