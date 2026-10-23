@@ -146,9 +146,9 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
     const auto Configure = [&](bool allow_aggressive) {
         high_priority_mode = total_used_memory >= effective_expected || force_aggressive;
         aggressive_mode = allow_aggressive && (total_used_memory >= effective_critical || force_aggressive);
-        ticks_to_destroy = aggressive_mode ? 1800ULL : high_priority_mode ? 2400ULL : 3600ULL;
-        num_iterations = aggressive_mode ? 40 : (high_priority_mode ? 20 : 10);
-        max_scan = 512;
+        ticks_to_destroy = aggressive_mode ? 120ULL : high_priority_mode ? 300ULL : 900ULL;
+        num_iterations = aggressive_mode ? 80 : (high_priority_mode ? 30 : 15);
+        max_scan = aggressive_mode ? 2048 : 512;
     };
     const auto Cleanup = [this, &num_iterations, &max_scan, &high_priority_mode, &aggressive_mode, effective_expected, effective_critical](ImageId image_id) {
         if (num_iterations == 0 || max_scan == 0) {
@@ -163,13 +163,18 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
         const bool is_remapped = True(image.flags & ImageFlagBits::Remapped);
         bool skip_costly = false;
         if (True(image.flags & ImageFlagBits::CostlyLoad) && !is_remapped) {
-            if (!aggressive_mode) {
+            if (!high_priority_mode) {
                 skip_costly = true;
+            } else if (!aggressive_mode) {
+                const u64 last_touch = lru_cache.GetItemTick(image.lru_index);
+                constexpr u64 HIGH_PRIORITY_COSTLY_PROTECT = 300ULL; // 10 seconds at 30 fps
+                const u64 age = (frame_tick >= last_touch) ? (frame_tick - last_touch) : 0;
+                skip_costly = age < HIGH_PRIORITY_COSTLY_PROTECT;
             } else {
                 const u64 last_touch = lru_cache.GetItemTick(image.lru_index);
-                constexpr u64 RECENT_COSTLY_PROTECT_FRAMES = 1800ULL; // 60 seconds at 30 fps
+                constexpr u64 AGGRESSIVE_COSTLY_PROTECT = 120ULL; // 4 seconds at 30 fps
                 const u64 age = (frame_tick >= last_touch) ? (frame_tick - last_touch) : 0;
-                skip_costly = age < RECENT_COSTLY_PROTECT_FRAMES;
+                skip_costly = age < AGGRESSIVE_COSTLY_PROTECT;
             }
         }
         if (skip_costly || (!high_priority_mode && must_download)) {
@@ -199,10 +204,12 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
         return false;
     };
     Configure(false);
-    lru_cache.ForEachItemBelow(frame_tick - ticks_to_destroy, Cleanup);
+    const u64 target_tick_1 = (frame_tick > ticks_to_destroy) ? (frame_tick - ticks_to_destroy) : 0;
+    lru_cache.ForEachItemBelow(target_tick_1, Cleanup);
     if (total_used_memory >= effective_critical || force_aggressive) {
         Configure(true);
-        lru_cache.ForEachItemBelow(frame_tick - ticks_to_destroy, Cleanup);
+        const u64 target_tick_2 = (frame_tick > ticks_to_destroy) ? (frame_tick - ticks_to_destroy) : 0;
+        lru_cache.ForEachItemBelow(target_tick_2, Cleanup);
     }
 }
 
@@ -231,7 +238,7 @@ void TextureCache<P>::TickFrame() {
     }
 
     if (total_used_memory >= effective_critical ||
-        (total_used_memory >= effective_expected && (frame_tick % 15 == 0))) {
+        (total_used_memory >= effective_expected && (frame_tick % 5 == 0))) {
         RunGarbageCollector();
     }
     sentenced_images.Tick();
@@ -258,7 +265,7 @@ u64 TextureCache<P>::ShrinkTo(u64 target_bytes, std::chrono::microseconds max_ti
     }
     const auto start = std::chrono::steady_clock::now();
     size_t iterations = 0;
-    while (total_used_memory > target_bytes && iterations < 160) {
+    while (total_used_memory > target_bytes && iterations < 320) {
         const auto now = std::chrono::steady_clock::now();
         if (now - start >= max_time_budget) {
             break;

@@ -79,7 +79,8 @@ void BufferCache<P>::RunGarbageCollector() {
         ++evictions_count;
         return false;
     };
-    lru_cache.ForEachItemBelow(frame_tick - ticks_to_destroy, clean_up);
+    const u64 target_tick = (frame_tick > ticks_to_destroy) ? (frame_tick - ticks_to_destroy) : 0;
+    lru_cache.ForEachItemBelow(target_tick, clean_up);
 }
 
 template <class P>
