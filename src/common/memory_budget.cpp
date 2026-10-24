@@ -3,6 +3,7 @@
 
 #include "common/memory_budget.h"
 #include "common/memory_governor.h"
+#include "common/settings.h"
 
 #include <algorithm>
 #include <cstdio>
@@ -693,6 +694,33 @@ std::string MemoryBudget::GetOverlaySummary() {
         last_overlay_update = now;
     }
     return cached_overlay_summary;
+}
+
+std::string MemoryBudget::GetEssentialOverlay() {
+    const auto now = std::chrono::steady_clock::now();
+    if (!cached_essential_valid ||
+        std::chrono::duration_cast<std::chrono::milliseconds>(now - last_essential_update).count() > 1000) {
+        const SystemMemoryInfo sys = ReadSystemMemoryInfo();
+        const double avail_mb = ToMiBF(sys.available_ram);
+
+        const bool gov_enabled = MemoryGovernor::Instance().IsEnabled();
+        const bool throttling = gov_enabled && MemoryGovernor::Instance().ShouldThrottle();
+        const bool deficit = gov_enabled && MemoryGovernor::Instance().GetPersistentDeficitFrames() > 0;
+
+        // Warn once available RAM closes in on the safety reserve, or the governor signals trouble
+        const int reserve_mb = std::max(Settings::values.memory_governor_safety_reserve.GetValue(), 0);
+        const double warn_mb = std::max(2.0 * static_cast<double>(reserve_mb), 280.0);
+
+        if (avail_mb > warn_mb && !throttling && !deficit) {
+            cached_essential_summary.clear();
+        } else {
+            const char* flag = throttling ? " !THR" : (deficit ? " !DEF" : "");
+            cached_essential_summary = fmt::format("Avail:{:.0f}M{}", avail_mb, flag);
+        }
+        cached_essential_valid = true;
+        last_essential_update = now;
+    }
+    return cached_essential_summary;
 }
 
 std::string MemoryBudget::GenerateHistoryTable() const {

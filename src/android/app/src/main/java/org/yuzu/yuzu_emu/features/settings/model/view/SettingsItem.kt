@@ -654,6 +654,13 @@ abstract class SettingsItem(
             )
             put(
                 SwitchSetting(
+                    BooleanSetting.SHOW_MEMORY_ESSENTIAL,
+                    R.string.show_memory_essential,
+                    descriptionId = R.string.show_memory_essential_description
+                )
+            )
+            put(
+                SwitchSetting(
                     BooleanSetting.SHOW_SYSTEM_RAM_USAGE,
                     R.string.show_system_ram_usage,
                     descriptionId = R.string.show_system_ram_usage_description

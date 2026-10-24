@@ -122,6 +122,10 @@ namespace AndroidSettings {
                                                    Settings::Category::Overlay,
                                                    Settings::Specialization::Default, true, true,
                                                    &show_performance_overlay};
+        Settings::Setting<bool> show_memory_essential{linkage, false, "show_memory_essential",
+                                                      Settings::Category::Overlay,
+                                                      Settings::Specialization::Default, true, true,
+                                                      &show_app_ram_usage};
         Settings::Setting<bool> show_system_ram_usage{linkage, false, "show_system_ram_usage",
                                                       Settings::Category::Overlay,
                                                       Settings::Specialization::Default, true, true,

@@ -3,6 +3,7 @@
     <dimen name="spacing_med">8dp</dimen>
     <dimen name="spacing_medlarge">12dp</dimen>
     <dimen name="spacing_large">16dp</dimen>
+    <dimen name="overlay_edge_offset">24dp</dimen>
     <dimen name="spacing_xtralarge">32dp</dimen>
     <dimen name="spacing_list">64dp</dimen>
     <dimen name="spacing_chip">20dp</dimen>

@@ -1561,20 +1561,6 @@ class EmulationFragment : Fragment(), SurfaceHolder.Callback {
                         )
                     }
 
-                    if (BooleanSetting.SHOW_APP_RAM_USAGE.getBoolean(needsGlobal)) {
-                        if (sb.isNotEmpty()) sb.append(" | ")
-                        val appRamUsage =
-                            File("/proc/self/statm").readLines()[0].split(' ')[1].toLong() * 4096 / 1000000
-                        sb.append(getString(R.string.process_ram, appRamUsage))
-                        try {
-                            val memOverlay = NativeLibrary.getMemoryBudgetOverlay()
-                            if (memOverlay.isNotEmpty()) {
-                                sb.append(" | ").append(memOverlay)
-                            }
-                        } catch (_: Exception) {
-                        }
-                    }
-
                     if (BooleanSetting.SHOW_SYSTEM_RAM_USAGE.getBoolean(needsGlobal)) {
                         if (sb.isNotEmpty()) sb.append(" | ")
                         context?.let { ctx ->
@@ -1636,6 +1622,32 @@ class EmulationFragment : Fragment(), SurfaceHolder.Callback {
                         sb.append(String.format("$prefix %d $suffix", shadersBuilding))
                     }
 
+                    // Memory info goes last so it sits below every other overlay item
+                    if (BooleanSetting.SHOW_APP_RAM_USAGE.getBoolean(needsGlobal)) {
+                        val memoryLine = StringBuilder()
+                        if (BooleanSetting.SHOW_MEMORY_ESSENTIAL.getBoolean(needsGlobal)) {
+                            try {
+                                memoryLine.append(NativeLibrary.getMemoryEssentialOverlay())
+                            } catch (_: Exception) {
+                            }
+                        } else {
+                            val appRamUsage =
+                                File("/proc/self/statm").readLines()[0].split(' ')[1].toLong() * 4096 / 1000000
+                            memoryLine.append(getString(R.string.process_ram, appRamUsage))
+                            try {
+                                val memOverlay = NativeLibrary.getMemoryBudgetOverlay()
+                                if (memOverlay.isNotEmpty()) {
+                                    memoryLine.append(" | ").append(memOverlay)
+                                }
+                            } catch (_: Exception) {
+                            }
+                        }
+                        if (memoryLine.isNotEmpty()) {
+                            if (sb.isNotEmpty()) sb.append('\n')
+                            sb.append(memoryLine)
+                        }
+                    }
+
                     if (BooleanSetting.PERF_OVERLAY_BACKGROUND.getBoolean(needsGlobal)) {
                         binding.showStatsOverlayText.setBackgroundResource(
                             R.color.yuzu_transparent_black
@@ -1656,19 +1668,31 @@ class EmulationFragment : Fragment(), SurfaceHolder.Callback {
     }
 
     private fun updateStatsPosition(position: Int) {
-        updateOverlayPosition(binding.showStatsOverlayText, position)
+        updateOverlayPosition(
+            binding.showStatsOverlayText,
+            position,
+            R.dimen.overlay_edge_offset,
+            R.dimen.overlay_edge_offset
+        )
     }
 
     private fun updateSocPosition(position: Int) {
-        updateOverlayPosition(binding.showSocOverlayText, position)
+        updateOverlayPosition(binding.showSocOverlayText, position, R.dimen.spacing_large, 0)
     }
 
-    private fun updateOverlayPosition(overlay: MaterialTextView, position: Int) {
+    private fun updateOverlayPosition(
+        overlay: MaterialTextView,
+        position: Int,
+        edgeOffsetXRes: Int,
+        edgeOffsetYRes: Int
+    ) {
+        val edgeOffsetX = resources.getDimensionPixelSize(edgeOffsetXRes)
+        val edgeOffsetY = if (edgeOffsetYRes != 0) resources.getDimensionPixelSize(edgeOffsetYRes) else 0
         val params = overlay.layoutParams as FrameLayout.LayoutParams
         when (position) {
             0 -> {
                 params.gravity = (Gravity.TOP or Gravity.START)
-                params.setMargins(resources.getDimensionPixelSize(R.dimen.spacing_large), 0, 0, 0)
+                params.setMargins(edgeOffsetX, edgeOffsetY, 0, 0)
             }
 
             1 -> {
@@ -1677,12 +1701,12 @@ class EmulationFragment : Fragment(), SurfaceHolder.Callback {
 
             2 -> {
                 params.gravity = (Gravity.TOP or Gravity.END)
-                params.setMargins(0, 0, resources.getDimensionPixelSize(R.dimen.spacing_large), 0)
+                params.setMargins(0, edgeOffsetY, edgeOffsetX, 0)
             }
 
             3 -> {
                 params.gravity = (Gravity.BOTTOM or Gravity.START)
-                params.setMargins(resources.getDimensionPixelSize(R.dimen.spacing_large), 0, 0, 0)
+                params.setMargins(edgeOffsetX, 0, 0, edgeOffsetY)
             }
 
             4 -> {
@@ -1691,7 +1715,7 @@ class EmulationFragment : Fragment(), SurfaceHolder.Callback {
 
             5 -> {
                 params.gravity = (Gravity.BOTTOM or Gravity.END)
-                params.setMargins(0, 0, resources.getDimensionPixelSize(R.dimen.spacing_large), 0)
+                params.setMargins(0, 0, edgeOffsetX, edgeOffsetY)
             }
         }
     }

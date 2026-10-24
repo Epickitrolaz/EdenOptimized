@@ -2347,6 +2347,12 @@ JNIEXPORT jstring JNICALL Java_org_yuzu_yuzu_1emu_NativeLibrary_getMemoryBudgetO
     return Common::Android::ToJString(env, Common::MemoryBudget::Instance().GetOverlaySummary());
 }
 
+JNIEXPORT jstring JNICALL Java_org_yuzu_yuzu_1emu_NativeLibrary_getMemoryEssentialOverlay(
+        JNIEnv* env,
+        [[maybe_unused]] jclass clazz) {
+    return Common::Android::ToJString(env, Common::MemoryBudget::Instance().GetEssentialOverlay());
+}
+
 JNIEXPORT jstring JNICALL Java_org_yuzu_yuzu_1emu_NativeLibrary_getMemoryBudgetTable(
         JNIEnv* env,
         [[maybe_unused]] jclass clazz) {

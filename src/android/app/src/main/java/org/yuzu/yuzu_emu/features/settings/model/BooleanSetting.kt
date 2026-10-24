@@ -86,6 +86,7 @@ enum class BooleanSetting(override val key: String) : AbstractBooleanSetting {
     SHOW_FPS("show_fps"),
     SHOW_FRAMETIME("show_frame_time"),
     SHOW_APP_RAM_USAGE("show_app_ram_usage"),
+    SHOW_MEMORY_ESSENTIAL("show_memory_essential"),
     SHOW_SYSTEM_RAM_USAGE("show_system_ram_usage"),
     SHOW_BAT_TEMPERATURE("show_bat_temperature"),
     SHOW_POWER_INFO("show_power_info"),

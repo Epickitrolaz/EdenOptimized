@@ -63,6 +63,8 @@
     <string name="show_frametime">Show Frametime</string>
     <string name="show_app_ram_usage">Show App Memory Usage</string>
     <string name="show_app_ram_usage_description">Display the amount of RAM the emulator is using</string>
+    <string name="show_memory_essential">Essential RAM Info Only</string>
+    <string name="show_memory_essential_description">Show RAM info only when memory approaches a limit</string>
     <string name="show_system_ram_usage">Show System Memory Usage</string>
     <string name="show_system_ram_usage_description">Display the amount of RAM used by the system</string>
     <string name="show_bat_temperature">Show Battery Temperature</string>

@@ -106,6 +106,9 @@ public:
     // Compact 1-line summary for Android in-game overlay
     [[nodiscard]] std::string GetOverlaySummary();
 
+    // Essential-mode overlay: empty while memory is healthy, compact warning line near a limit
+    [[nodiscard]] std::string GetEssentialOverlay();
+
     // Markdown minute-by-minute table for benchmarks and post-mortem analysis
     [[nodiscard]] std::string GenerateHistoryTable() const;
 
@@ -157,6 +160,10 @@ private:
 
     std::string cached_overlay_summary;
     std::chrono::steady_clock::time_point last_overlay_update{};
+
+    bool cached_essential_valid{false};
+    std::string cached_essential_summary;
+    std::chrono::steady_clock::time_point last_essential_update{};
 
     std::jthread watchdog_thread;
 };

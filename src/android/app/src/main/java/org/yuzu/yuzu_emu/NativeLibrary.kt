@@ -228,6 +228,11 @@ object NativeLibrary {
     external fun getMemoryBudgetOverlay(): String
 
     /**
+     * Returns the essential RAM overlay line, empty while memory is healthy
+     */
+    external fun getMemoryEssentialOverlay(): String
+
+    /**
      * Returns the minute-by-minute memory diagnostics table in Markdown
      */
     external fun getMemoryBudgetTable(): String
