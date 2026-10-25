@@ -63,7 +63,12 @@ BufferCache<P>::~BufferCache() = default;
 template <class P>
 void BufferCache<P>::RunGarbageCollector() {
     const int custom_bc = Settings::values.max_buffer_cache_size.GetValue();
+#ifdef __ANDROID__
+    const u64 eff_critical = (custom_bc > 0) ? (static_cast<u64>(custom_bc) * 1024 * 1024)
+                                             : (std::min<u64>(critical_memory, 768_MiB));
+#else
     const u64 eff_critical = (custom_bc > 0) ? (static_cast<u64>(custom_bc) * 1024 * 1024) : critical_memory;
+#endif
     const bool aggressive_gc = total_used_memory >= eff_critical;
     const u64 ticks_to_destroy = aggressive_gc ? 60 : 120;
     int num_iterations = aggressive_gc ? 64 : 32;
@@ -110,18 +115,29 @@ void BufferCache<P>::TickFrame() {
 
     // If we can obtain the memory info, use it instead of the estimate.
     const bool consult_own_usage = Settings::values.texture_cache_gc_isolated.GetValue() ||
-                                   Common::MemoryGovernor::Instance().IsEnabled();
+                                   Common::MemoryGovernor::Instance().IsEnabled() ||
+#ifdef __ANDROID__
+                                   true;
+#else
+                                   false;
+#endif
     if (!consult_own_usage && runtime.CanReportMemoryUsage()) {
         total_used_memory = runtime.GetDeviceMemoryUsage();
     }
-    u64 effective_expected = minimum_memory;
     const int custom_bc = Settings::values.max_buffer_cache_size.GetValue();
+#ifdef __ANDROID__
+    u64 effective_expected = (custom_bc > 0) ? ((static_cast<u64>(custom_bc) * 1024 * 1024 * 85) / 100)
+                                             : (std::min<u64>(minimum_memory, 512_MiB));
+#else
+    u64 effective_expected = minimum_memory;
     if (custom_bc > 0) {
         effective_expected = (static_cast<u64>(custom_bc) * 1024 * 1024 * 85) / 100;
-    } else if (Common::MemoryGovernor::Instance().IsEnabled()) {
+    }
+#endif
+    if (Common::MemoryGovernor::Instance().IsEnabled()) {
         const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::BufferCache);
         if (gov_target > 0) {
-            effective_expected = std::min(minimum_memory, gov_target);
+            effective_expected = std::min(effective_expected, gov_target);
         }
     }
     if (total_used_memory >= effective_expected) {

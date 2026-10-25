@@ -168,16 +168,14 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
             return false;
         }
         auto& image = slot_images[image_id];
-        if (True(image.flags & ImageFlagBits::RenderTarget)) {
-            return false;
-        }
         if (True(image.flags & ImageFlagBits::IsDecoding)) {
             return false;
         }
         const bool must_download = IsDownloadable(image) && False(image.flags & ImageFlagBits::BadOverlap);
         const bool is_remapped = True(image.flags & ImageFlagBits::Remapped);
+        const bool is_render_target = True(image.flags & ImageFlagBits::RenderTarget);
         bool skip_costly = false;
-        if (True(image.flags & ImageFlagBits::CostlyLoad) && !is_remapped) {
+        if ((True(image.flags & ImageFlagBits::CostlyLoad) || is_render_target) && !is_remapped) {
             if (!high_priority_mode) {
                 skip_costly = true;
             } else if (!aggressive_mode) {
@@ -233,18 +231,31 @@ void TextureCache<P>::TickFrame() {
     // If consult_own_usage is active, drive GC from texture cache's own tracked usage.
     // Otherwise keep upstream behavior (consulting process-wide device memory usage).
     const bool consult_own_usage = Settings::values.texture_cache_gc_isolated.GetValue() ||
-                                   Common::MemoryGovernor::Instance().IsEnabled();
+                                   Common::MemoryGovernor::Instance().IsEnabled() ||
+#ifdef __ANDROID__
+                                   true;
+#else
+                                   false;
+#endif
     if (!consult_own_usage && runtime.CanReportMemoryUsage()) {
         total_used_memory = runtime.GetDeviceMemoryUsage();
     }
 
+    const int custom_tc = Settings::values.max_texture_cache_size.GetValue();
+#ifdef __ANDROID__
+    u64 effective_expected = (custom_tc > 0) ? ((static_cast<u64>(custom_tc) * 1024 * 1024 * 85) / 100)
+                                             : (std::min<u64>(expected_memory, 1024_MiB));
+    u64 effective_critical = (custom_tc > 0) ? (static_cast<u64>(custom_tc) * 1024 * 1024)
+                                             : (std::min<u64>(critical_memory, 1408_MiB));
+#else
     u64 effective_expected = expected_memory;
     u64 effective_critical = critical_memory;
-    const int custom_tc = Settings::values.max_texture_cache_size.GetValue();
     if (custom_tc > 0) {
         effective_critical = static_cast<u64>(custom_tc) * 1024 * 1024;
         effective_expected = (effective_critical * 85) / 100;
-    } else if (Common::MemoryGovernor::Instance().IsEnabled()) {
+    }
+#endif
+    if (Common::MemoryGovernor::Instance().IsEnabled()) {
         const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::TextureCache);
         if (gov_target > 0) {
             effective_expected = gov_target;
