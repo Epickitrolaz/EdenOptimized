@@ -131,9 +131,9 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
     const int custom_tc = Settings::values.max_texture_cache_size.GetValue();
 #ifdef __ANDROID__
     u64 effective_expected = (custom_tc > 0) ? ((static_cast<u64>(custom_tc) * 1024 * 1024 * 85) / 100)
-                                             : (std::min<u64>(expected_memory, 1408_MiB));
+                                             : (std::min<u64>(expected_memory, 1280_MiB));
     u64 effective_critical = (custom_tc > 0) ? (static_cast<u64>(custom_tc) * 1024 * 1024)
-                                             : (std::min<u64>(critical_memory, 1792_MiB));
+                                             : (std::min<u64>(critical_memory, 1536_MiB));
 #else
     u64 effective_expected = expected_memory;
     u64 effective_critical = critical_memory;
@@ -252,9 +252,9 @@ void TextureCache<P>::TickFrame() {
     const int custom_tc = Settings::values.max_texture_cache_size.GetValue();
 #ifdef __ANDROID__
     u64 effective_expected = (custom_tc > 0) ? ((static_cast<u64>(custom_tc) * 1024 * 1024 * 85) / 100)
-                                             : (std::min<u64>(expected_memory, 1408_MiB));
+                                             : (std::min<u64>(expected_memory, 1280_MiB));
     u64 effective_critical = (custom_tc > 0) ? (static_cast<u64>(custom_tc) * 1024 * 1024)
-                                             : (std::min<u64>(critical_memory, 1792_MiB));
+                                             : (std::min<u64>(critical_memory, 1536_MiB));
 #else
     u64 effective_expected = expected_memory;
     u64 effective_critical = critical_memory;
