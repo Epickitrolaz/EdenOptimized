@@ -128,13 +128,21 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
     u64 ticks_to_destroy = 0;
     size_t num_iterations = 0;
 
+    const int custom_tc = Settings::values.max_texture_cache_size.GetValue();
+#ifdef __ANDROID__
+    u64 effective_expected = (custom_tc > 0) ? ((static_cast<u64>(custom_tc) * 1024 * 1024 * 85) / 100)
+                                             : (std::min<u64>(expected_memory, 1024_MiB));
+    u64 effective_critical = (custom_tc > 0) ? (static_cast<u64>(custom_tc) * 1024 * 1024)
+                                             : (std::min<u64>(critical_memory, 1408_MiB));
+#else
     u64 effective_expected = expected_memory;
     u64 effective_critical = critical_memory;
-    const int custom_tc = Settings::values.max_texture_cache_size.GetValue();
     if (custom_tc > 0) {
         effective_critical = static_cast<u64>(custom_tc) * 1024 * 1024;
         effective_expected = (effective_critical * 85) / 100;
-    } else if (Common::MemoryGovernor::Instance().IsEnabled()) {
+    }
+#endif
+    if (Common::MemoryGovernor::Instance().IsEnabled()) {
         const u64 gov_target = Common::MemoryGovernor::Instance().GetClientTarget(Common::MemoryClientPriority::TextureCache);
         if (gov_target > 0) {
             effective_expected = gov_target;
@@ -142,13 +150,13 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
         }
     }
 
-    size_t max_scan = 512;
+    size_t max_scan = 1024;
     const auto Configure = [&](bool allow_aggressive) {
         high_priority_mode = total_used_memory >= effective_expected || force_aggressive;
         aggressive_mode = allow_aggressive && (total_used_memory >= effective_critical || force_aggressive);
         ticks_to_destroy = aggressive_mode ? 450ULL : high_priority_mode ? 900ULL : 1800ULL;
-        num_iterations = aggressive_mode ? 25 : (high_priority_mode ? 12 : 6);
-        max_scan = aggressive_mode ? 1024 : 512;
+        num_iterations = aggressive_mode ? 40 : (high_priority_mode ? 20 : 10);
+        max_scan = aggressive_mode ? 4096 : 1024;
     };
     const auto Cleanup = [this, &num_iterations, &max_scan, &high_priority_mode, &aggressive_mode, effective_expected, effective_critical](ImageId image_id) {
         if (num_iterations == 0 || max_scan == 0) {
@@ -188,11 +196,27 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
             }
         }
 
-        // CostlyLoad textures (ASTC / BCn 3D game art: terrain, models, environments) are
-        // unconditionally immune from LRU GC eviction. Destroying an in-use VkImage triggers
-        // an immediate Adreno SMMU translation fault and kernel panic on Qualcomm hardware.
-        // CostlyLoad images are retired only when the guest unmaps or overwrites them.
-        const bool skip_costly = True(image.flags & ImageFlagBits::CostlyLoad) && !is_remapped;
+        // CostlyLoad textures (ASTC / BCn 3D game art: terrain, models, environments):
+        // While below target (normal mode), CostlyLoad textures are 100% immune from GC.
+        // Above target (high priority mode), textures untouched for >120s are evicted.
+        // In aggressive mode (above critical threshold), textures untouched for >60s are evicted.
+        // Active scene textures touched in the last 60s are always protected.
+        bool skip_costly = false;
+        if (True(image.flags & ImageFlagBits::CostlyLoad) && !is_remapped) {
+            if (!high_priority_mode) {
+                skip_costly = true;
+            } else if (!aggressive_mode) {
+                const u64 last_touch = lru_cache.GetItemTick(image.lru_index);
+                constexpr u64 HIGH_PRIORITY_COSTLY_PROTECT = 3600ULL; // 120 seconds at 30 fps
+                const u64 age = (frame_tick >= last_touch) ? (frame_tick - last_touch) : 0;
+                skip_costly = age < HIGH_PRIORITY_COSTLY_PROTECT;
+            } else {
+                const u64 last_touch = lru_cache.GetItemTick(image.lru_index);
+                constexpr u64 AGGRESSIVE_COSTLY_PROTECT = 1800ULL; // 60 seconds at 30 fps
+                const u64 age = (frame_tick >= last_touch) ? (frame_tick - last_touch) : 0;
+                skip_costly = age < AGGRESSIVE_COSTLY_PROTECT;
+            }
+        }
         if (skip_costly || (!high_priority_mode && must_download)) {
             return false;
         }
