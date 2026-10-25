@@ -140,7 +140,7 @@ private:
     std::atomic<bool> enabled{false};
     std::atomic<bool> throttle_requested{false};
     std::atomic<u64> manual_budget{0};
-    std::atomic<u64> safety_reserve{280ULL * 1024 * 1024};    // 280 MB default
+    std::atomic<u64> safety_reserve{140ULL * 1024 * 1024};    // 140 MB default
     std::atomic<u64> driver_baseline{768ULL * 1024 * 1024};   // 768 MB Android/GPU baseline
     std::atomic<u64> current_budget{0};
     std::atomic<s64> current_deficit{0};

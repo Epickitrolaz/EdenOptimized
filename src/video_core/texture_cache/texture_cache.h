@@ -154,7 +154,7 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
     const auto Configure = [&](bool allow_aggressive) {
         high_priority_mode = total_used_memory >= effective_expected || force_aggressive;
         aggressive_mode = allow_aggressive && (total_used_memory >= effective_critical || force_aggressive);
-        ticks_to_destroy = aggressive_mode ? 450ULL : high_priority_mode ? 900ULL : 1800ULL;
+        ticks_to_destroy = aggressive_mode ? 1800ULL : high_priority_mode ? 2400ULL : 3600ULL;
         num_iterations = aggressive_mode ? 40 : (high_priority_mode ? 20 : 10);
         max_scan = aggressive_mode ? 4096 : 1024;
     };
@@ -181,43 +181,24 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
         }
         const bool must_download = IsDownloadable(image) && False(image.flags & ImageFlagBits::BadOverlap);
         const bool is_remapped = True(image.flags & ImageFlagBits::Remapped);
-        const bool is_render_target = True(image.flags & ImageFlagBits::RenderTarget);
 
-        // Protect render targets (such as 3D world G-buffers while navigating menus)
-        if (is_render_target && !is_remapped) {
-            if (!aggressive_mode) {
+        // Protect active scene assets (3D textures, water, reflections, G-buffers, render targets):
+        // 1. Below target (normal mode), all active game assets are 100% immune from LRU GC.
+        // 2. Above target (high priority mode), any image touched within the last 120s is protected.
+        // 3. Above critical threshold (aggressive mode), any image touched within the last 60s is protected.
+        // Images explicitly unmapped/remapped by the guest engine are dead and safe to reclaim immediately.
+        if (!is_remapped) {
+            if (!high_priority_mode) {
                 return false;
             }
             const u64 last_touch = lru_cache.GetItemTick(image.lru_index);
-            constexpr u64 RT_PROTECT_FRAMES = 1800ULL; // 60 seconds at 30 fps
+            const u64 protect_ticks = aggressive_mode ? 1800ULL : 3600ULL; // 60s / 120s at 30 fps
             const u64 age = (frame_tick >= last_touch) ? (frame_tick - last_touch) : 0;
-            if (age < RT_PROTECT_FRAMES) {
+            if (age < protect_ticks) {
                 return false;
             }
         }
-
-        // CostlyLoad textures (ASTC / BCn 3D game art: terrain, models, environments):
-        // While below target (normal mode), CostlyLoad textures are 100% immune from GC.
-        // Above target (high priority mode), textures untouched for >120s are evicted.
-        // In aggressive mode (above critical threshold), textures untouched for >60s are evicted.
-        // Active scene textures touched in the last 60s are always protected.
-        bool skip_costly = false;
-        if (True(image.flags & ImageFlagBits::CostlyLoad) && !is_remapped) {
-            if (!high_priority_mode) {
-                skip_costly = true;
-            } else if (!aggressive_mode) {
-                const u64 last_touch = lru_cache.GetItemTick(image.lru_index);
-                constexpr u64 HIGH_PRIORITY_COSTLY_PROTECT = 3600ULL; // 120 seconds at 30 fps
-                const u64 age = (frame_tick >= last_touch) ? (frame_tick - last_touch) : 0;
-                skip_costly = age < HIGH_PRIORITY_COSTLY_PROTECT;
-            } else {
-                const u64 last_touch = lru_cache.GetItemTick(image.lru_index);
-                constexpr u64 AGGRESSIVE_COSTLY_PROTECT = 1800ULL; // 60 seconds at 30 fps
-                const u64 age = (frame_tick >= last_touch) ? (frame_tick - last_touch) : 0;
-                skip_costly = age < AGGRESSIVE_COSTLY_PROTECT;
-            }
-        }
-        if (skip_costly || (!high_priority_mode && must_download)) {
+        if (!high_priority_mode && must_download) {
             return false;
         }
         --num_iterations;

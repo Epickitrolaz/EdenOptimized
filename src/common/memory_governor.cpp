@@ -28,7 +28,7 @@ void MemoryGovernor::Reset() {
     enabled.store(false, std::memory_order_relaxed);
     throttle_requested.store(false, std::memory_order_relaxed);
     manual_budget.store(0, std::memory_order_relaxed);
-    safety_reserve.store(280ULL * 1024 * 1024, std::memory_order_relaxed); // 280 MB default
+    safety_reserve.store(140ULL * 1024 * 1024, std::memory_order_relaxed); // 140 MB default
     driver_baseline.store(0, std::memory_order_relaxed);
     current_budget.store(0, std::memory_order_relaxed);
     current_deficit.store(0, std::memory_order_relaxed);
@@ -163,7 +163,7 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
         const bool is_manual = manual_budget.load(std::memory_order_relaxed) > 0 ||
                                Settings::values.memory_governor_budget.GetValue() > 0;
         const bool critical_watermark = is_manual ||
-                                        (sys_info.available_ram < 180ULL * 1024 * 1024) ||
+                                        (sys_info.available_ram < 120ULL * 1024 * 1024) ||
                                         (sys_info.psi_some_avg10 > 0.50);
 
         const u32 deficit_frames = persistent_deficit_frames.fetch_add(1, std::memory_order_relaxed) + 1;
@@ -226,6 +226,10 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
             for (auto* client : sorted_clients) {
                 if (deficit <= 0) {
                     break;
+                }
+                if (client->Priority() == MemoryClientPriority::TextureCache) {
+                    // Never cannibalize on-screen texture cache below target!
+                    continue;
                 }
                 const auto now = std::chrono::steady_clock::now();
                 const auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - start_time);
