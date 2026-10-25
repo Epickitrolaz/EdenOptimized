@@ -512,6 +512,8 @@ void Java_org_yuzu_yuzu_1emu_features_input_NativeInput_updateMappingsWithDefaul
         const std::size_t index = analog_mapping.first;
         auto named_mapping = analog_mapping.second;
         named_mapping.Set("display", display_name);
+        named_mapping.Set("deadzone", 0.0f);
+        named_mapping.Set("range", 1.0f);
         ApplyControllerConfig(j_player_index, [&](Core::HID::EmulatedController* controller) {
             controller->SetStickParam(index, named_mapping);
         });

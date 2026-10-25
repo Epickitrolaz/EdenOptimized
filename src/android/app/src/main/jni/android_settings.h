@@ -118,11 +118,11 @@ namespace AndroidSettings {
                                                 Settings::Category::Overlay,
                                                 Settings::Specialization::Default, true, true,
                                                 &show_performance_overlay};
-        Settings::Setting<bool> show_app_ram_usage{linkage, false, "show_app_ram_usage",
+        Settings::Setting<bool> show_app_ram_usage{linkage, true, "show_app_ram_usage",
                                                    Settings::Category::Overlay,
                                                    Settings::Specialization::Default, true, true,
                                                    &show_performance_overlay};
-        Settings::Setting<bool> show_memory_essential{linkage, false, "show_memory_essential",
+        Settings::Setting<bool> show_memory_essential{linkage, true, "show_memory_essential",
                                                       Settings::Category::Overlay,
                                                       Settings::Specialization::Default, true, true,
                                                       &show_performance_overlay};
@@ -151,7 +151,7 @@ namespace AndroidSettings {
                                                       &show_performance_overlay};
 
 
-        Settings::SwitchableSetting<s32> pipeline_worker_count{linkage, 2, "pipeline_worker_count",
+        Settings::SwitchableSetting<s32> pipeline_worker_count{linkage, 4, "pipeline_worker_count",
                                  Settings::Category::Android,
                                  Settings::Specialization::Default,
                                  true,
@@ -171,33 +171,33 @@ namespace AndroidSettings {
 
         /// DEVICE/SOC OVERLAY
 
-        Settings::Setting<bool> show_soc_overlay{linkage, true, "show_soc_overlay",
+        Settings::Setting<bool> show_soc_overlay{linkage, false, "show_soc_overlay",
                                                  Settings::Category::Overlay,
                                                  Settings::Specialization::Paired, true, true};
-        Settings::Setting<bool> show_build_id{linkage, true, "show_build_id",
+        Settings::Setting<bool> show_build_id{linkage, false, "show_build_id",
                                                   Settings::Category::Overlay,
                                                   Settings::Specialization::Default, true, true,
                                                   &show_performance_overlay};
-        Settings::Setting<bool> show_driver_version{linkage, true, "show_driver_version",
+        Settings::Setting<bool> show_driver_version{linkage, false, "show_driver_version",
                                                   Settings::Category::Overlay,
                                                   Settings::Specialization::Default, true, true,
                                                   &show_performance_overlay};
-        Settings::Setting<bool> show_device_model{linkage, true, "show_device_model",
+        Settings::Setting<bool> show_device_model{linkage, false, "show_device_model",
                                                   Settings::Category::Overlay,
                                                   Settings::Specialization::Default, true, true,
                                                   &show_performance_overlay};
 
-        Settings::Setting<bool> show_gpu_model{linkage, true, "show_gpu_model",
+        Settings::Setting<bool> show_gpu_model{linkage, false, "show_gpu_model",
                                                Settings::Category::Overlay,
                                                Settings::Specialization::Default, true, true,
                                                &show_performance_overlay};
 
-        Settings::Setting<bool> show_soc_model{linkage, true, "show_soc_model",
+        Settings::Setting<bool> show_soc_model{linkage, false, "show_soc_model",
                                                Settings::Category::Overlay,
                                                Settings::Specialization::Default, true, true,
                                                &show_soc_overlay};
 
-        Settings::Setting<bool> show_fw_version{linkage, true, "show_firmware_version",
+        Settings::Setting<bool> show_fw_version{linkage, false, "show_firmware_version",
                                                 Settings::Category::Overlay,
                                                 Settings::Specialization::Default, true, true,
                                                 &show_performance_overlay};

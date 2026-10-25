@@ -1303,9 +1303,9 @@ class SettingsFragmentPresenter(
         val modifierRangeSetting =
             getStickIntSettingFromParam(playerIndex, "modifier_scale", nativeAnalog, 0.5f)
         val stickRangeSetting =
-            getStickIntSettingFromParam(playerIndex, "range", nativeAnalog, 0.95f)
+            getStickIntSettingFromParam(playerIndex, "range", nativeAnalog, 1.0f)
         val stickDeadzoneSetting =
-            getStickIntSettingFromParam(playerIndex, "deadzone", nativeAnalog, 0.15f)
+            getStickIntSettingFromParam(playerIndex, "deadzone", nativeAnalog, 0.0f)
 
         val out = mutableListOf<SettingsItem>().apply {
             if (stickIsController) {

@@ -127,8 +127,8 @@ void MappingFactory::RegisterStick(const MappingData& data) {
         new_input.Set("axis_x", first_axis);
         new_input.Set("axis_y", data.index);
         new_input.Set("threshold", 0.5f);
-        new_input.Set("range", 0.95f);
-        new_input.Set("deadzone", 0.15f);
+        new_input.Set("range", 1.0f);
+        new_input.Set("deadzone", 0.0f);
         break;
     default:
         return;
@@ -178,7 +178,7 @@ void MappingFactory::RegisterMotion(const MappingData& data) {
         new_input.Set("axis_y", second_axis);
         new_input.Set("axis_z", data.index);
         new_input.Set("range", 1.0f);
-        new_input.Set("deadzone", 0.20f);
+        new_input.Set("deadzone", 0.0f);
         break;
     case EngineInputType::Motion:
         new_input.Set("motion", data.index);
