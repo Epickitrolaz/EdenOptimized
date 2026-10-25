@@ -709,7 +709,7 @@ std::string MemoryBudget::GetEssentialOverlay() {
 
         // Warn once available RAM closes in on the safety reserve, or the governor signals trouble
         const int reserve_mb = std::max(Settings::values.memory_governor_safety_reserve.GetValue(), 0);
-        const double warn_mb = std::max(2.0 * static_cast<double>(reserve_mb), 280.0);
+        const double warn_mb = std::max(1.25 * static_cast<double>(reserve_mb), 280.0);
 
         if (avail_mb > warn_mb && !throttling && !deficit) {
             cached_essential_summary.clear();

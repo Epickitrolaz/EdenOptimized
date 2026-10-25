@@ -540,7 +540,7 @@ struct Values {
     // Eden-Bounded Memory Governor settings
     SwitchableSetting<bool> use_memory_governor{linkage, false, "use_memory_governor", Category::System};
     SwitchableSetting<int> memory_governor_budget{linkage, 0, "memory_governor_budget", Category::System, Specialization::Default, true, true}; // in MB, 0 = Auto
-    SwitchableSetting<int> memory_governor_safety_reserve{linkage, 140, "memory_governor_safety_reserve", Category::System, Specialization::Default, true, true}; // in MB
+    SwitchableSetting<int> memory_governor_safety_reserve{linkage, 280, "memory_governor_safety_reserve", Category::System, Specialization::Default, true, true}; // in MB
     SwitchableSetting<int> memory_governor_driver_baseline{linkage, 0, "memory_governor_driver_baseline", Category::System, Specialization::Default, true, true}; // in MB
     SwitchableSetting<bool> texture_cache_gc_isolated{linkage, false, "texture_cache_gc_isolated", Category::RendererAdvanced};
     SwitchableSetting<bool> memory_governor_thp{linkage, false, "memory_governor_thp", Category::System};

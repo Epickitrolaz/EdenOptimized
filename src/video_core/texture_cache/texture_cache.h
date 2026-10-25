@@ -174,22 +174,25 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
         const bool must_download = IsDownloadable(image) && False(image.flags & ImageFlagBits::BadOverlap);
         const bool is_remapped = True(image.flags & ImageFlagBits::Remapped);
         const bool is_render_target = True(image.flags & ImageFlagBits::RenderTarget);
-        bool skip_costly = false;
-        if ((True(image.flags & ImageFlagBits::CostlyLoad) || is_render_target) && !is_remapped) {
-            if (!high_priority_mode) {
-                skip_costly = true;
-            } else if (!aggressive_mode) {
-                const u64 last_touch = lru_cache.GetItemTick(image.lru_index);
-                constexpr u64 HIGH_PRIORITY_COSTLY_PROTECT = 900ULL; // 30 seconds at 30 fps
-                const u64 age = (frame_tick >= last_touch) ? (frame_tick - last_touch) : 0;
-                skip_costly = age < HIGH_PRIORITY_COSTLY_PROTECT;
-            } else {
-                const u64 last_touch = lru_cache.GetItemTick(image.lru_index);
-                constexpr u64 AGGRESSIVE_COSTLY_PROTECT = 450ULL; // 15 seconds at 30 fps
-                const u64 age = (frame_tick >= last_touch) ? (frame_tick - last_touch) : 0;
-                skip_costly = age < AGGRESSIVE_COSTLY_PROTECT;
+
+        // Protect render targets (such as 3D world G-buffers while navigating menus)
+        if (is_render_target && !is_remapped) {
+            if (!aggressive_mode) {
+                return false;
+            }
+            const u64 last_touch = lru_cache.GetItemTick(image.lru_index);
+            constexpr u64 RT_PROTECT_FRAMES = 1800ULL; // 60 seconds at 30 fps
+            const u64 age = (frame_tick >= last_touch) ? (frame_tick - last_touch) : 0;
+            if (age < RT_PROTECT_FRAMES) {
+                return false;
             }
         }
+
+        // CostlyLoad textures (ASTC / BCn 3D game art: terrain, models, environments) are
+        // unconditionally immune from LRU GC eviction. Destroying an in-use VkImage triggers
+        // an immediate Adreno SMMU translation fault and kernel panic on Qualcomm hardware.
+        // CostlyLoad images are retired only when the guest unmaps or overwrites them.
+        const bool skip_costly = True(image.flags & ImageFlagBits::CostlyLoad) && !is_remapped;
         if (skip_costly || (!high_priority_mode && must_download)) {
             return false;
         }
