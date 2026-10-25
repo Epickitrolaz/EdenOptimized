@@ -131,9 +131,9 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
     const int custom_tc = Settings::values.max_texture_cache_size.GetValue();
 #ifdef __ANDROID__
     u64 effective_expected = (custom_tc > 0) ? ((static_cast<u64>(custom_tc) * 1024 * 1024 * 85) / 100)
-                                             : (std::min<u64>(expected_memory, 1024_MiB));
+                                             : (std::min<u64>(expected_memory, 1408_MiB));
     u64 effective_critical = (custom_tc > 0) ? (static_cast<u64>(custom_tc) * 1024 * 1024)
-                                             : (std::min<u64>(critical_memory, 1408_MiB));
+                                             : (std::min<u64>(critical_memory, 1792_MiB));
 #else
     u64 effective_expected = expected_memory;
     u64 effective_critical = critical_memory;
@@ -154,7 +154,7 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
     const auto Configure = [&](bool allow_aggressive) {
         high_priority_mode = total_used_memory >= effective_expected || force_aggressive;
         aggressive_mode = allow_aggressive && (total_used_memory >= effective_critical || force_aggressive);
-        ticks_to_destroy = aggressive_mode ? 1800ULL : high_priority_mode ? 2400ULL : 3600ULL;
+        ticks_to_destroy = aggressive_mode ? 1800ULL : 3600ULL;
         num_iterations = aggressive_mode ? 40 : (high_priority_mode ? 20 : 10);
         max_scan = aggressive_mode ? 4096 : 1024;
     };
@@ -252,9 +252,9 @@ void TextureCache<P>::TickFrame() {
     const int custom_tc = Settings::values.max_texture_cache_size.GetValue();
 #ifdef __ANDROID__
     u64 effective_expected = (custom_tc > 0) ? ((static_cast<u64>(custom_tc) * 1024 * 1024 * 85) / 100)
-                                             : (std::min<u64>(expected_memory, 1024_MiB));
+                                             : (std::min<u64>(expected_memory, 1408_MiB));
     u64 effective_critical = (custom_tc > 0) ? (static_cast<u64>(custom_tc) * 1024 * 1024)
-                                             : (std::min<u64>(critical_memory, 1408_MiB));
+                                             : (std::min<u64>(critical_memory, 1792_MiB));
 #else
     u64 effective_expected = expected_memory;
     u64 effective_critical = critical_memory;

@@ -370,7 +370,11 @@ u64 RasterizerVulkan::GetTextureTarget() const {
     if (custom_tc > 0) {
         return static_cast<u64>(custom_tc) * 1024 * 1024;
     }
+#ifdef __ANDROID__
+    return 1408ULL * 1024 * 1024;
+#else
     return 1024ULL * 1024 * 1024;
+#endif
 }
 
 u64 RasterizerVulkan::GetTextureFloor() const {
@@ -378,7 +382,11 @@ u64 RasterizerVulkan::GetTextureFloor() const {
     if (custom_tc > 0) {
         return (static_cast<u64>(custom_tc) * 1024 * 1024 * 3) / 4;
     }
+#ifdef __ANDROID__
+    return 1024ULL * 1024 * 1024;
+#else
     return Settings::values.use_memory_governor.GetValue() ? (768ULL * 1024 * 1024) : (512ULL * 1024 * 1024);
+#endif
 }
 
 u64 RasterizerVulkan::GetBufferTarget() const {
