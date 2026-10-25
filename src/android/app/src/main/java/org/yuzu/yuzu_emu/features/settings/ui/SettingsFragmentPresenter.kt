@@ -611,6 +611,7 @@ class SettingsFragmentPresenter(
             add(BooleanSetting.SHOW_FPS.key)
             add(BooleanSetting.SHOW_FRAMETIME.key)
             add(BooleanSetting.SHOW_APP_RAM_USAGE.key)
+            add(BooleanSetting.SHOW_MEMORY_ESSENTIAL.key)
             add(BooleanSetting.SHOW_SYSTEM_RAM_USAGE.key)
             add(BooleanSetting.SHOW_BAT_TEMPERATURE.key)
             add(IntSetting.BAT_TEMPERATURE_UNIT.key)

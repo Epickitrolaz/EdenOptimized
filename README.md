@@ -45,7 +45,7 @@ On 8 GB Android handheld gaming devices (such as the Retroid Pocket 5 and Odin 2
 | Game Title | Title ID | Tested Device | Status | Target FPS | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Xenoblade Chronicles 3** | `010074F013262000` | Retroid Pocket 5 (8 GB RAM, Snapdragon 865) | **Playable / Stable** | 30 FPS | Solid 30 fps in open world; momentary dips to ~20 fps only during shader compilation or memory reclamation. Tested 46+ min continuous play without crashes. **GPU overclocked to 905 MHz**. |
-| **Xenoblade Chronicles: Definitive Edition** | `0100FF500E34A000` | Retroid Pocket 5 (8 GB RAM, Snapdragon 865) | **Playable / Stable** | 30 FPS | Solid 25–30 fps. Protected against NCE map/menu black screen glitch (Y->X->B sequence) and render target eviction. |
+| **Xenoblade Chronicles: Definitive Edition** | `0100FF500E34A000` | Retroid Pocket 5 (8 GB RAM, Snapdragon 865) | **Playable / Stable** | 30 FPS | Solid 25–30 fps. Protected against NCE map/menu black screen glitch and memory leak crashes when navigating menus fast. |
 | **Xenoblade Chronicles 2** | `0100E95004038000` | Retroid Pocket 5 (8 GB RAM, Snapdragon 865) | **Playable / Stable** | 30 FPS | Locked 30 fps in large titan environments (Gormott, Mor Ardain). Requires **1408 MB (Balanced)** Texture Cache limit to accommodate XC2's ~1.4 GB working set without exceeding 8 GB RAM. Protected against menu black screens and LMKD kills. |
 
 ---
