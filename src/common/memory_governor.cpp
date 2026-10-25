@@ -34,6 +34,7 @@ void MemoryGovernor::Reset() {
     current_deficit.store(0, std::memory_order_relaxed);
     carried_deficit.store(0, std::memory_order_relaxed);
     persistent_deficit_frames.store(0, std::memory_order_relaxed);
+    tc_trim_target.store(0, std::memory_order_relaxed);
     clients.clear();
 }
 
@@ -147,6 +148,7 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
         carried_deficit.store(0, std::memory_order_relaxed);
         persistent_deficit_frames.store(0, std::memory_order_relaxed);
         throttle_requested.store(false, std::memory_order_relaxed);
+        tc_trim_target.store(0, std::memory_order_relaxed);
         return false;
     }
 
@@ -165,6 +167,19 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
         const bool critical_watermark = is_manual ||
                                         (sys_info.available_ram < 120ULL * 1024 * 1024) ||
                                         (sys_info.psi_some_avg10 > 0.50);
+
+        // Deficit-funded stale-tail donation: when a genuine deficit exists, request that
+        // TextureCache trim its stale (>120s untouched) content within fixed bounds so the
+        // GC's normal LRU cadence pays the deficit at a safe, glitch-free eviction rate.
+        if (deficit > 0) {
+            const u64 tc_target = GetClientTarget(Common::MemoryClientPriority::TextureCache);
+            const u64 donation = std::min<u64>(static_cast<u64>(deficit) + (64ULL * 1024 * 1024),
+                                               128ULL * 1024 * 1024);
+            const u64 trim_goal = (tc_target > donation) ? (tc_target - donation) : 0;
+            tc_trim_target.store(trim_goal, std::memory_order_relaxed);
+        } else {
+            tc_trim_target.store(0, std::memory_order_relaxed);
+        }
 
         const u32 deficit_frames = persistent_deficit_frames.fetch_add(1, std::memory_order_relaxed) + 1;
         if (deficit_frames >= persistent_deficit_threshold && critical_watermark) {
@@ -260,6 +275,7 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
             carried_deficit.store(0, std::memory_order_relaxed);
             persistent_deficit_frames.store(0, std::memory_order_relaxed);
             throttle_requested.store(false, std::memory_order_relaxed);
+            tc_trim_target.store(0, std::memory_order_relaxed);
         } else {
             carried_deficit.store(deficit, std::memory_order_relaxed);
         }
@@ -269,6 +285,7 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
         carried_deficit.store(0, std::memory_order_relaxed);
         persistent_deficit_frames.store(0, std::memory_order_relaxed);
         throttle_requested.store(false, std::memory_order_relaxed);
+        tc_trim_target.store(0, std::memory_order_relaxed);
     }
 
     return throttle_requested.load(std::memory_order_relaxed);

@@ -581,6 +581,9 @@ std::string MemoryBudget::GenerateReport([[maybe_unused]] bool force_read) {
                               static_cast<double>(def) / (1024.0 * 1024.0),
                               static_cast<double>(carried) / (1024.0 * 1024.0));
         report += fmt::format("  - Deficit Frames        : {} frames\n", def_frames);
+        report += fmt::format("  - TC Trim Target        : {:>7.1f} MB ({})\n",
+                              static_cast<double>(MemoryGovernor::Instance().GetTextureTrimTarget()) / (1024.0 * 1024.0),
+                              MemoryGovernor::Instance().GetTextureTrimTarget() > 0 ? "ACTIVE" : "off");
         report += fmt::format("  - Pressure Throttle     : {}\n\n", thr ? "ACTIVE (Pacing)" : "Inactive");
     } else {
         report += "Memory Governor Status: Inactive (Unmanaged)\n\n";

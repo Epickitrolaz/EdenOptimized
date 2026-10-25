@@ -150,6 +150,14 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
         }
     }
 
+    // Deficit-funded stale-tail donation: when the governor holds a genuine deficit, it
+    // lowers this trim target below the normal target so the LRU cadence reclaims images
+    // untouched for >120s at its proven-safe eviction rate (never fresh on-screen content).
+    const u64 trim_target = Common::MemoryGovernor::Instance().GetTextureTrimTarget();
+    if (trim_target > 0) {
+        effective_expected = std::min(effective_expected, trim_target);
+    }
+
     size_t max_scan = 1024;
     const auto Configure = [&](bool allow_aggressive) {
         high_priority_mode = total_used_memory >= effective_expected || force_aggressive;
@@ -269,6 +277,14 @@ void TextureCache<P>::TickFrame() {
             effective_expected = gov_target;
             effective_critical = (gov_target * 12) / 10;
         }
+    }
+
+    // Deficit-funded stale-tail donation: when the governor holds a genuine deficit, it
+    // lowers this trim target below the normal target so the LRU cadence reclaims images
+    // untouched for >120s at its proven-safe eviction rate (never fresh on-screen content).
+    const u64 trim_target = Common::MemoryGovernor::Instance().GetTextureTrimTarget();
+    if (trim_target > 0) {
+        effective_expected = std::min(effective_expected, trim_target);
     }
 
     const u64 gc_interval = (total_used_memory >= effective_critical) ? 3 : 10;

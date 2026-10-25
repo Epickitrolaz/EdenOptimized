@@ -87,6 +87,14 @@ public:
     [[nodiscard]] u64 GetTotalFloorBytes() const;
     [[nodiscard]] u64 GetClientTarget(MemoryClientPriority priority) const;
 
+    /// Bounded stale-texture trim goal requested from TextureCache during genuine deficits.
+    /// 0 = no trim request. When nonzero, TextureCache lowers its GC expected threshold
+    /// to this value so that the normal LRU cadence evicts images untouched for >120s
+    /// (never fresh content) until the deficit is paid.
+    [[nodiscard]] u64 GetTextureTrimTarget() const noexcept {
+        return tc_trim_target.load(std::memory_order_relaxed);
+    }
+
     void SetEnabled(bool enabled_) noexcept {
         enabled.store(enabled_, std::memory_order_relaxed);
     }
@@ -146,6 +154,7 @@ private:
     std::atomic<s64> current_deficit{0};
     std::atomic<s64> carried_deficit{0};
     std::atomic<u32> persistent_deficit_frames{0};
+    std::atomic<u64> tc_trim_target{0};
 
     u32 persistent_deficit_threshold{30}; // ~1 second at 30 fps
     std::chrono::microseconds max_shrink_time_per_frame{10000}; // 10 ms max per frame
