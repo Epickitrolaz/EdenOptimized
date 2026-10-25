@@ -14,7 +14,11 @@ uruntime
 [dk]trace-out/
 [dk]trace.out
 *.core
+*.log
 log.txt
+eden_log.txt
+eden_memdiag.txt
+*diag*.txt
 
 # Generated source files
 src/common/scm_rev.cpp

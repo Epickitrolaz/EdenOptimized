@@ -266,7 +266,7 @@ android {
 
     externalNativeBuild {
         cmake {
-            version = "3.31.5"
+            version = "3.31.6"
             path = file("${edenDir}/CMakeLists.txt")
         }
     }

@@ -1,4 +1,4 @@
-commit de7e6e01d43e8cf2ec193d74fa053b0d7949955f
+commit 305f40100d76ec57b13c2f03eafd490db83691cb
 upstream https://git.eden-emu.dev/eden-emu/eden
 mirror https://github.com/eden-emulator/eden
-date 2026-10-18
+date 2026-10-25
