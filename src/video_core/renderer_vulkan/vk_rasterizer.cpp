@@ -925,9 +925,6 @@ bool RasterizerVulkan::MustFlushRegion(DAddr addr, u64 size, VideoCommon::CacheT
             return true;
         }
     }
-    if (!Settings::IsGPULevelHigh()) {
-        return false;
-    }
     if (True(which & VideoCommon::CacheType::TextureCache)) {
         std::scoped_lock lock{texture_cache.mutex};
         return texture_cache.IsRegionGpuModified(addr, size);

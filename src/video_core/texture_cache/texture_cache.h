@@ -168,6 +168,9 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
             return false;
         }
         auto& image = slot_images[image_id];
+        if (True(image.flags & ImageFlagBits::RenderTarget)) {
+            return false;
+        }
         if (True(image.flags & ImageFlagBits::IsDecoding)) {
             return false;
         }
@@ -624,11 +627,17 @@ void TextureCache<P>::UpdateRenderTargets(bool is_clear) {
         if (ImageViewId const view = render_targets.color_buffer_ids[i]; view && view != CORRUPT_ID && slot_image_views.contains(view)) {
             rt_active_mask |= 1u << i;
             rt_image_id[i] = slot_image_views[view].image_id;
+            if (rt_image_id[i] && slot_images.contains(rt_image_id[i])) {
+                slot_images[rt_image_id[i]].flags |= ImageFlagBits::RenderTarget;
+            }
         }
     }
     if (depth_buffer_id && depth_buffer_id != CORRUPT_ID && slot_image_views.contains(depth_buffer_id)) {
         rt_active_mask |= (1u << NUM_RT);
         rt_depth_image_id = slot_image_views[depth_buffer_id].image_id;
+        if (rt_depth_image_id && slot_images.contains(rt_depth_image_id)) {
+            slot_images[rt_depth_image_id].flags |= ImageFlagBits::RenderTarget;
+        }
     } else {
         rt_depth_image_id = ImageId{};
     }
@@ -716,6 +725,20 @@ FramebufferId TextureCache<P>::GetFramebufferId(const RenderTargets& key) {
     ImageView* const depth_buffer = (key.depth_buffer_id && key.depth_buffer_id != CORRUPT_ID && slot_image_views.contains(key.depth_buffer_id)) ? &slot_image_views[key.depth_buffer_id] : nullptr;
     runtime.FlushDeferredClear();
     framebuffer_id = slot_framebuffers.insert(runtime, color_buffers, depth_buffer, key);
+    for (const ImageViewId view_id : key.color_buffer_ids) {
+        if (view_id && view_id != CORRUPT_ID && slot_image_views.contains(view_id)) {
+            const ImageId img_id = slot_image_views[view_id].image_id;
+            if (img_id && img_id != CORRUPT_ID && slot_images.contains(img_id)) {
+                slot_images[img_id].flags |= ImageFlagBits::RenderTarget;
+            }
+        }
+    }
+    if (key.depth_buffer_id && key.depth_buffer_id != CORRUPT_ID && slot_image_views.contains(key.depth_buffer_id)) {
+        const ImageId img_id = slot_image_views[key.depth_buffer_id].image_id;
+        if (img_id && img_id != CORRUPT_ID && slot_images.contains(img_id)) {
+            slot_images[img_id].flags |= ImageFlagBits::RenderTarget;
+        }
+    }
     return framebuffer_id;
 }
 
@@ -2093,6 +2116,7 @@ ImageViewId TextureCache<P>::FindRenderTargetView(const ImageInfo& info, GPUVAdd
         return NULL_IMAGE_VIEW_ID;
     }
     Image& image = slot_images[image_id];
+    image.flags |= ImageFlagBits::RenderTarget;
     const ImageViewType view_type = RenderTargetImageViewType(info);
     SubresourceBase base;
     if (image.info.type == ImageType::Linear) {

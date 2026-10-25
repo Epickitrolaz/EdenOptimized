@@ -227,11 +227,21 @@ struct GPU::Impl {
 
     /// Notify rasterizer that any caches of the specified region should be invalidated
     void InvalidateRegion(DAddr addr, u64 size, bool preserve_gpu_writes) {
-        if (Settings::values.nce_invalidation_gpu_readback.GetValue()) {
+        if (preserve_gpu_writes) {
             VideoCore::RasterizerInterface* rasterizer = renderer->ReadRasterizer();
-            if (preserve_gpu_writes && rasterizer->MustFlushRegion(addr, size, VideoCommon::CacheType::BufferCache)) {
-                const u64 fence = RequestSyncOperation([rasterizer, addr, size] {
-                    rasterizer->FlushRegion(addr, size, VideoCommon::CacheType::BufferCache);
+            const bool flush_buffers = Settings::values.nce_invalidation_gpu_readback.GetValue();
+            VideoCommon::CacheType types_to_flush = VideoCommon::CacheType::None;
+
+            if (rasterizer->MustFlushRegion(addr, size, VideoCommon::CacheType::TextureCache)) {
+                types_to_flush |= VideoCommon::CacheType::TextureCache;
+            }
+            if (flush_buffers && rasterizer->MustFlushRegion(addr, size, VideoCommon::CacheType::BufferCache)) {
+                types_to_flush |= VideoCommon::CacheType::BufferCache;
+            }
+
+            if (types_to_flush != VideoCommon::CacheType::None) {
+                const u64 fence = RequestSyncOperation([rasterizer, addr, size, types_to_flush] {
+                    rasterizer->FlushRegion(addr, size, types_to_flush);
                     rasterizer->OnCacheInvalidation(addr, size);
                 });
                 gpu_thread.TickGPU(is_async);
