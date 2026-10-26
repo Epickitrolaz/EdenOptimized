@@ -125,8 +125,12 @@ u64 MemoryGovernor::ComputeBudget(u64 mem_available) const {
         return static_cast<u64>(setting_manual_mb) * 1024ULL * 1024ULL;
     }
 
-    const u64 reserve = safety_reserve.load(std::memory_order_relaxed);
-    const u64 baseline = driver_baseline.load(std::memory_order_relaxed);
+    const int setting_reserve_mb = Settings::values.memory_governor_safety_reserve.GetValue();
+    const u64 reserve = (setting_reserve_mb > 0) ? (static_cast<u64>(setting_reserve_mb) * 1024ULL * 1024ULL)
+                                                 : safety_reserve.load(std::memory_order_relaxed);
+    const int setting_baseline_mb = Settings::values.memory_governor_driver_baseline.GetValue();
+    const u64 baseline = (setting_baseline_mb > 0) ? (static_cast<u64>(setting_baseline_mb) * 1024ULL * 1024ULL)
+                                                   : driver_baseline.load(std::memory_order_relaxed);
     const u64 total_reserve = reserve + baseline;
     const u64 total_registered = GetTotalRegisteredBytes();
     const u64 total_floor = GetTotalFloorBytes();
@@ -167,7 +171,9 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
         s64 deficit = static_cast<s64>(total_registered - budget);
         current_deficit.store(deficit, std::memory_order_relaxed);
 
-        const u64 reserve = safety_reserve.load(std::memory_order_relaxed);
+        const int setting_reserve_mb = Settings::values.memory_governor_safety_reserve.GetValue();
+        const u64 reserve = (setting_reserve_mb > 0) ? (static_cast<u64>(setting_reserve_mb) * 1024ULL * 1024ULL)
+                                                     : safety_reserve.load(std::memory_order_relaxed);
         const bool is_manual = manual_budget.load(std::memory_order_relaxed) > 0 ||
                                Settings::values.memory_governor_budget.GetValue() > 0;
         const bool critical_watermark = is_manual ||
@@ -300,7 +306,9 @@ void MemoryGovernor::TickWatchdog() {
     const u64 budget = ComputeBudget(sys_info.available_ram);
     current_budget.store(budget, std::memory_order_relaxed);
     const u64 total_registered = GetTotalRegisteredBytes();
-    const u64 reserve = safety_reserve.load(std::memory_order_relaxed);
+    const int setting_reserve_mb = Settings::values.memory_governor_safety_reserve.GetValue();
+    const u64 reserve = (setting_reserve_mb > 0) ? (static_cast<u64>(setting_reserve_mb) * 1024ULL * 1024ULL)
+                                                 : safety_reserve.load(std::memory_order_relaxed);
 
     if (total_registered > budget && sys_info.available_ram < reserve) {
         LOG_WARNING(HW_Memory,

@@ -717,21 +717,61 @@
     </integer-array>
 
     <string-array name="governorSafetyReserveEntries">
-        <item>100 MB (Aggressive)</item>
-        <item>120 MB (LMKD Line)</item>
-        <item>140 MB (Default - Recommended)</item>
-        <item>160 MB (Safe)</item>
-        <item>180 MB (Conservative)</item>
-        <item>200 MB (High Margin)</item>
+        <item>100 MB (Aggressive Low-Reserve)</item>
+        <item>140 MB (PC Default)</item>
+        <item>180 MB (Low Margin)</item>
+        <item>250 MB (Balanced)</item>
+        <item>300 MB (Handheld Default - Recommended)</item>
+        <item>350 MB (Safe)</item>
+        <item>400 MB (High Margin)</item>
+        <item>500 MB (Maximum Safety)</item>
     </string-array>
 
     <integer-array name="governorSafetyReserveValues">
         <item>100</item>
-        <item>120</item>
         <item>140</item>
-        <item>160</item>
         <item>180</item>
+        <item>250</item>
+        <item>300</item>
+        <item>350</item>
+        <item>400</item>
+        <item>500</item>
+    </integer-array>
+
+    <string-array name="governorDriverBaselineEntries">
+        <item>0 MB (PC Default)</item>
+        <item>100 MB (Lightweight)</item>
+        <item>150 MB (Moderate)</item>
+        <item>200 MB (Handheld Default - Recommended)</item>
+        <item>250 MB (High Driver Overhead)</item>
+        <item>300 MB (Conservative)</item>
+        <item>400 MB (Maximum Overhead)</item>
+    </string-array>
+
+    <integer-array name="governorDriverBaselineValues">
+        <item>0</item>
+        <item>100</item>
+        <item>150</item>
         <item>200</item>
+        <item>250</item>
+        <item>300</item>
+        <item>400</item>
+    </integer-array>
+
+    <string-array name="governorPacingMsEntries">
+        <item>1 ms (Light Throttle)</item>
+        <item>2 ms (Handheld Default - Recommended)</item>
+        <item>3 ms (Moderate)</item>
+        <item>4 ms (Aggressive)</item>
+        <item>5 ms (Deep Direct-Reclaim)</item>
+    </string-array>
+
+    <integer-array name="governorPacingMsValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
     </integer-array>
 
     <string-array name="astcRecompressionEntries">

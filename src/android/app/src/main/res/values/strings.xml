@@ -550,8 +550,12 @@
     <string name="memory_governor_budget_auto">Auto (Dynamic Headroom)</string>
     <string name="memory_governor_safety_reserve">Safety Reserve Margin</string>
     <string name="memory_governor_safety_reserve_description">Safety headroom maintained between available physical RAM and Android LMKD termination. Lower margins maximize cache sizes on lightweight games; higher margins safeguard against sudden allocation spikes.</string>
+    <string name="memory_governor_driver_baseline">Driver &amp; OS Baseline</string>
+    <string name="memory_governor_driver_baseline_description">Estimated non-subsystem memory baseline reserved for GPU kernel driver (kgsl), display compositor, and Android system services. Defaults to 200 MB on Android.</string>
     <string name="memory_governor_pacing">Governor Pressure Pacing</string>
     <string name="memory_governor_pacing_description">Drain in-flight GPU queues and briefly pace draw thread when deficit persists, giving zram and direct-reclaim time to free pages.</string>
+    <string name="memory_governor_pacing_ms">Pressure Throttle Delay</string>
+    <string name="memory_governor_pacing_ms_description">Milliseconds yielded per frame to the Android kernel during memory deficits. Gives kswapd idle time to reclaim memory and prevents physical RAM drops below safety thresholds.</string>
     <string name="memory_governor_thp">Transparent Huge Pages (THP)</string>
     <string name="memory_governor_thp_description">Use MADV_HUGEPAGE for guest DRAM. Disabling THP prevents sparse commit amplification and improves zram compression on memory-constrained devices.</string>
     <string name="texture_cache_gc_isolated">Isolate Texture Cache GC</string>

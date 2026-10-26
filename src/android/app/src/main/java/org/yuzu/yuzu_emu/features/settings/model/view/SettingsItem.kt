@@ -335,10 +335,28 @@ abstract class SettingsItem(
                 )
             )
             put(
+                SingleChoiceSetting(
+                    IntSetting.MEMORY_GOVERNOR_DRIVER_BASELINE,
+                    titleId = R.string.memory_governor_driver_baseline,
+                    descriptionId = R.string.memory_governor_driver_baseline_description,
+                    choicesId = R.array.governorDriverBaselineEntries,
+                    valuesId = R.array.governorDriverBaselineValues
+                )
+            )
+            put(
                 SwitchSetting(
                     BooleanSetting.MEMORY_GOVERNOR_PACING,
                     titleId = R.string.memory_governor_pacing,
                     descriptionId = R.string.memory_governor_pacing_description
+                )
+            )
+            put(
+                SingleChoiceSetting(
+                    IntSetting.MEMORY_GOVERNOR_PACING_MS,
+                    titleId = R.string.memory_governor_pacing_ms,
+                    descriptionId = R.string.memory_governor_pacing_ms_description,
+                    choicesId = R.array.governorPacingMsEntries,
+                    valuesId = R.array.governorPacingMsValues
                 )
             )
             put(

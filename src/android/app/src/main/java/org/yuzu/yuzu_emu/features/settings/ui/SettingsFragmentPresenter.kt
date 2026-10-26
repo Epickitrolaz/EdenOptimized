@@ -519,8 +519,10 @@ class SettingsFragmentPresenter(
             add(HeaderSetting(R.string.memory_governor_header))
             add(BooleanSetting.USE_MEMORY_GOVERNOR.key)
             add(IntSetting.MEMORY_GOVERNOR_SAFETY_RESERVE.key)
+            add(IntSetting.MEMORY_GOVERNOR_DRIVER_BASELINE.key)
             add(IntSetting.MEMORY_GOVERNOR_BUDGET.key)
             add(BooleanSetting.MEMORY_GOVERNOR_PACING.key)
+            add(IntSetting.MEMORY_GOVERNOR_PACING_MS.key)
             add(BooleanSetting.MEMORY_GOVERNOR_THP.key)
             add(BooleanSetting.TEXTURE_CACHE_GC_ISOLATED.key)
 

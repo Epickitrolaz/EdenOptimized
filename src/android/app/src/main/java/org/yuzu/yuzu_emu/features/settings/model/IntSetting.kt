@@ -48,6 +48,8 @@ enum class IntSetting(override val key: String) : AbstractIntSetting {
     MEMORY_LAYOUT("memory_layout_mode"),
     MEMORY_GOVERNOR_BUDGET("memory_governor_budget"),
     MEMORY_GOVERNOR_SAFETY_RESERVE("memory_governor_safety_reserve"),
+    MEMORY_GOVERNOR_DRIVER_BASELINE("memory_governor_driver_baseline"),
+    MEMORY_GOVERNOR_PACING_MS("memory_governor_pacing_ms"),
     MAX_TEXTURE_CACHE_SIZE("max_texture_cache_size"),
     MAX_BUFFER_CACHE_SIZE("max_buffer_cache_size"),
     MAX_STAGING_POOL_SIZE("max_staging_pool_size"),
