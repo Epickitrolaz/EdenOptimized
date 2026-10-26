@@ -261,7 +261,6 @@ class EmulationActivity : AppCompatActivity(), SensorEventListener, InputManager
     }
 
     override fun onPause() {
-        NativeLibrary.trimMemory()
         nfcReader.stopScanning()
         stopMotionSensorListener()
         super.onPause()

@@ -104,6 +104,7 @@ StagingBufferPool::StagingBufferPool(const Device& device_, MemoryAllocator& mem
 StagingBufferPool::~StagingBufferPool() = default;
 
 StagingBufferRef StagingBufferPool::Request(size_t size, MemoryUsage usage, bool deferred) {
+    std::scoped_lock lock{mutex};
     if (!deferred && usage == MemoryUsage::Upload && size <= region_size) {
         return GetStreamBuffer(size);
     }
@@ -111,18 +112,24 @@ StagingBufferRef StagingBufferPool::Request(size_t size, MemoryUsage usage, bool
 }
 
 void StagingBufferPool::FreeDeferred(StagingBufferRef& ref) {
+    std::scoped_lock lock{mutex};
     auto& entries = GetCache(ref.usage)[ref.log2_level].entries;
     const auto is_this_one = [&ref](const StagingBuffer& entry) {
         return entry.index == ref.index;
     };
     auto it = std::find_if(entries.begin(), entries.end(), is_this_one);
-    ASSERT(it != entries.end());
-    ASSERT(it->deferred);
+    if (it == entries.end()) {
+        return;
+    }
+    if (!it->deferred) {
+        return;
+    }
     it->tick = scheduler.CurrentTick();
     it->deferred = false;
 }
 
 void StagingBufferPool::TickFrame() {
+    std::scoped_lock lock{mutex};
     current_delete_level = (current_delete_level + 1) % NUM_LEVELS;
 
     ReleaseCache(MemoryUsage::DeviceLocal);
@@ -282,7 +289,7 @@ void StagingBufferPool::ReleaseLevel(StagingBuffersCache& cache, size_t log2) {
     const size_t old_size = entries.size();
 
     const auto is_deletable = [this](const StagingBuffer& entry) {
-        return scheduler.IsFree(entry.tick);
+        return !entry.deferred && scheduler.IsFree(entry.tick);
     };
     const size_t begin_offset = staging.delete_index;
     const size_t end_offset = (std::min)(begin_offset + deletions_per_tick, old_size);
@@ -301,6 +308,7 @@ void StagingBufferPool::ReleaseLevel(StagingBuffersCache& cache, size_t log2) {
 }
 
 u64 StagingBufferPool::GetTotalMemory() const noexcept {
+    std::scoped_lock lock{mutex};
     u64 total = stream_buffer_size;
     const auto sum_cache = [](const StagingBuffersCache& cache) {
         u64 cache_total = 0;
@@ -318,6 +326,7 @@ u64 StagingBufferPool::GetTotalMemory() const noexcept {
 }
 
 u64 StagingBufferPool::ShrinkTo(u64 target_bytes, [[maybe_unused]] std::chrono::microseconds max_time_budget) {
+    std::scoped_lock lock{mutex};
     if (GetTotalMemory() <= target_bytes) {
         return GetTotalMemory();
     }
@@ -325,7 +334,7 @@ u64 StagingBufferPool::ShrinkTo(u64 target_bytes, [[maybe_unused]] std::chrono::
         for (size_t lvl = 0; lvl < NUM_LEVELS; ++lvl) {
             auto& entries = cache[lvl].entries;
             const auto is_deletable = [this](const StagingBuffer& entry) {
-                return scheduler.IsFree(entry.tick);
+                return !entry.deferred && scheduler.IsFree(entry.tick);
             };
             entries.erase(std::remove_if(entries.begin(), entries.end(), is_deletable), entries.end());
             cache[lvl].delete_index = 0;

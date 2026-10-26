@@ -7,6 +7,7 @@
 #pragma once
 
 #include <climits>
+#include <mutex>
 #include <vector>
 
 #include "common/common_types.h"
@@ -129,6 +130,7 @@ private:
     size_t current_delete_level = 0;
     u64 buffer_index = 0;
     u64 unique_ids{};
+    mutable std::recursive_mutex mutex;
 };
 
 } // namespace Vulkan
