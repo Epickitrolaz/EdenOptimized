@@ -158,39 +158,25 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
 
     // Deficit-funded stale-tail donation: when the governor holds a genuine deficit, it
     // lowers this trim target below the normal target so the LRU cadence reclaims images
-    // untouched for >30s at its proven-safe eviction rate (never fresh on-screen content).
+    // untouched for >60s at its proven-safe eviction rate (never fresh on-screen content).
     const u64 trim_target = Common::MemoryGovernor::Instance().GetTextureTrimTarget();
     if (trim_target > 0) {
         effective_expected = std::min(effective_expected, trim_target);
     }
 
-    const auto sys_mem = Common::MemoryBudget::Instance().ReadSystemMemoryInfo();
-    const bool emergency_ram = sys_mem.available_ram > 0 && sys_mem.available_ram < (100ULL * 1024 * 1024);
-    const bool deficit_active = trim_target > 0;
+    const bool deficit_active = trim_target > 0 || Common::MemoryGovernor::Instance().GetCurrentDeficit() > 0;
+    constexpr u64 SAFE_MINIMUM_EVICT_TICKS = 1800ULL; // 60 seconds at 30 fps (SMMU-safe hardware floor)
+    constexpr u64 NORMAL_EVICT_TICKS = 2700ULL;       // 90 seconds at 30 fps
 
     size_t max_scan = 1024;
     const auto Configure = [&](bool allow_aggressive) {
         high_priority_mode = total_used_memory >= effective_expected || force_aggressive;
         aggressive_mode = allow_aggressive && (total_used_memory >= effective_critical || force_aggressive);
-        if (emergency_ram) {
-            ticks_to_destroy = 450ULL; // 15s at 30 fps
-            num_iterations = 40;
-            max_scan = 4096;
-        } else if (aggressive_mode || deficit_active) {
-            ticks_to_destroy = 900ULL; // 30s at 30 fps
-            num_iterations = 30;
-            max_scan = 2048;
-        } else if (high_priority_mode) {
-            ticks_to_destroy = 1800ULL; // 60s at 30 fps
-            num_iterations = 20;
-            max_scan = 1024;
-        } else {
-            ticks_to_destroy = 3600ULL; // 120s at 30 fps
-            num_iterations = 10;
-            max_scan = 512;
-        }
+        ticks_to_destroy = (high_priority_mode || deficit_active) ? SAFE_MINIMUM_EVICT_TICKS : NORMAL_EVICT_TICKS;
+        num_iterations = aggressive_mode ? 40 : (high_priority_mode ? 25 : 10);
+        max_scan = aggressive_mode ? 4096 : 2048;
     };
-    const auto Cleanup = [this, &num_iterations, &max_scan, &high_priority_mode, &aggressive_mode, &emergency_ram, &deficit_active, effective_expected, effective_critical](ImageId image_id) {
+    const auto Cleanup = [this, &num_iterations, &max_scan, &high_priority_mode, &aggressive_mode, &deficit_active, effective_expected, effective_critical](ImageId image_id) {
         if (num_iterations == 0 || max_scan == 0) {
             return true;
         }
@@ -216,22 +202,20 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
 
         // Protect active scene assets (3D textures, water, reflections, G-buffers, render targets):
         // 1. Below target (normal mode), all active game assets are 100% immune from LRU GC.
-        // 2. Above target (high priority mode), any image touched within the last 60s is protected.
-        // 3. Above critical threshold or deficit active, any image touched within the last 30s is protected.
-        // 4. Emergency RAM (<100MB available), any image touched within the last 15s is protected.
-        // Active scene content touched in the last 15s is ALWAYS protected to prevent water/ground corruption.
+        // 2. Above target (high priority mode) or during deficit trim, textures untouched for >60s are evicted.
+        // 3. Active scene content touched in the last 60s is ALWAYS protected to prevent SMMU GPU faults
+        //    and water/ground texture corruption on Qualcomm Adreno hardware.
         if (!is_remapped) {
-            if (!high_priority_mode && !emergency_ram) {
+            if (!high_priority_mode && !deficit_active) {
                 return false;
             }
             const u64 last_touch = lru_cache.GetItemTick(image.lru_index);
-            const u64 protect_ticks = emergency_ram ? 450ULL : (aggressive_mode || deficit_active ? 900ULL : 1800ULL);
             const u64 age = (frame_tick >= last_touch) ? (frame_tick - last_touch) : 0;
-            if (age < protect_ticks) {
+            if (age < SAFE_MINIMUM_EVICT_TICKS) {
                 return false;
             }
         }
-        if (!high_priority_mode && !emergency_ram && must_download) {
+        if (!high_priority_mode && !deficit_active && must_download) {
             return false;
         }
         --num_iterations;
@@ -260,7 +244,7 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
     Configure(false);
     const u64 target_tick_1 = (frame_tick > ticks_to_destroy) ? (frame_tick - ticks_to_destroy) : 0;
     lru_cache.ForEachItemBelow(target_tick_1, Cleanup);
-    if (total_used_memory >= effective_critical || force_aggressive) {
+    if (total_used_memory >= effective_critical || force_aggressive || deficit_active) {
         Configure(true);
         const u64 target_tick_2 = (frame_tick > ticks_to_destroy) ? (frame_tick - ticks_to_destroy) : 0;
         lru_cache.ForEachItemBelow(target_tick_2, Cleanup);

@@ -408,6 +408,8 @@ void PresentManager::CopyToSwapchain(Frame* frame) {
     }
     if (current_window != current_render_surface) {
         try {
+            scheduler.WaitWorker();
+            void(device.GetLogical().WaitIdle());
             surface = CreateSurface(instance, render_window.GetWindowInfo());
             current_render_surface = current_window;
             RecreateSwapchain(frame);
@@ -425,6 +427,8 @@ void PresentManager::CopyToSwapchain(Frame* frame) {
             // Recreate surface and swapchain if needed.
             if (requires_recreation) {
 #ifdef __ANDROID__
+                scheduler.WaitWorker();
+                void(device.GetLogical().WaitIdle());
                 surface = CreateSurface(instance, render_window.GetWindowInfo());
                 current_render_surface = render_window.GetWindowInfo().render_surface;
 #endif
