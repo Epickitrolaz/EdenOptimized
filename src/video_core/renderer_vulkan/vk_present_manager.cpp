@@ -127,6 +127,9 @@ PresentManager::PresentManager(const vk::Instance& instance_,
     , scheduler{scheduler_}
     , swapchain{swapchain_}
     , surface{surface_}
+#ifdef __ANDROID__
+    , current_render_surface{render_window.GetWindowInfo().render_surface}
+#endif
     , blit_supported{CanBlitToSwapchain(device.GetPhysical(), swapchain.GetImageViewFormat())}
     , storage_supported{CanStoreToFrame(device.GetPhysical(), swapchain.GetImageFormat())}
     , use_present_thread{Settings::values.async_presentation.GetValue()}
@@ -397,6 +400,24 @@ void PresentManager::DiscardFrame(Frame* frame) {
 }
 
 void PresentManager::CopyToSwapchain(Frame* frame) {
+#ifdef __ANDROID__
+    void* const current_window = render_window.GetWindowInfo().render_surface;
+    if (!current_window) {
+        DiscardFrame(frame);
+        return;
+    }
+    if (current_window != current_render_surface) {
+        try {
+            surface = CreateSurface(instance, render_window.GetWindowInfo());
+            current_render_surface = current_window;
+            RecreateSwapchain(frame);
+        } catch (const vk::Exception& except) {
+            LOG_ERROR(Render_Vulkan, "Failed to recreate surface after surface change: {}", except.what());
+            DiscardFrame(frame);
+            return;
+        }
+    }
+#endif
     bool requires_recreation = false;
 
     for (u32 attempt = 0; attempt < MAX_PRESENT_ATTEMPTS; ++attempt) {
@@ -405,6 +426,7 @@ void PresentManager::CopyToSwapchain(Frame* frame) {
             if (requires_recreation) {
 #ifdef __ANDROID__
                 surface = CreateSurface(instance, render_window.GetWindowInfo());
+                current_render_surface = render_window.GetWindowInfo().render_surface;
 #endif
                 RecreateSwapchain(frame);
             }

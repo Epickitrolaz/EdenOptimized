@@ -390,12 +390,14 @@ void EmulationSession::PauseEmulation() {
     std::scoped_lock lock(m_mutex);
     m_system.Pause();
     m_is_paused = true;
+    Common::MemoryBudget::Instance().SetPaused(true);
 }
 
 void EmulationSession::UnPauseEmulation() {
     std::scoped_lock lock(m_mutex);
     m_system.Run();
     m_is_paused = false;
+    Common::MemoryBudget::Instance().SetPaused(false);
 }
 
 void EmulationSession::HaltEmulation() {
@@ -761,6 +763,7 @@ void Java_org_yuzu_yuzu_1emu_NativeLibrary_surfaceDestroyed(JNIEnv* env, jobject
         ANativeWindow_release(native_window);
     }
     EmulationSession::GetInstance().SetNativeWindow(nullptr);
+    EmulationSession::GetInstance().SurfaceChanged();
 }
 
 void Java_org_yuzu_yuzu_1emu_NativeLibrary_setAppDirectory(JNIEnv* env, jobject instance,

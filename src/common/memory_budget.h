@@ -128,6 +128,14 @@ public:
         return enabled;
     }
 
+    void SetPaused(bool paused_) {
+        is_paused.store(paused_, std::memory_order_relaxed);
+    }
+
+    [[nodiscard]] bool IsPaused() const {
+        return is_paused.load(std::memory_order_relaxed);
+    }
+
     void Reset();
 
 private:
@@ -166,6 +174,7 @@ private:
     std::chrono::steady_clock::time_point last_essential_update{};
 
     std::jthread watchdog_thread;
+    std::atomic<bool> is_paused{false};
 };
 
 } // namespace Common

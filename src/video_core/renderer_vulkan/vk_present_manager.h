@@ -93,6 +93,9 @@ private:
     Scheduler& scheduler;
     Swapchain& swapchain;
     vk::SurfaceKHR& surface;
+#ifdef __ANDROID__
+    void* current_render_surface{nullptr};
+#endif
     vk::CommandPool cmdpool;
     std::vector<Frame> frames;
     boost::container::deque<Frame*> present_queue;

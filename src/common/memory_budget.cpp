@@ -148,7 +148,7 @@ void MemoryBudget::AppendTraceToFile(std::string_view text) {
 void MemoryBudget::WatchdogLoop(std::stop_token stop_token) {
     while (!stop_token.stop_requested()) {
         std::this_thread::sleep_for(std::chrono::seconds(2));
-        if (stop_token.stop_requested() || !enabled) {
+        if (stop_token.stop_requested() || !enabled || is_paused.load(std::memory_order_relaxed)) {
             continue;
         }
         MemoryGovernor::Instance().TickWatchdog();
