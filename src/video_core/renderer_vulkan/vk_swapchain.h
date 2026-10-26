@@ -109,12 +109,12 @@ public:
         return extent;
     }
 
+    void Destroy();
+
 private:
     void CreateSwapchain(const VkSurfaceCapabilitiesKHR& capabilities);
     void CreateSemaphores();
     void CreateImageViews();
-
-    void Destroy();
 
     bool NeedsPresentModeUpdate() const;
 

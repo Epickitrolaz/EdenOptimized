@@ -46,6 +46,7 @@ extern "C" {
 #include "common/dynamic_library.h"
 #include "common/fs/fs_util.h"
 #include "common/memory_budget.h"
+#include "common/memory_governor.h"
 #include "common/fs/path_util.h"
 #include "common/logging.h"
 #include "common/scm_rev.h"
@@ -398,6 +399,7 @@ void EmulationSession::UnPauseEmulation() {
     m_system.Run();
     m_is_paused = false;
     Common::MemoryBudget::Instance().SetPaused(false);
+    Common::MemoryGovernor::Instance().SignalResumeFromSleep(60);
 }
 
 void EmulationSession::HaltEmulation() {

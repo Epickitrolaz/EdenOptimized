@@ -1148,16 +1148,17 @@ void RasterizerVulkan::TickFrame() {
     Common::MemoryGovernor::Instance().TickFrame();
     Common::MemoryBudget::Instance().TickFrame();
 
-    // Phase 3: Pressure Pacing
-    // When the memory governor signals persistent deficit (throttle_requested),
-    // gently pace the CPU draw thread to allow the GPU and memory reclamation to catch up.
-    if (Common::MemoryGovernor::Instance().IsEnabled() &&
-        Common::MemoryGovernor::Instance().ShouldThrottle() &&
-        Settings::values.memory_governor_pacing.GetValue()) {
-        const int pacing_ms = Settings::values.memory_governor_pacing_ms.GetValue();
-        if (pacing_ms > 0) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(pacing_ms));
-        }
+    // Phase 3: Pressure & Wake Pacing
+    // 1. Gently pace the first 60 frames after wake from sleep to give the Android kernel
+    //    and kswapd time to page in memory without spinning in mmap_lock or triggering watchdog bites.
+    // 2. When the memory governor signals persistent deficit (throttle_requested),
+    //    gently pace the CPU draw thread so the kernel can reclaim memory and prevent <40MB drops.
+    if (Common::MemoryGovernor::Instance().ConsumeResumePacingFrame() > 0) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    } else if (Common::MemoryGovernor::Instance().IsEnabled() &&
+               Common::MemoryGovernor::Instance().ShouldThrottle()) {
+        const int pacing_ms = std::max(Settings::values.memory_governor_pacing_ms.GetValue(), 2);
+        std::this_thread::sleep_for(std::chrono::milliseconds(pacing_ms));
     }
 }
 

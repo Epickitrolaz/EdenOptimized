@@ -95,6 +95,20 @@ public:
         return tc_trim_target.load(std::memory_order_relaxed);
     }
 
+    void SignalResumeFromSleep(u32 frames = 60) noexcept {
+        resume_pacing_frames.store(frames, std::memory_order_relaxed);
+    }
+
+    [[nodiscard]] u32 ConsumeResumePacingFrame() noexcept {
+        u32 cur = resume_pacing_frames.load(std::memory_order_relaxed);
+        while (cur > 0) {
+            if (resume_pacing_frames.compare_exchange_weak(cur, cur - 1, std::memory_order_relaxed)) {
+                return cur;
+            }
+        }
+        return 0;
+    }
+
     void SetEnabled(bool enabled_) noexcept {
         enabled.store(enabled_, std::memory_order_relaxed);
     }
@@ -155,6 +169,7 @@ private:
     std::atomic<s64> carried_deficit{0};
     std::atomic<u32> persistent_deficit_frames{0};
     std::atomic<u64> tc_trim_target{0};
+    std::atomic<u32> resume_pacing_frames{0};
 
     u32 persistent_deficit_threshold{30}; // ~1 second at 30 fps
     std::chrono::microseconds max_shrink_time_per_frame{10000}; // 10 ms max per frame
