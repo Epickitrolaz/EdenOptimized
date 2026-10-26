@@ -147,6 +147,8 @@ public:
         persistent_deficit_threshold = frames;
     }
 
+    void TrimMemory();
+
     void Reset();
 
 private:

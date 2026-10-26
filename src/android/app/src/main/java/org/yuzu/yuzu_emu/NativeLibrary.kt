@@ -183,6 +183,11 @@ object NativeLibrary {
     external fun pauseEmulation()
 
     /**
+     * Trims transient caches and releases unmapped heap to OS.
+     */
+    external fun trimMemory()
+
+    /**
      * Stops emulation.
      */
     external fun stopEmulation()

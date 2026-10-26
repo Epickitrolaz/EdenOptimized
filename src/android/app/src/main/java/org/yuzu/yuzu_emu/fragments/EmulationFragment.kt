@@ -1465,6 +1465,7 @@ class EmulationFragment : Fragment(), SurfaceHolder.Callback {
             }
         }
         super.onPause()
+        NativeLibrary.trimMemory()
     }
 
     override fun onDestroyView() {

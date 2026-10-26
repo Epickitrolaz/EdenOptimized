@@ -169,12 +169,12 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
                                         (sys_info.psi_some_avg10 > 0.50);
 
         // Deficit-funded stale-tail donation: when a genuine deficit exists, request that
-        // TextureCache trim its stale (>120s untouched) content within fixed bounds so the
+        // TextureCache trim its stale (>60s untouched) content within fixed bounds so the
         // GC's normal LRU cadence pays the deficit at a safe, glitch-free eviction rate.
         if (deficit > 0) {
             const u64 tc_target = GetClientTarget(Common::MemoryClientPriority::TextureCache);
             const u64 donation = std::min<u64>(static_cast<u64>(deficit) + (64ULL * 1024 * 1024),
-                                               128ULL * 1024 * 1024);
+                                               256ULL * 1024 * 1024);
             const u64 trim_goal = (tc_target > donation) ? (tc_target - donation) : 0;
             tc_trim_target.store(trim_goal, std::memory_order_relaxed);
         } else {
@@ -308,6 +308,22 @@ void MemoryGovernor::TickWatchdog() {
                     static_cast<double>(budget) / (1024.0 * 1024.0),
                     static_cast<double>(total_registered) / (1024.0 * 1024.0),
                     static_cast<double>(sys_info.available_ram) / (1024.0 * 1024.0));
+    }
+}
+
+void MemoryGovernor::TrimMemory() {
+    std::vector<IMemoryClient*> sorted_clients;
+    {
+        std::scoped_lock lock{clients_mutex};
+        sorted_clients = clients;
+    }
+    const auto timeout = std::chrono::microseconds(50000); // 50ms budget
+    for (auto* client : sorted_clients) {
+        if (!client) continue;
+        const u64 floor = client->FloorBytes();
+        if (floor > 0 && client->SizeBytes() > floor) {
+            client->ShrinkTo(floor, timeout);
+        }
     }
 }
 

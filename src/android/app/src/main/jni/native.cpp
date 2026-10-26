@@ -29,6 +29,9 @@
 
 #include <android/api-level.h>
 #include <android/native_window_jni.h>
+#if defined(__ANDROID__)
+#include <malloc.h>
+#endif
 #include <common/fs/fs.h>
 #include <core/file_sys/patch_manager.h>
 #include <core/file_sys/savedata_factory.h>
@@ -938,6 +941,13 @@ void Java_org_yuzu_yuzu_1emu_NativeLibrary_unpauseEmulation(JNIEnv* env, jclass 
 
 void Java_org_yuzu_yuzu_1emu_NativeLibrary_pauseEmulation(JNIEnv* env, jclass clazz) {
     EmulationSession::GetInstance().PauseEmulation();
+}
+
+void Java_org_yuzu_yuzu_1emu_NativeLibrary_trimMemory(JNIEnv* env, jclass clazz) {
+    Common::MemoryGovernor::Instance().TrimMemory();
+#if defined(__ANDROID__)
+    mallopt(M_PURGE, 0);
+#endif
 }
 
 void Java_org_yuzu_yuzu_1emu_NativeLibrary_stopEmulation(JNIEnv* env, jclass clazz) {

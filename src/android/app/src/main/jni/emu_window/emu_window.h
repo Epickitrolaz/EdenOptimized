@@ -51,7 +51,7 @@ public:
         return {std::make_unique<GraphicsContext_Android>(m_driver_library)};
     }
     bool IsShown() const override {
-        return true;
+        return window_info.render_surface != nullptr;
     };
 
 private:

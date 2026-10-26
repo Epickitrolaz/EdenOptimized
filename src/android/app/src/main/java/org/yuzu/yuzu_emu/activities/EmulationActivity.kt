@@ -255,7 +255,13 @@ class EmulationActivity : AppCompatActivity(), SensorEventListener, InputManager
         buildPictureInPictureParams()
     }
 
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        NativeLibrary.trimMemory()
+    }
+
     override fun onPause() {
+        NativeLibrary.trimMemory()
         nfcReader.stopScanning()
         stopMotionSensorListener()
         super.onPause()
