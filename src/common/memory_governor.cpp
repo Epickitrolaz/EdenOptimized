@@ -28,8 +28,13 @@ void MemoryGovernor::Reset() {
     enabled.store(false, std::memory_order_relaxed);
     throttle_requested.store(false, std::memory_order_relaxed);
     manual_budget.store(0, std::memory_order_relaxed);
+#ifdef __ANDROID__
+    safety_reserve.store(300ULL * 1024 * 1024, std::memory_order_relaxed); // 300 MB Android reserve
+    driver_baseline.store(200ULL * 1024 * 1024, std::memory_order_relaxed); // 200 MB driver baseline
+#else
     safety_reserve.store(140ULL * 1024 * 1024, std::memory_order_relaxed); // 140 MB default
     driver_baseline.store(0, std::memory_order_relaxed);
+#endif
     current_budget.store(0, std::memory_order_relaxed);
     current_deficit.store(0, std::memory_order_relaxed);
     carried_deficit.store(0, std::memory_order_relaxed);
@@ -162,11 +167,12 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
         s64 deficit = static_cast<s64>(total_registered - budget);
         current_deficit.store(deficit, std::memory_order_relaxed);
 
+        const u64 reserve = safety_reserve.load(std::memory_order_relaxed);
         const bool is_manual = manual_budget.load(std::memory_order_relaxed) > 0 ||
                                Settings::values.memory_governor_budget.GetValue() > 0;
         const bool critical_watermark = is_manual ||
-                                        (sys_info.available_ram < 120ULL * 1024 * 1024) ||
-                                        (sys_info.psi_some_avg10 > 0.50);
+                                        (sys_info.available_ram < reserve) ||
+                                        (sys_info.psi_some_avg10 > 0.30);
 
         // Deficit-funded stale-tail donation: when a genuine deficit exists, request that
         // TextureCache trim its stale (>60s untouched) content within fixed bounds so the
@@ -242,10 +248,6 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
                 if (deficit <= 0) {
                     break;
                 }
-                if (client->Priority() == MemoryClientPriority::TextureCache) {
-                    // Never cannibalize on-screen texture cache below target!
-                    continue;
-                }
                 const auto now = std::chrono::steady_clock::now();
                 const auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - start_time);
                 if (elapsed >= max_shrink_time_per_frame) {
@@ -254,9 +256,8 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
                 const auto remaining_time = max_shrink_time_per_frame - elapsed;
 
                 const u64 client_size = client->SizeBytes();
-                const u64 client_target = client->TargetBytes();
                 const u64 client_floor = client->FloorBytes();
-                if (client_size == 0 || client_size > client_target || client_size <= client_floor) {
+                if (client_size == 0 || client_size <= client_floor) {
                     continue;
                 }
 

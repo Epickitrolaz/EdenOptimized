@@ -348,7 +348,15 @@ void PresentManager::PresentThread(std::stop_token token) {
             // before the queue lock goes out of scope. This way the swapchain
             // lock in WaitPresent is guaranteed to occur after here.
             void(std::exchange(lock, std::unique_lock{swapchain_mutex}));
-            CopyToSwapchain(frame);
+            try {
+                CopyToSwapchain(frame);
+            } catch (const std::exception& e) {
+                LOG_ERROR(Render_Vulkan, "Unhandled exception in PresentThread: {}", e.what());
+                DiscardFrame(frame);
+            } catch (...) {
+                LOG_ERROR(Render_Vulkan, "Unknown exception in PresentThread");
+                DiscardFrame(frame);
+            }
 
             // Free the frame for reuse
             std::scoped_lock fl{free_mutex};
@@ -415,7 +423,7 @@ void PresentManager::CopyToSwapchain(Frame* frame) {
             surface = CreateSurface(instance, render_window.GetWindowInfo());
             current_render_surface = current_window;
             RecreateSwapchain(frame);
-        } catch (const vk::Exception& except) {
+        } catch (const std::exception& except) {
             LOG_ERROR(Render_Vulkan, "Failed to recreate surface after surface change: {}", except.what());
             DiscardFrame(frame);
             return;
@@ -429,12 +437,17 @@ void PresentManager::CopyToSwapchain(Frame* frame) {
             // Recreate surface and swapchain if needed.
             if (requires_recreation) {
 #ifdef __ANDROID__
+                void* const window = render_window.GetWindowInfo().render_surface;
+                if (!window) {
+                    DiscardFrame(frame);
+                    return;
+                }
                 scheduler.WaitWorker();
                 void(device.GetLogical().WaitIdle());
                 swapchain.Destroy();
                 surface.reset();
                 surface = CreateSurface(instance, render_window.GetWindowInfo());
-                current_render_surface = render_window.GetWindowInfo().render_surface;
+                current_render_surface = window;
 #endif
                 RecreateSwapchain(frame);
             }
@@ -442,11 +455,19 @@ void PresentManager::CopyToSwapchain(Frame* frame) {
             // Draw to swapchain.
             return CopyToSwapchainImpl(frame);
         } catch (const vk::Exception& except) {
-            if (except.GetResult() != VK_ERROR_SURFACE_LOST_KHR) {
-                throw;
+            const VkResult res = except.GetResult();
+            if (res == VK_ERROR_SURFACE_LOST_KHR ||
+                res == VK_ERROR_OUT_OF_DATE_KHR ||
+                res == VK_SUBOPTIMAL_KHR ||
+                res == VK_ERROR_NATIVE_WINDOW_IN_USE_KHR) {
+                requires_recreation = true;
+                continue;
             }
-
-            requires_recreation = true;
+            LOG_ERROR(Render_Vulkan, "Vulkan error in CopyToSwapchain: {}", except.what());
+            break;
+        } catch (const std::exception& except) {
+            LOG_ERROR(Render_Vulkan, "Exception in CopyToSwapchain: {}", except.what());
+            break;
         }
     }
 

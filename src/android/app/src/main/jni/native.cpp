@@ -395,10 +395,6 @@ void EmulationSession::PauseEmulation() {
     m_system.Pause();
     m_is_paused = true;
     Common::MemoryBudget::Instance().SetPaused(true);
-    if (m_system.IsPoweredOn()) {
-        m_system.GPU().WaitForIdle();
-    }
-    Common::MemoryGovernor::Instance().TrimMemory();
 #if defined(__ANDROID__)
     mallopt(M_PURGE, 0);
 #endif

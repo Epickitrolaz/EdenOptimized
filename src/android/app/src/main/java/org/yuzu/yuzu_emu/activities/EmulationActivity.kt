@@ -245,8 +245,21 @@ class EmulationActivity : AppCompatActivity(), SensorEventListener, InputManager
         return super.onKeyDown(keyCode, event)
     }
 
+    private val screenOffReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action == Intent.ACTION_SCREEN_OFF) {
+                if (NativeLibrary.isRunning() && !NativeLibrary.isPaused()) {
+                    NativeLibrary.pauseEmulation()
+                }
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
+        try {
+            registerReceiver(screenOffReceiver, IntentFilter(Intent.ACTION_SCREEN_OFF))
+        } catch (_: Exception) {}
         nfcReader.startScanning()
         startMotionSensorListener()
         InputHandler.updateControllerData()
@@ -261,6 +274,9 @@ class EmulationActivity : AppCompatActivity(), SensorEventListener, InputManager
     }
 
     override fun onPause() {
+        try {
+            unregisterReceiver(screenOffReceiver)
+        } catch (_: Exception) {}
         nfcReader.stopScanning()
         stopMotionSensorListener()
         super.onPause()
