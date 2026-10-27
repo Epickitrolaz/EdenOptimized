@@ -65,7 +65,7 @@ void BufferCache<P>::RunGarbageCollector() {
     const int custom_bc = Settings::values.max_buffer_cache_size.GetValue();
 #ifdef __ANDROID__
     const u64 eff_critical = (custom_bc > 0) ? (static_cast<u64>(custom_bc) * 1024 * 1024)
-                                             : (std::min<u64>(critical_memory, 768_MiB));
+                                             : (std::min<u64>(critical_memory, 384_MiB));
 #else
     const u64 eff_critical = (custom_bc > 0) ? (static_cast<u64>(custom_bc) * 1024 * 1024) : critical_memory;
 #endif
@@ -127,7 +127,7 @@ void BufferCache<P>::TickFrame() {
     const int custom_bc = Settings::values.max_buffer_cache_size.GetValue();
 #ifdef __ANDROID__
     u64 effective_expected = (custom_bc > 0) ? ((static_cast<u64>(custom_bc) * 1024 * 1024 * 85) / 100)
-                                             : (std::min<u64>(minimum_memory, 512_MiB));
+                                             : (std::min<u64>(minimum_memory, 320_MiB));
 #else
     u64 effective_expected = minimum_memory;
     if (custom_bc > 0) {

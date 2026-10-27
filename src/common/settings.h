@@ -538,7 +538,13 @@ struct Values {
                                                            Category::RendererAdvanced};
 
     // Eden-Bounded Memory Governor settings
-    SwitchableSetting<bool> use_memory_governor{linkage, false, "use_memory_governor", Category::System};
+    SwitchableSetting<bool> use_memory_governor{linkage,
+#ifdef __ANDROID__
+        true,
+#else
+        false,
+#endif
+        "use_memory_governor", Category::System};
     SwitchableSetting<int> memory_governor_budget{linkage, 0, "memory_governor_budget", Category::System, Specialization::Default, true, true}; // in MB, 0 = Auto
     SwitchableSetting<int> memory_governor_safety_reserve{linkage,
 #ifdef __ANDROID__
@@ -554,9 +560,21 @@ struct Values {
         0,
 #endif
         "memory_governor_driver_baseline", Category::System, Specialization::Default, true, true}; // in MB
-    SwitchableSetting<bool> texture_cache_gc_isolated{linkage, false, "texture_cache_gc_isolated", Category::RendererAdvanced};
+    SwitchableSetting<bool> texture_cache_gc_isolated{linkage,
+#ifdef __ANDROID__
+        true,
+#else
+        false,
+#endif
+        "texture_cache_gc_isolated", Category::RendererAdvanced};
     SwitchableSetting<bool> memory_governor_thp{linkage, false, "memory_governor_thp", Category::System};
-    SwitchableSetting<bool> memory_governor_pacing{linkage, false, "memory_governor_pacing", Category::System};
+    SwitchableSetting<bool> memory_governor_pacing{linkage,
+#ifdef __ANDROID__
+        true,
+#else
+        false,
+#endif
+        "memory_governor_pacing", Category::System};
     SwitchableSetting<int> memory_governor_pacing_ms{linkage, 2, "memory_governor_pacing_ms", Category::System, Specialization::Default, true, true}; // in ms
     SwitchableSetting<int> max_texture_cache_size{linkage, 0, "max_texture_cache_size", Category::RendererAdvanced, Specialization::Default, true, true}; // in MB, 0 = Auto
     SwitchableSetting<int> max_buffer_cache_size{linkage, 0, "max_buffer_cache_size", Category::RendererAdvanced, Specialization::Default, true, true}; // in MB, 0 = Auto

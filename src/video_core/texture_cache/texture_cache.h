@@ -132,9 +132,9 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
     const int custom_tc = Settings::values.max_texture_cache_size.GetValue();
 #ifdef __ANDROID__
     u64 effective_expected = (custom_tc > 0) ? ((static_cast<u64>(custom_tc) * 1024 * 1024 * 85) / 100)
-                                             : (std::min<u64>(expected_memory, 1280_MiB));
+                                             : (std::min<u64>(expected_memory, 1024_MiB));
     u64 effective_critical = (custom_tc > 0) ? (static_cast<u64>(custom_tc) * 1024 * 1024)
-                                             : (std::min<u64>(critical_memory, 1536_MiB));
+                                             : (std::min<u64>(critical_memory, 1152_MiB));
 #else
     u64 effective_expected = expected_memory;
     u64 effective_critical = critical_memory;
@@ -151,7 +151,7 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
                 effective_expected = (effective_critical * 85) / 100;
             } else {
                 effective_expected = gov_target;
-                effective_critical = (gov_target * 12) / 10;
+                effective_critical = (gov_target * 11) / 10;
             }
         }
     }
@@ -162,6 +162,7 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
     const u64 trim_target = Common::MemoryGovernor::Instance().GetTextureTrimTarget();
     if (trim_target > 0) {
         effective_expected = std::min(effective_expected, trim_target);
+        effective_critical = std::min<u64>(effective_critical, trim_target + (128ULL * 1024 * 1024));
     }
 
     const bool deficit_active = trim_target > 0 || Common::MemoryGovernor::Instance().GetCurrentDeficit() > 0;
@@ -277,9 +278,9 @@ void TextureCache<P>::TickFrame() {
     const int custom_tc = Settings::values.max_texture_cache_size.GetValue();
 #ifdef __ANDROID__
     u64 effective_expected = (custom_tc > 0) ? ((static_cast<u64>(custom_tc) * 1024 * 1024 * 85) / 100)
-                                             : (std::min<u64>(expected_memory, 1280_MiB));
+                                             : (std::min<u64>(expected_memory, 1024_MiB));
     u64 effective_critical = (custom_tc > 0) ? (static_cast<u64>(custom_tc) * 1024 * 1024)
-                                             : (std::min<u64>(critical_memory, 1536_MiB));
+                                             : (std::min<u64>(critical_memory, 1152_MiB));
 #else
     u64 effective_expected = expected_memory;
     u64 effective_critical = critical_memory;
@@ -296,7 +297,7 @@ void TextureCache<P>::TickFrame() {
                 effective_expected = (effective_critical * 85) / 100;
             } else {
                 effective_expected = gov_target;
-                effective_critical = (gov_target * 12) / 10;
+                effective_critical = (gov_target * 11) / 10;
             }
         }
     }
@@ -307,6 +308,7 @@ void TextureCache<P>::TickFrame() {
     const u64 trim_target = Common::MemoryGovernor::Instance().GetTextureTrimTarget();
     if (trim_target > 0) {
         effective_expected = std::min(effective_expected, trim_target);
+        effective_critical = std::min<u64>(effective_critical, trim_target + (128ULL * 1024 * 1024));
     }
 
     const u64 gc_interval = (total_used_memory >= effective_critical) ? 3 : 10;
