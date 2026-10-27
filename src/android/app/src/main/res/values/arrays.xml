@@ -788,7 +788,7 @@
 
     <!-- Subsystem Memory Limits Arrays -->
     <string-array name="maxTextureCacheEntries">
-        <item>Auto (Default: 1280 MB)</item>
+        <item>Auto (Default: 1024 MB)</item>
         <item>512 MB (Aggressive Low VRAM)</item>
         <item>768 MB (Low VRAM)</item>
         <item>1024 MB (1.0 GB - Standard Handheld)</item>
