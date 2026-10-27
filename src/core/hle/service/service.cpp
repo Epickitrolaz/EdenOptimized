@@ -73,12 +73,10 @@ void ServiceFrameworkBase::ReportUnimplementedFunction(HLERequestContext& ctx,
     buf.push_back('}');
 
     system.GetReporter().SaveUnimplementedFunctionReport(ctx, ctx.GetCommand(), function_name, service_name);
-    UNIMPLEMENTED_MSG("Unknown / unimplemented {}", fmt::to_string(buf));
-    if (Settings::values.use_auto_stub) {
-        LOG_WARNING(Service, "Using auto stub fallback!");
-        IPC::ResponseBuilder rb{ctx, 2};
-        rb.Push(ResultSuccess);
-    }
+    LOG_WARNING(Service, "Unknown / unimplemented function '{}({})': port='{}', auto-stubbing ResultSuccess to prevent guest panic 2010-0212",
+                ctx.GetCommand(), function_name, service_name);
+    IPC::ResponseBuilder rb{ctx, 2};
+    rb.Push(ResultSuccess);
 }
 
 void ServiceFrameworkBase::InvokeRequest(HLERequestContext& ctx) {

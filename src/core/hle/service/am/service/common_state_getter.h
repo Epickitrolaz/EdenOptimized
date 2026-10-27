@@ -74,6 +74,7 @@ private:
     Result GetPanelPhysicalSizeForSpecificTitle(Out<f32> out_width, Out<f32> out_height);
     Result GetPanelResolutionForSpecificTitle(Out<s32> out_width, Out<s32> out_height);
 
+    Result CancelCpuBoostMode();
     void SetCpuBoostMode(HLERequestContext& ctx);
 
     const std::shared_ptr<Applet> m_applet;

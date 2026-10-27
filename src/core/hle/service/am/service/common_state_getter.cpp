@@ -57,7 +57,7 @@ ICommonStateGetter::ICommonStateGetter(Core::System& system_, std::shared_ptr<Ap
         {64, nullptr, "SetTvPowerStateMatchingMode"},
         {65, nullptr, "GetApplicationIdByContentActionName"},
         {66, &ICommonStateGetter::SetCpuBoostMode, "SetCpuBoostMode"},
-        {67, nullptr, "CancelCpuBoostMode"},
+        {67, D<&ICommonStateGetter::CancelCpuBoostMode>, "CancelCpuBoostMode"},
         {68, D<&ICommonStateGetter::GetBuiltInDisplayType>, "GetBuiltInDisplayType"},
         {80, D<&ICommonStateGetter::PerformSystemButtonPressingIfInFocus>, "PerformSystemButtonPressingIfInFocus"},
         {90, nullptr, "SetPerformanceConfigurationChangedNotification"},
@@ -268,6 +268,11 @@ void ICommonStateGetter::SetCpuBoostMode(HLERequestContext& ctx) {
     ASSERT(apm_sys != nullptr);
 
     apm_sys->SetCpuBoostMode(ctx);
+}
+
+Result ICommonStateGetter::CancelCpuBoostMode() {
+    LOG_DEBUG(Service_AM, "(STUBBED) called");
+    R_SUCCEED();
 }
 
 Result ICommonStateGetter::GetBuiltInDisplayType(Out<s32> out_display_type) {
