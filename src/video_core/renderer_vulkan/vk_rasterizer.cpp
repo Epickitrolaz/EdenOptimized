@@ -371,7 +371,14 @@ u64 RasterizerVulkan::GetTextureTarget() const {
         return static_cast<u64>(custom_tc) * 1024 * 1024;
     }
 #ifdef __ANDROID__
-    return 1280ULL * 1024 * 1024;
+    // On 8GB Android handhelds:
+    // If available RAM is healthy (>400MB), target 1024MB.
+    // If available RAM is constrained (<400MB), target 896MB to maintain system cushion.
+    const auto sys_info = Common::MemoryBudget::Instance().ReadSystemMemoryInfo();
+    if (sys_info.available_ram > 0 && sys_info.available_ram < (400ULL * 1024 * 1024)) {
+        return 896ULL * 1024 * 1024;
+    }
+    return 1024ULL * 1024 * 1024;
 #else
     return 1024ULL * 1024 * 1024;
 #endif

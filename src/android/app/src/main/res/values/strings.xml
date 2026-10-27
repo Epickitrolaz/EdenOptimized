@@ -564,7 +564,7 @@
     <!-- Cache & Memory Limits Strings -->
     <string name="cache_memory_limits_header">Cache &amp; Memory Limits</string>
     <string name="max_texture_cache_size">Max Texture Cache Limit</string>
-    <string name="max_texture_cache_size_description">Maximum VRAM limit for 2D/3D textures before garbage collection evicts stale images. Auto defaults to 1280 MB with Memory Governor. Lower values (512–1024 MB) reduce RAM; higher values (1536–2048 MB) prevent texture reload stutter on high-RAM devices.</string>
+    <string name="max_texture_cache_size_description">Maximum VRAM limit for 2D/3D textures before garbage collection evicts stale images. Auto defaults to 1024 MB with Memory Governor (scaling to 896 MB under low RAM). Lower values (512–768 MB) reduce RAM; higher values (1280–2048 MB) prevent texture reload stutter on high-RAM devices.</string>
     <string name="max_buffer_cache_size">Max Buffer Cache Limit</string>
     <string name="max_buffer_cache_size_description">Maximum VRAM limit for vertex, index, and uniform buffers. Auto defaults to 320 MB with Memory Governor (or 512 MB default). Lower values reduce memory pressure in geometry-heavy scenes.</string>
     <string name="max_staging_pool_size">Max Staging Pool Limit</string>

@@ -165,18 +165,26 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
     }
 
     const bool deficit_active = trim_target > 0 || Common::MemoryGovernor::Instance().GetCurrentDeficit() > 0;
-    constexpr u64 SAFE_MINIMUM_EVICT_TICKS = 1800ULL; // 60 seconds at 30 fps (SMMU-safe hardware floor)
+    const auto sys_mem = Common::MemoryBudget::Instance().ReadSystemMemoryInfo();
+    const bool low_ram = sys_mem.available_ram > 0 && sys_mem.available_ram < (350ULL * 1024 * 1024);
+
+    // Eviction age:
+    // - Healthy RAM and no deficit: 1800 ticks (60s at 30 fps) for complete visual stability.
+    // - Under deficit or low RAM (<350MB): 750 ticks (25s at 30 fps).
+    //   25s is 742 frames past the GPU's 8-frame execution window (100% SMMU-safe)
+    //   while allowing stale textures from previous areas to be cleanly evicted.
+    const u64 destroy_ticks = (deficit_active || low_ram) ? 750ULL : 1800ULL;
     constexpr u64 NORMAL_EVICT_TICKS = 2700ULL;       // 90 seconds at 30 fps
 
     size_t max_scan = 1024;
     const auto Configure = [&](bool allow_aggressive) {
         high_priority_mode = total_used_memory >= effective_expected || force_aggressive;
         aggressive_mode = allow_aggressive && (total_used_memory >= effective_critical || force_aggressive);
-        ticks_to_destroy = (high_priority_mode || deficit_active) ? SAFE_MINIMUM_EVICT_TICKS : NORMAL_EVICT_TICKS;
+        ticks_to_destroy = (high_priority_mode || deficit_active) ? destroy_ticks : NORMAL_EVICT_TICKS;
         num_iterations = aggressive_mode ? 40 : (high_priority_mode ? 25 : 10);
         max_scan = aggressive_mode ? 4096 : 2048;
     };
-    const auto Cleanup = [this, &num_iterations, &max_scan, &high_priority_mode, &aggressive_mode, &deficit_active, effective_expected, effective_critical](ImageId image_id) {
+    const auto Cleanup = [this, &num_iterations, &max_scan, &high_priority_mode, &aggressive_mode, &deficit_active, destroy_ticks, effective_expected, effective_critical](ImageId image_id) {
         if (num_iterations == 0 || max_scan == 0) {
             return true;
         }
@@ -202,8 +210,8 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
 
         // Protect active scene assets (3D textures, water, reflections, G-buffers, render targets):
         // 1. Below target (normal mode), all active game assets are 100% immune from LRU GC.
-        // 2. Above target (high priority mode) or during deficit trim, textures untouched for >60s are evicted.
-        // 3. Active scene content touched in the last 60s is ALWAYS protected to prevent SMMU GPU faults
+        // 2. Above target (high priority mode) or during deficit trim, textures untouched for >destroy_ticks are evicted.
+        // 3. Active scene content touched in the last 25s/60s is ALWAYS protected to prevent SMMU GPU faults
         //    and water/ground texture corruption on Qualcomm Adreno hardware.
         if (!is_remapped) {
             if (!high_priority_mode && !deficit_active) {
@@ -211,7 +219,7 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
             }
             const u64 last_touch = lru_cache.GetItemTick(image.lru_index);
             const u64 age = (frame_tick >= last_touch) ? (frame_tick - last_touch) : 0;
-            if (age < SAFE_MINIMUM_EVICT_TICKS) {
+            if (age < destroy_ticks) {
                 return false;
             }
         }
