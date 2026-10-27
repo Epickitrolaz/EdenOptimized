@@ -166,11 +166,11 @@ void TextureCache<P>::RunGarbageCollector(bool force_aggressive) {
 
     const bool deficit_active = trim_target > 0 || Common::MemoryGovernor::Instance().GetCurrentDeficit() > 0;
     const auto sys_mem = Common::MemoryBudget::Instance().ReadSystemMemoryInfo();
-    const bool emergency_ram = sys_mem.available_ram > 0 && sys_mem.available_ram < (150ULL * 1024 * 1024);
+    const bool emergency_ram = sys_mem.available_ram > 0 && sys_mem.available_ram < (180ULL * 1024 * 1024);
     // Dynamic minimum eviction age:
     // - Normal operation: 1800 ticks (60s at 30 fps) to eliminate glitches and protect active scene textures
     // - Force aggressive (ShrinkTo called during governor deficits): 900 ticks (30s) to allow cache to compress towards floor
-    // - Emergency RAM (<150MB available): 450 ticks (15s) to prevent immediate LMKD termination
+    // - Emergency RAM (<180MB available): 450 ticks (15s) to prevent immediate LMKD termination
     const u64 min_evict_ticks = emergency_ram ? 450ULL : (force_aggressive ? 900ULL : 1800ULL);
     constexpr u64 NORMAL_EVICT_TICKS = 2700ULL;       // 90 seconds at 30 fps
 

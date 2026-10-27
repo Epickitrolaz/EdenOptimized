@@ -134,7 +134,6 @@ u64 MemoryGovernor::ComputeBudget(u64 mem_available) const {
     const u64 total_reserve = reserve + baseline;
     const u64 total_registered = GetTotalRegisteredBytes();
     const u64 total_floor = GetTotalFloorBytes();
-    const u64 floor_baseline = (total_floor > 0) ? total_floor : (256ULL * 1024 * 1024);
 
     // Headroom calculation:
     // If MemAvailable exceeds our reserve margin, we have room to expand.
@@ -145,9 +144,9 @@ u64 MemoryGovernor::ComputeBudget(u64 mem_available) const {
     } else {
         const u64 shortfall = total_reserve - mem_available;
         if (total_registered > shortfall) {
-            return std::max(floor_baseline, total_registered - shortfall);
+            return total_registered - shortfall;
         }
-        return floor_baseline;
+        return (total_floor > 0) ? (total_floor / 2) : (128ULL * 1024 * 1024);
     }
 }
 
@@ -190,7 +189,7 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
         if (deficit > 0) {
             const u64 tc_target = GetClientTarget(Common::MemoryClientPriority::TextureCache);
             const u64 donation = std::min<u64>(static_cast<u64>(deficit) + (64ULL * 1024 * 1024),
-                                               256ULL * 1024 * 1024);
+                                               512ULL * 1024 * 1024);
             const u64 trim_goal = (tc_target > donation) ? (tc_target - donation) : 0;
             tc_trim_target.store(trim_goal, std::memory_order_relaxed);
         } else {

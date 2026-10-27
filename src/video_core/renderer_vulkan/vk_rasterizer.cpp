@@ -383,6 +383,13 @@ u64 RasterizerVulkan::GetTextureFloor() const {
         return (static_cast<u64>(custom_tc) * 1024 * 1024 * 3) / 4;
     }
 #ifdef __ANDROID__
+    // Dynamically scale floor under low RAM:
+    // If available RAM dips below 200MB, allow floor to compress down to 512MB
+    // to reclaim an extra 256MB of physical RAM and defend against <100MB drops.
+    const auto sys_info = Common::MemoryBudget::Instance().ReadSystemMemoryInfo();
+    if (sys_info.available_ram > 0 && sys_info.available_ram < (200ULL * 1024 * 1024)) {
+        return 512ULL * 1024 * 1024;
+    }
     return 768ULL * 1024 * 1024;
 #else
     return Settings::values.use_memory_governor.GetValue() ? (768ULL * 1024 * 1024) : (512ULL * 1024 * 1024);
@@ -402,6 +409,12 @@ u64 RasterizerVulkan::GetBufferFloor() const {
     if (custom_bc > 0) {
         return (static_cast<u64>(custom_bc) * 1024 * 1024 * 4) / 5;
     }
+#ifdef __ANDROID__
+    const auto sys_info = Common::MemoryBudget::Instance().ReadSystemMemoryInfo();
+    if (sys_info.available_ram > 0 && sys_info.available_ram < (200ULL * 1024 * 1024)) {
+        return 192ULL * 1024 * 1024;
+    }
+#endif
     return 256ULL * 1024 * 1024;
 }
 
@@ -1157,7 +1170,21 @@ void RasterizerVulkan::TickFrame() {
         std::this_thread::sleep_for(std::chrono::milliseconds(5));
     } else if (Common::MemoryGovernor::Instance().IsEnabled() &&
                Common::MemoryGovernor::Instance().ShouldThrottle()) {
-        const int pacing_ms = std::max(Settings::values.memory_governor_pacing_ms.GetValue(), 2);
+        const int base_pacing = std::max(Settings::values.memory_governor_pacing_ms.GetValue(), 1);
+        int pacing_ms = base_pacing;
+#ifdef __ANDROID__
+        // Dynamically scale pacing delay as available memory approaches critical thresholds:
+        // - MemAvailable < 120MB: quadruple pacing delay to aggressively yield CPU to kswapd/direct-reclaim
+        // - MemAvailable < 200MB: double pacing delay
+        const auto sys_info = Common::MemoryBudget::Instance().ReadSystemMemoryInfo();
+        if (sys_info.available_ram > 0) {
+            if (sys_info.available_ram < (120ULL * 1024 * 1024)) {
+                pacing_ms = std::max(base_pacing * 4, 8);
+            } else if (sys_info.available_ram < (200ULL * 1024 * 1024)) {
+                pacing_ms = std::max(base_pacing * 2, 4);
+            }
+        }
+#endif
         std::this_thread::sleep_for(std::chrono::milliseconds(pacing_ms));
     }
 }
