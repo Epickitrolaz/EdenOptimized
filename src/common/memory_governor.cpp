@@ -144,9 +144,9 @@ u64 MemoryGovernor::ComputeBudget(u64 mem_available) const {
     } else {
         const u64 shortfall = total_reserve - mem_available;
         if (total_registered > shortfall) {
-            return total_registered - shortfall;
+            return std::max(total_floor, total_registered - shortfall);
         }
-        return (total_floor > 0) ? (total_floor / 2) : (128ULL * 1024 * 1024);
+        return total_floor;
     }
 }
 

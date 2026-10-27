@@ -287,6 +287,19 @@ SystemMemoryInfo MemoryBudget::ReadSystemMemoryInfo() const {
     }
 #else
     // Linux / Android
+    static std::mutex cache_mutex;
+    static SystemMemoryInfo cached_info{};
+    static std::chrono::steady_clock::time_point last_read_time{};
+
+    const auto now = std::chrono::steady_clock::now();
+    {
+        std::scoped_lock lk{cache_mutex};
+        if (last_read_time.time_since_epoch().count() != 0 &&
+            (now - last_read_time) < std::chrono::milliseconds(50)) {
+            return cached_info;
+        }
+    }
+
     const long page_size = sysconf(_SC_PAGESIZE);
     const long num_pages = sysconf(_SC_PHYS_PAGES);
     if (page_size > 0 && num_pages > 0) {
@@ -397,6 +410,12 @@ SystemMemoryInfo MemoryBudget::ReadSystemMemoryInfo() const {
             info.zram_compr_data_size = compr;
             info.zram_mem_used_total = used;
         }
+    }
+
+    {
+        std::scoped_lock lk{cache_mutex};
+        cached_info = info;
+        last_read_time = now;
     }
 #endif
 
