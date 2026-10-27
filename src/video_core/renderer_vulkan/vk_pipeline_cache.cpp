@@ -17,6 +17,7 @@
 #include "common/cityhash.h"
 #include "common/fs/fs.h"
 #include "common/fs/path_util.h"
+#include "common/memory_budget.h"
 #include "common/memory_governor.h"
 #include "common/thread_worker.h"
 #include "core/core.h"
@@ -745,9 +746,19 @@ void PipelineCache::QueueVulkanPipelineCacheFlush() {
     if (!use_vulkan_pipeline_cache || vulkan_pipeline_cache_filename.empty()) {
         return;
     }
+#ifdef __ANDROID__
+    // On Android handhelds, avoid mid-game disk dumps of the Vulkan pipeline cache
+    // if memory is constrained (<500MB available or deficit active) to prevent
+    // large transient allocation spikes from triggering LMKD terminations.
+    const auto sys_info = Common::MemoryBudget::Instance().ReadSystemMemoryInfo();
+    if (sys_info.available_ram > 0 && sys_info.available_ram < (500ULL * 1024 * 1024)) {
+        return;
+    }
+#endif
     if (Common::MemoryGovernor::Instance().IsEnabled() &&
-        Common::MemoryGovernor::Instance().ShouldThrottle()) {
-        // Defer disk serialization while under persistent memory deficit
+        (Common::MemoryGovernor::Instance().ShouldThrottle() ||
+         Common::MemoryGovernor::Instance().GetCurrentDeficit() > 0)) {
+        // Defer disk serialization while under memory deficit
         return;
     }
     if (++pipelines_since_flush < VULKAN_CACHE_FLUSH_PIPELINES) {
@@ -766,11 +777,17 @@ void PipelineCache::QueueVulkanPipelineCacheFlush() {
     pipelines_since_flush = 0;
     last_flush = now;
     serialization_thread.QueueWork([this] {
-        SerializeVulkanPipelineCache(vulkan_pipeline_cache_filename, vulkan_pipeline_cache,
-                                     CACHE_VERSION);
-        size_t size = 0;
-        vulkan_pipeline_cache.Read(&size, nullptr);
-        last_cache_size.store(size, std::memory_order_relaxed);
+        try {
+            SerializeVulkanPipelineCache(vulkan_pipeline_cache_filename, vulkan_pipeline_cache,
+                                         CACHE_VERSION);
+            size_t size = 0;
+            vulkan_pipeline_cache.Read(&size, nullptr);
+            last_cache_size.store(size, std::memory_order_relaxed);
+        } catch (const std::exception& e) {
+            LOG_ERROR(Render_Vulkan, "Exception during Vulkan pipeline cache serialization: {}", e.what());
+        } catch (...) {
+            LOG_ERROR(Render_Vulkan, "Unknown exception during Vulkan pipeline cache serialization");
+        }
         flush_in_flight.store(false, std::memory_order_release);
     });
 }
@@ -1085,8 +1102,14 @@ void PipelineCache::SerializeVulkanPipelineCache(const std::filesystem::path& fi
     LOG_INFO(Render_Vulkan, "Vulkan driver pipelines cached at: {}",
              Common::FS::PathToUTF8String(filename));
 
-} catch (const std::ios_base::failure& e) {
-    LOG_ERROR(Common_Filesystem, "{}", e.what());
+} catch (const std::exception& e) {
+    LOG_ERROR(Common_Filesystem, "Failed to serialize Vulkan driver pipeline cache: {}", e.what());
+    if (!Common::FS::RemoveFile(filename)) {
+        LOG_ERROR(Common_Filesystem, "Failed to delete Vulkan driver pipeline cache file {}",
+                  Common::FS::PathToUTF8String(filename));
+    }
+} catch (...) {
+    LOG_ERROR(Common_Filesystem, "Unknown error serializing Vulkan driver pipeline cache");
     if (!Common::FS::RemoveFile(filename)) {
         LOG_ERROR(Common_Filesystem, "Failed to delete Vulkan driver pipeline cache file {}",
                   Common::FS::PathToUTF8String(filename));

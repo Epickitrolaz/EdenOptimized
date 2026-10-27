@@ -274,9 +274,14 @@ struct FileBackend final : public Backend {
 #endif
         bytes_written += file->WriteSpan(std::span<const char>{message.begin(), message.end()});
 
+#ifdef __ANDROID__
+        // Always flush log entries on Android so post-mortem diagnostics are never lost in libc buffers
+        file->Flush();
+#else
         // Option to log each line rather than 4k buffers
         if (Settings::values.log_flush_line.GetValue())
             file->Flush();
+#endif
 
         using namespace Common::Literals;
         // Prevent logs from exceeding a set maximum size in the event that log entries are spammed.

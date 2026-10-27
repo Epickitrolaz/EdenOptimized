@@ -174,10 +174,14 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
         const int setting_reserve_mb = Settings::values.memory_governor_safety_reserve.GetValue();
         const u64 reserve = (setting_reserve_mb > 0) ? (static_cast<u64>(setting_reserve_mb) * 1024ULL * 1024ULL)
                                                      : safety_reserve.load(std::memory_order_relaxed);
+        const int setting_baseline_mb = Settings::values.memory_governor_driver_baseline.GetValue();
+        const u64 baseline = (setting_baseline_mb > 0) ? (static_cast<u64>(setting_baseline_mb) * 1024ULL * 1024ULL)
+                                                       : driver_baseline.load(std::memory_order_relaxed);
+        const u64 total_reserve = reserve + baseline;
         const bool is_manual = manual_budget.load(std::memory_order_relaxed) > 0 ||
                                Settings::values.memory_governor_budget.GetValue() > 0;
         const bool critical_watermark = is_manual ||
-                                        (sys_info.available_ram < reserve) ||
+                                        (sys_info.available_ram < total_reserve) ||
                                         (sys_info.psi_some_avg10 > 0.30);
 
         // Deficit-funded stale-tail donation: when a genuine deficit exists, request that
@@ -286,6 +290,14 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
         } else {
             carried_deficit.store(deficit, std::memory_order_relaxed);
         }
+
+#if defined(__ANDROID__)
+        // Under active memory deficit, periodically release freed dirty heap pages back to the kernel
+        static u32 deficit_purge_counter = 0;
+        if ((++deficit_purge_counter % 30) == 0) {
+            mallopt(M_PURGE, 0);
+        }
+#endif
     } else {
         // Under budget: clear deficit and reset persistent frame counter
         current_deficit.store(0, std::memory_order_relaxed);
@@ -293,6 +305,14 @@ bool MemoryGovernor::TickFrame([[maybe_unused]] double current_fps) {
         persistent_deficit_frames.store(0, std::memory_order_relaxed);
         throttle_requested.store(false, std::memory_order_relaxed);
         tc_trim_target.store(0, std::memory_order_relaxed);
+
+#if defined(__ANDROID__)
+        // Normal cadence: periodically return idle allocator pages every 10 seconds (300 frames)
+        static u32 normal_purge_counter = 0;
+        if ((++normal_purge_counter % 300) == 0) {
+            mallopt(M_PURGE, 0);
+        }
+#endif
     }
 
     return throttle_requested.load(std::memory_order_relaxed);
@@ -309,8 +329,12 @@ void MemoryGovernor::TickWatchdog() {
     const int setting_reserve_mb = Settings::values.memory_governor_safety_reserve.GetValue();
     const u64 reserve = (setting_reserve_mb > 0) ? (static_cast<u64>(setting_reserve_mb) * 1024ULL * 1024ULL)
                                                  : safety_reserve.load(std::memory_order_relaxed);
+    const int setting_baseline_mb = Settings::values.memory_governor_driver_baseline.GetValue();
+    const u64 baseline = (setting_baseline_mb > 0) ? (static_cast<u64>(setting_baseline_mb) * 1024ULL * 1024ULL)
+                                                   : driver_baseline.load(std::memory_order_relaxed);
+    const u64 total_reserve = reserve + baseline;
 
-    if (total_registered > budget && sys_info.available_ram < reserve) {
+    if (total_registered > budget && sys_info.available_ram < total_reserve) {
         LOG_WARNING(HW_Memory,
                     "MemoryGovernor (Watchdog): Over budget by {:.1f} MB (Budget: {:.1f} MB, Registered: {:.1f} MB, MemAvailable: {:.1f} MB)",
                     static_cast<double>(total_registered - budget) / (1024.0 * 1024.0),
